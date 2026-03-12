@@ -1,0 +1,9 @@
+addon: "RebarMobs"
+
+item:
+  soul_shard:
+    name: "Soul Shard"
+    lore: |-
+      <arrow> <attr>Mob Type:</attr> %mob-type%
+      <arrow> <attr>Tier:</attr> %tiers%
+      <arrow> <attr>Souls:</attr> %souls%

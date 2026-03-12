@@ -1,0 +1,14 @@
+# Auto update from Guizhan Resources
+auto-update:
+  # Default: true
+  enabled: true
+
+  # Update check interval in days
+  # The update check will only run if the days since last check exceeds this value
+  # Set to 0 or negative values to check on every startup
+  # Default: 1
+  interval-days: 1
+
+  # Whether to download the new version.
+  # Disabling will only notify in console and every op.
+  download: true

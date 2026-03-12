@@ -1,0 +1,104 @@
+import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
+import net.minecrell.pluginyml.paper.PaperPluginDescription
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
+val pluginVersion = providers.gradleProperty("plugin.version").get()
+val minecraftVersion = providers.gradleProperty("minecraft.version").get()
+val rebarVersion = providers.gradleProperty("rebar.version").get()
+val pylonVersion = providers.gradleProperty("pylon.version").get()
+
+plugins {
+    kotlin("jvm") version "2.3.10"
+    id("com.gradleup.shadow") version "9.3.2"
+    id("de.eldoria.plugin-yml.paper") version "0.8.0"
+    id("xyz.jpenilla.run-paper") version "3.0.2"
+}
+
+repositories {
+//    mavenLocal()
+    mavenCentral()
+    maven("https://central.sonatype.com/repository/maven-snapshots/")
+    maven("https://repo.papermc.io/repository/maven-public/")
+    maven("https://repo.alessiodp.com/releases/")
+    maven("https://repo.xenondevs.xyz/releases")
+    maven("https://jitpack.io")
+}
+
+dependencies {
+    fun compileOnlyAndTestImpl(dependencyNotation: Any) {
+        compileOnly(dependencyNotation)
+        testImplementation(dependencyNotation)
+    }
+
+    compileOnly(kotlin("stdlib")) // loaded through library loader
+    compileOnly(kotlin("reflect")) // loaded through library loader
+    compileOnlyAndTestImpl("io.papermc.paper:paper-api:$minecraftVersion-R0.1-SNAPSHOT")
+    compileOnlyAndTestImpl("com.github.ybw0014:rebar:ad7673142a")
+    implementation("org.bstats:bstats-bukkit:3.1.0")
+    implementation("net.guizhanss:guizhanlib-all:3.0.0-SNAPSHOT")
+    implementation("net.guizhanss:guizhanlib-kt-all:0.3.0-SNAPSHOT")
+
+    testImplementation(kotlin("test"))
+    testImplementation("org.mockbukkit.mockbukkit:mockbukkit-v1.21:v1.21-SNAPSHOT")
+}
+
+group = "net.guizhanss"
+description = "RebarMobs"
+version = "$pluginVersion-$minecraftVersion"
+
+val mainPackage = "net.guizhanss.rebarmobs"
+
+java {
+    disableAutoTargetJvm()
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+kotlin {
+    compilerOptions {
+        javaParameters = true
+        jvmTarget = JvmTarget.JVM_21
+    }
+}
+
+tasks.shadowJar {
+    fun doRelocate(from: String, to: String? = null) {
+        val last = to ?: from.split(".").last()
+        relocate(from, "$mainPackage.libs.$last")
+    }
+
+    doRelocate("net.byteflux.libby")
+    doRelocate("net.guizhanss.guizhanlib")
+    doRelocate("org.bstats")
+    minimize()
+    archiveClassifier = ""
+}
+
+paper {
+    main = "$mainPackage.RebarMobs"
+    apiVersion = minecraftVersion
+    authors = listOf("ybw0014")
+    description = "Get mob heads, capture mobs, or raise mob pets in your inventory."
+    load = BukkitPluginDescription.PluginLoadOrder.STARTUP
+
+    serverDependencies {
+        register("Rebar") {
+            load = PaperPluginDescription.RelativeLoadOrder.BEFORE
+        }
+    }
+}
+
+tasks.runServer {
+    downloadPlugins {
+        // Rebar
+        github("pylonmc", "rebar", rebarVersion, "rebar-$rebarVersion.jar")
+        // Pylon
+        github("pylonmc", "pylon", pylonVersion, "pylon-$pylonVersion.jar")
+    }
+    jvmArgs("-Dcom.mojang.eula.agree=true")
+    minecraftVersion(minecraftVersion)
+}
+
+tasks.test {
+    useJUnitPlatform()
+}
