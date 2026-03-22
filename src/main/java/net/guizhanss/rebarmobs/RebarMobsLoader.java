@@ -8,7 +8,7 @@ import org.eclipse.aether.graph.Dependency;
 import org.eclipse.aether.repository.RemoteRepository;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("UnstableApiUsage")
+@SuppressWarnings({"UnstableApiUsage", "unused"})
 public class RebarMobsLoader implements PluginLoader {
 
     private static final String KOTLIN_VERSION = "2.3.10";

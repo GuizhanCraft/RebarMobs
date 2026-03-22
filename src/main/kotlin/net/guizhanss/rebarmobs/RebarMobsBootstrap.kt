@@ -10,7 +10,7 @@ import net.kyori.adventure.text.Component
 import org.bukkit.NamespacedKey
 import org.bukkit.inventory.EquipmentSlotGroup
 
-@Suppress("UnstableApiUsage")
+@Suppress("UnstableApiUsage", "unused")
 class RebarMobsBootstrap : PluginBootstrap {
     override fun bootstrap(context: BootstrapContext) {
         context.lifecycleManager.registerEventHandler(
