@@ -2,17 +2,17 @@ package net.guizhanss.rebarmobs.items.resources
 
 import io.github.pylonmc.rebar.datatypes.RebarSerializers
 import io.github.pylonmc.rebar.i18n.RebarArgument
+import io.github.pylonmc.rebar.i18n.RebarTranslator.Companion.translate
 import io.github.pylonmc.rebar.item.RebarItem
 import io.papermc.paper.registry.RegistryAccess
 import io.papermc.paper.registry.RegistryKey
+import net.guizhanss.guizhanlib.kt.minecraft.extensions.isAir
 import net.guizhanss.guizhanlib.kt.rebar.utils.persistentItemData
-import net.guizhanss.rebarmobs.RebarMobs
 import net.guizhanss.rebarmobs.datatypes.RebarMobsDataTypes
 import net.guizhanss.rebarmobs.utils.RebarMobsKeys
 import net.guizhanss.rebarmobs.utils.rmKey
 import net.guizhanss.rebarmobs.utils.translatableKey
 import net.kyori.adventure.text.Component
-import org.bukkit.NamespacedKey
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
@@ -26,18 +26,25 @@ class SoulShard(
     item: ItemStack,
 ) : RebarItem(item) {
     override fun getPlaceholders() =
-        super.getPlaceholders().toMutableList().apply {
-            add(
-                RebarArgument.of(
-                    "mob-type",
-                    Component.translatable(
-                        mobType?.translationKey() ?: translatableKey("no_mob_type"),
-                    ),
+        listOf(
+            RebarArgument.of(
+                "mob-type",
+                Component.translatable(
+                    mobType?.translationKey() ?: translatableKey("no_mob_type"),
                 ),
-            )
-            add(RebarArgument.of("tier", 0)) // TODO: tier display
-            add(RebarArgument.of("souls", soulAmount))
-        }
+            ),
+            RebarArgument.of(
+                "tier",
+                when { // TODO: temp code to test lore changes
+                    soulAmount < 5 -> "5"
+                    soulAmount < 10 -> "10"
+                    soulAmount < 15 -> "15"
+                    soulAmount < 20 -> "20"
+                    else -> "MANY"
+                },
+            ),
+            RebarArgument.of("souls", soulAmount),
+        )
 
     var mobType: EntityType? by persistentItemData(MOB_TYPE_KEY, RebarMobsDataTypes.ENTITY_TYPE) { null }
     var soulAmount: Int by persistentItemData(SOUL_AMOUNT_KEY, RebarSerializers.INTEGER) { 0 }
@@ -63,43 +70,59 @@ class SoulShard(
             return maxOf(mainHandLevel, offHandLevel)
         }
 
-        @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-        fun onEntityDeath(e: EntityDeathEvent) {
-            val killer = e.damageSource.causingEntity
-            if (killer !is Player) return
+        private fun findApplicableShard(
+            player: Player,
+            targetType: EntityType,
+        ): Pair<SoulShard, Int>? {
+            val mainContents = player.inventory.contents
+            var emptyShard: Pair<SoulShard, Int>? = null
 
-            val deadEntity = e.entity
-            val bonusSouls = getEnchantLevel(killer, soulStealerEnchant)
-
-            val contents = killer.inventory.contents + arrayOf(killer.inventory.itemInOffHand)
-            var emptyShard: SoulShard? = null
-
-            for (item in contents) {
-                if (item == null || item.type.isAir) continue
-
-                val shard = RebarItem.fromStack(item) as? SoulShard ?: continue
-
-                when (shard.mobType) {
-                    // Matched type
-                    deadEntity.type -> {
-                        shard.soulAmount += 1 + bonusSouls
-                        return
+            // check offhand item
+            val offHandItem = player.inventory.itemInOffHand
+            if (!offHandItem.isAir()) {
+                val shard = fromStack(offHandItem) as? SoulShard
+                if (shard != null) {
+                    when (shard.mobType) {
+                        targetType -> return shard to -1
+                        null -> emptyShard = shard to -1
+                        else -> Unit
                     }
-
-                    // Empty shard, remember as candidate
-                    null if emptyShard == null -> {
-                        emptyShard = shard
-                    }
-
-                    // invalid, continue
-                    else -> {}
                 }
             }
 
-            // setup empty shard
-            emptyShard?.let {
-                it.mobType = deadEntity.type
-                it.soulAmount = 1 + bonusSouls
+            // check inventory
+            for (slot in mainContents.indices) {
+                val item = mainContents[slot]
+                if (item.isAir()) continue
+
+                val shard = fromStack(item) as? SoulShard ?: continue
+
+                when (shard.mobType) {
+                    targetType -> return shard to slot
+                    null if emptyShard == null -> emptyShard = shard to slot
+                    else -> Unit
+                }
+            }
+
+            // now the empty shard will be used, set up its type now
+            emptyShard?.first?.mobType = targetType
+            return emptyShard
+        }
+
+        @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+        fun onEntityDeath(e: EntityDeathEvent) {
+            val p = e.damageSource.causingEntity as? Player ?: return
+
+            val extraSouls = getEnchantLevel(p, soulStealerEnchant)
+            val applicableShard = findApplicableShard(p, e.entity.type) ?: return
+            val shard = applicableShard.first
+            shard.soulAmount += 1 + extraSouls
+            shard.stack.translate(p.locale(), shard.getPlaceholders())
+            println(shard.stack)
+            if (applicableShard.second == -1) {
+                p.inventory.setItemInOffHand(shard.stack)
+            } else {
+                p.inventory.setItem(applicableShard.second, shard.stack)
             }
         }
     }
