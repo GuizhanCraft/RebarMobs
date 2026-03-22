@@ -12,14 +12,19 @@ object EntityTypePersistent : PersistentDataType<String, EntityType> {
 
     override fun getComplexType(): Class<EntityType> = EntityType::class.java
 
-    override fun fromPrimitive(primitive: String, context: PersistentDataAdapterContext): EntityType {
-        val nsKey = NamespacedKey.fromString(primitive)
-            ?: throw IllegalArgumentException("String is not a valid NamespacedKey: $primitive")
+    override fun fromPrimitive(
+        primitive: String,
+        context: PersistentDataAdapterContext,
+    ): EntityType {
+        val nsKey =
+            NamespacedKey.fromString(primitive)
+                ?: throw IllegalArgumentException("String is not a valid NamespacedKey: $primitive")
         return RegistryAccess.registryAccess().getRegistry(RegistryKey.ENTITY_TYPE).get(nsKey)
             ?: throw IllegalArgumentException("Invalid entity type: $nsKey")
     }
 
-    override fun toPrimitive(complex: EntityType, context: PersistentDataAdapterContext): String {
-        return complex.key.toString()
-    }
+    override fun toPrimitive(
+        complex: EntityType,
+        context: PersistentDataAdapterContext,
+    ): String = complex.key.toString()
 }

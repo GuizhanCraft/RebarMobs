@@ -52,9 +52,13 @@ class SoulAltar :
     @MultiHandler(priorities = [EventPriority.NORMAL, EventPriority.MONITOR])
     override fun onInteract(
         event: PlayerInteractEvent,
-        priority: EventPriority
+        priority: EventPriority,
     ) {
-        if (event.action != Action.RIGHT_CLICK_BLOCK || event.useInteractedBlock() == Event.Result.DENY || event.hand != EquipmentSlot.HAND) return
+        if (event.action != Action.RIGHT_CLICK_BLOCK || event.useInteractedBlock() == Event.Result.DENY ||
+            event.hand != EquipmentSlot.HAND
+        ) {
+            return
+        }
 
         if (priority == EventPriority.NORMAL) {
             event.setUseItemInHand(Event.Result.DENY)

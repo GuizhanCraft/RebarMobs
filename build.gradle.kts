@@ -40,7 +40,7 @@ dependencies {
     implementation("net.guizhanss:guizhanlib-kt-all:0.3.0-SNAPSHOT")
 
     testImplementation(kotlin("test"))
-    testImplementation("org.mockbukkit.mockbukkit:mockbukkit-v1.21:v1.21-SNAPSHOT")
+    testImplementation("com.github.MockBukkit:MockBukkit:v1.21-SNAPSHOT")
 }
 
 group = "net.guizhanss"
@@ -63,6 +63,12 @@ kotlin {
 }
 
 configure<com.diffplug.gradle.spotless.SpotlessExtension> {
+    java {
+        removeUnusedImports()
+        expandWildcardImports()
+        googleJavaFormat().aosp()
+        formatAnnotations()
+    }
     kotlin {
         ktlint()
     }
@@ -83,10 +89,18 @@ tasks.shadowJar {
 
 paper {
     main = "$mainPackage.RebarMobs"
+    loader = "$mainPackage.RebarMobsLoader"
+    bootstrapper = "$mainPackage.RebarMobsBootstrap"
     apiVersion = minecraftVersion
     authors = listOf("ybw0014")
     description = "Get mob heads, capture mobs, or raise mob pets in your inventory."
     load = BukkitPluginDescription.PluginLoadOrder.STARTUP
+
+    bootstrapDependencies {
+        register("Rebar") {
+            load = PaperPluginDescription.RelativeLoadOrder.BEFORE
+        }
+    }
 
     serverDependencies {
         register("Rebar") {
@@ -100,6 +114,16 @@ paper {
 }
 
 tasks.runServer {
+    doFirst {
+        val langDir = file("run/plugins/Rebar/lang/rebarmobs/")
+        if (langDir.exists()) {
+            langDir.listFiles { file ->
+                file.isFile && file.name.endsWith(".yml")
+            }?.forEach { file ->
+                file.delete()
+            }
+        }
+    }
     downloadPlugins {
         // Rebar
         github("pylonmc", "rebar", rebarVersion, "rebar-$rebarVersion.jar")

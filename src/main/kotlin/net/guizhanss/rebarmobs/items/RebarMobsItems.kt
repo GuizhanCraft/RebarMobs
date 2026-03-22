@@ -1,41 +1,38 @@
 package net.guizhanss.rebarmobs.items
 
-import io.github.pylonmc.rebar.block.RebarBlock
-import io.github.pylonmc.rebar.item.RebarItem
-import io.github.pylonmc.rebar.item.builder.ItemStackBuilder
 import io.papermc.paper.datacomponent.DataComponentTypes
+import net.guizhanss.guizhanlib.kt.rebar.items.register.RebarItemRegistry
+import net.guizhanss.guizhanlib.kt.rebar.items.register.block
+import net.guizhanss.guizhanlib.kt.rebar.items.register.item
+import net.guizhanss.rebarmobs.RebarMobs
 import net.guizhanss.rebarmobs.guide.RebarMobsPages
 import net.guizhanss.rebarmobs.items.multiblocks.SoulAltar
 import net.guizhanss.rebarmobs.items.resources.SoulShard
 import net.guizhanss.rebarmobs.utils.RebarMobsKeys
 import org.bukkit.Material
-import org.bukkit.inventory.ItemStack
 
-@Suppress("unstableApiUsage")
-object RebarMobsItems {
+@Suppress("unstableApiUsage", "unused")
+object RebarMobsItems : RebarItemRegistry(RebarMobs.instance()) {
     // <editor-fold desc="Magic resources" defaultstate="collapsed">
-    val SOUL_SHARD: ItemStack =
-        ItemStackBuilder
-            .rebar(Material.FLINT, RebarMobsKeys.SOUL_SHARD)
-            .set(DataComponentTypes.MAX_STACK_SIZE, 1)
-            .build()
-
-    init {
-        RebarItem.register<SoulShard>(SOUL_SHARD)
-        RebarMobsPages.RESOURCES_MAGIC.addItem(SOUL_SHARD)
+    val SOUL_SHARD by item<SoulShard> {
+        key = RebarMobsKeys.SOUL_SHARD
+        material = Material.FLINT
+        builder {
+            set(DataComponentTypes.MAX_STACK_SIZE, 1)
+        }
+        postRegister {
+            RebarMobsPages.RESOURCES_MAGIC.addItem(it)
+        }
     }
     // </editor-fold>
 
     // <editor-fold desc="Multiblocks" defaultstate="collapsed">
-    val SOUL_ALTAR: ItemStack =
-        ItemStackBuilder
-            .rebar(Material.GLOWSTONE, RebarMobsKeys.SOUL_ALTAR)
-            .build()
-
-    init {
-        RebarItem.register<SoulAltar.Item>(SOUL_ALTAR, RebarMobsKeys.SOUL_ALTAR)
-        RebarBlock.register<SoulAltar>(RebarMobsKeys.SOUL_ALTAR, Material.GLOWSTONE)
-        RebarMobsPages.RESOURCES_MAGIC.addItem(SOUL_ALTAR)
+    val SOUL_ALTAR by block<SoulAltar> {
+        key = RebarMobsKeys.SOUL_ALTAR
+        material = Material.GLOWSTONE
+        postRegister {
+            RebarMobsPages.RESOURCES_MAGIC.addItem(it)
+        }
     }
     // </editor-fold>
 }

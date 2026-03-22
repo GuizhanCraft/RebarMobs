@@ -16,7 +16,11 @@ object RebarMobsKeys {
     val REBAR_MOBS = rmKey("rebar_mobs")
     val RESOURCES_MAGIC = rmKey("resources_magic")
 
+    // enchantments
+    val SOUL_STEALER = rmKey("soul_stealer")
+
     // items
     val SOUL_SHARD = rmKey("soul_shard")
+    val HAS_SOUL_SHARD = rmKey("has_soul_shard")
     val SOUL_ALTAR = rmKey("soul_altar")
 }
