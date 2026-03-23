@@ -5,6 +5,7 @@ import io.github.pylonmc.rebar.config.adapter.ConfigAdapter
 import io.github.pylonmc.rebar.datatypes.RebarSerializers
 import io.github.pylonmc.rebar.i18n.RebarArgument
 import io.github.pylonmc.rebar.item.RebarItem
+import io.github.pylonmc.rebar.item.base.RebarInteractor
 import io.papermc.paper.registry.RegistryAccess
 import io.papermc.paper.registry.RegistryKey
 import net.guizhanss.guizhanlib.kt.minecraft.extensions.isAir
@@ -22,12 +23,14 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
+import org.bukkit.event.block.Action
 import org.bukkit.event.entity.EntityDeathEvent
+import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
 
 class SoulShard(
     item: ItemStack,
-) : RebarItem(item) {
+) : RebarItem(item), RebarInteractor {
     var mobType: EntityType? by persistentItemData(MOB_TYPE_KEY, RebarMobsDataTypes.ENTITY_TYPE, null)
     var soulAmount: Int by persistentItemData(SOUL_AMOUNT_KEY, RebarSerializers.INTEGER, 0)
 
@@ -45,9 +48,23 @@ class SoulShard(
         RebarArgument.of("souls", soulAmount),
     )
 
+    override fun onUsedToClick(
+        event: PlayerInteractEvent,
+        priority: EventPriority
+    ) {
+        if (event.action != Action.RIGHT_CLICK_AIR) return
+        val shard = from<SoulShard>(event.item) ?: return
+        shard.soulAmount = 0
+        shard.mobType = null
+        shard.refreshLore(event.player.locale())
+        // TODO: maybe some animations of souls get released
+    }
+
     data class SoulShardTierConfig(
         val requirement: Int,
-
+        val ignoreLight: Boolean,
+        val spawnInterval: Int,
+        val spawnCount: Int,
     )
 
     companion object : Listener {
@@ -58,14 +75,19 @@ class SoulShard(
 
         private val TIER_ADAPTER = ConfigAdapter<SoulShardTierConfig> {
             val section = ConfigAdapter.CONFIG_SECTION.convert(it)
-            return@ConfigAdapter SoulShardTierConfig(section.getOrThrow("requirement", ConfigAdapter.INTEGER))
+            return@ConfigAdapter SoulShardTierConfig(
+                section.getOrThrow("requirement", ConfigAdapter.INTEGER),
+                section.getOrThrow("ignore-light", ConfigAdapter.BOOLEAN),
+                section.getOrThrow("spawn-interval", ConfigAdapter.INTEGER),
+                section.getOrThrow("spawn-count", ConfigAdapter.INTEGER),
+            )
         }
 
         val DISABLED_ENTITY_TYPES = setOf(
             EntityType.PLAYER,
             EntityType.UNKNOWN,
             EntityType.ARMOR_STAND,
-        ) + settings.getOrThrow("disabled_entities", ConfigAdapter.SET.from(RebarMobsConfigAdapters.ENTITY_TYPE))
+        ) + settings.getOrThrow("disabled-entities", ConfigAdapter.SET.from(RebarMobsConfigAdapters.ENTITY_TYPE))
         val TIERS = settings.getOrThrow("tiers", ConfigAdapter.LIST.from(TIER_ADAPTER))
 
         fun getTier(amount: Int) = TIERS.indexOfFirst { amount < it.requirement }.takeIf { it != -1 } ?: TIERS.size
@@ -87,7 +109,7 @@ class SoulShard(
             // check offhand item
             val offHandItem = player.inventory.itemInOffHand
             if (!offHandItem.isAir()) {
-                val shard = fromStack(offHandItem) as? SoulShard
+                val shard = from<SoulShard>(offHandItem)
                 if (shard != null) {
                     when (shard.mobType) {
                         targetType -> return shard to -1
@@ -102,7 +124,7 @@ class SoulShard(
                 val item = mainContents[slot]
                 if (item.isAir()) continue
 
-                val shard = fromStack(item) as? SoulShard ?: continue
+                val shard = from<SoulShard>(item) ?: continue
 
                 when (shard.mobType) {
                     targetType -> return shard to slot
@@ -116,7 +138,7 @@ class SoulShard(
             return emptyShard
         }
 
-        @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+        @EventHandler(priority = EventPriority.MONITOR)
         fun onEntityDeath(e: EntityDeathEvent) {
             val p = e.damageSource.causingEntity as? Player ?: return
             val entity = e.entity

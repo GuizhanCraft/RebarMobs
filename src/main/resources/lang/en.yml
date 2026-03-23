@@ -4,6 +4,9 @@ item:
   soul_shard:
     name: "<reset>Soul Shard"
     lore: |-
+      <arrow> <insn>Sneak + Right click</insn> while holding in
+      <arrow> main hand to reset the type and counter.
+
       <arrow> <attr>Mob Type:</attr> %mob-type%
       <arrow> <attr>Tier:</attr> %tier%
       <arrow> <attr>Souls:</attr> %souls%
@@ -15,7 +18,7 @@ item:
       <arrow> An ancient altar that whispers of transformation.
       <arrow> <insn>Right click</insn> with ingredient item in hand.
       <arrow> <red>The whole multiblock will be destroyed.</red>
-      
+
       <u>Components</u>
       <diamond> 1x <yellow><item:rebarmobs:soul_altar/></yellow>
       <diamond> 4x <yellow><item:quartz_block/></yellow>

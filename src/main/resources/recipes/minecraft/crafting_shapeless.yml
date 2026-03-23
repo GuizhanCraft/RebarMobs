@@ -1,11 +1,3 @@
-rebarmobs:soul_shard_clean:
-  ingredients:
-    - rebarmobs:soul_shard: 1
-  result:
-    rebarmobs:soul_shard: 1
-  category: misc
-  priority: -2
-
 rebarmobs:soul_altar:
   ingredients:
     - minecraft:glowstone: 1
