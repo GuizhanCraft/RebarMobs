@@ -25,10 +25,14 @@ object EnchantmentBookHandler : KommandExecutor {
                     NamespacedKey.fromString(it)
                 }?.let { RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT).get(it) }
                 ?: run {
-                    p.sendMessage(Component.translatable(rmTranslatableKey("command.enchantment_book.invalid_enchantment")))
+                    p.sendMessage(Component.translatable(messageKey("invalid-enchantment")))
                     return
                 }
         val level = context.argOrNull(1)?.toIntOrNull() ?: 1
+        if (level !in 1..255) {
+            p.sendMessage(Component.translatable(messageKey("invalid-level")))
+            return
+        }
 
         val book =
             ItemStack(Material.ENCHANTED_BOOK).edit {
@@ -41,11 +45,13 @@ object EnchantmentBookHandler : KommandExecutor {
         p.sendMessage(
             Component
                 .translatable(
-                    rmTranslatableKey("command.enchantment_book.success"),
+                    messageKey("success"),
                 ).arguments(
                     RebarArgument.of("enchantment", Component.translatable(enchantment.translationKey())),
                     RebarArgument.of("level", level),
                 ),
         )
     }
+
+    private fun messageKey(key: String) = rmTranslatableKey("command.enchantment_book.$key")
 }

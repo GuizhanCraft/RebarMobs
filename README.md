@@ -12,5 +12,5 @@ capture entities, and make them as inventory companion.
 
 Addon ideas are from the following:
 
-- [Soul Shards Despawn mod](https://modrinth.com/mod/soul-shards-despawn)
+- [Soul Shards Despawn mod](https://modrinth.com/mod/soul-shards-despawn) under MIT license
 

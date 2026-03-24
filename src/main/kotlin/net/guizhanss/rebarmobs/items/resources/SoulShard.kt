@@ -41,7 +41,7 @@ class SoulShard(
         RebarArgument.of(
             "mob-type",
             Component.translatable(
-                mobType?.translationKey() ?: translatableKey("no_mob_type"),
+                mobType?.translationKey() ?: translatableKey("no-mob-type"),
             ),
         ),
         RebarArgument.of(

@@ -12,7 +12,7 @@ item:
       <arrow> <attr>Mob Type:</attr> %mob-type%
       <arrow> <attr>Tier:</attr> %tier%
       <arrow> <attr>Souls:</attr> %souls%
-    no_mob_type: "<red>Not Bound"
+    no-mob-type: "<red>Not Bound"
   corrupted_essence:
     name: "<reset>Corrupted Essence"
   vile_dust:
@@ -56,9 +56,6 @@ command:
   description: "RebarMobs main command"
   enchantment_book:
     description: "Grab an enchantment book with the given enchantment and level (default to 1)"
-    invalid_enchantment: "<red>Invalid enchantment."
-    invalid_level: "<red>Invalid enchantment level."
+    invalid-enchantment: "<red>Invalid enchantment."
+    invalid-level: "<red>Invalid enchantment level."
     success: "<green>Successfully obtained an enchantment book with %enchantment%, level %level%"
-  print_pdc:
-    description: "Print the PersistentDataContainer of the item holding in main hand"
-    no_item: "<red>No item in main hand."

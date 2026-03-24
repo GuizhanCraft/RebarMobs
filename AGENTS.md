@@ -82,16 +82,34 @@ baseCommand(plugin, "cmd") {
 
 - Kotlin files use PascalCase for classes, camelCase for functions/properties
 - NamespacedKey constants in `RebarMobsKeys` object
-- Translation keys follow pattern: `rebarmobs.category.item_name.field`
+- Player heads are stored in `PlayerHead` enum with the hash part in texture url
+
+#### Key Naming Conventions
+
+**NamespacedKey keys (in `RebarMobsKeys`):** Use underscore (`_`) separator
+- Items: `soul_shard`, `corrupted_essence`, `vile_dust`
+- Guide pages: `rebar_mobs`, `resources_magic`, `multiblocks`, `blocks`
+- Enchantments: `soul_stealer`
+- Misc: `soul_cage_spawned`
+
+**Translation keys:** Match NamespacedKey format for items, guide pages, enchantments
+- Item translations: `item.soul_shard.name`, `item.soul_shard.lore`
+- Guide page translations: `guide.page.rebar_mobs`
+- Enchantment translations: `enchantment.soul_stealer`
+
+**Other keys:** Use hyphen (`-`) separator
+- Sub-keys in translations: `no-mob-type`, `invalid-enchantment`, `filled`
+- Config keys: `auto-update`, `interval-days`
+- Placeholder names in translations: `%mob-type%`, `%tier%`, `%souls%` 
 
 ### Code Style
 
-- Run `./gradlew spotlessApply` before committing
-- Kotlin uses ktlint, Java uses Google Java Format (AOSP)
+- MUST run `./gradlew spotlessApply` before finishing any work involving code changes
+- For spotless, Kotlin uses ktlint, Java uses Google Java Format (AOSP)
 
 ### Paper Plugin Structure
 
-- `RebarMobsLoader`: Loads Kotlin stdlib/reflect
+- `RebarMobsLoader`: Loads libraries
 - `RebarMobsBootstrap`: Early-stage registration (enchantments, registry entries)
 - `RebarMobs`: Main plugin lifecycle
 
@@ -111,3 +129,4 @@ baseCommand(plugin, "cmd") {
 
 Rebar repository: https://github.com/pylonmc/rebar
 Pylon repository: https://github.com/pylonmc/pylon
+Soul Shards Despawn repository: https://github.com/0x00002a/Soul-Shards-Despawn
