@@ -4,13 +4,21 @@ item:
   soul_shard:
     name: "<reset>Soul Shard"
     lore: |-
-      <arrow> <insn>Sneak + Right click</insn> while holding in
-      <arrow> main hand to reset the type and counter.
+      <arrow> A fractured crystal, pulsing with captured essence.
+
+      <guidearrow> <insn>Sneak + Right click</insn> while holding in
+      <guidearrow> main hand to reset type and soul amount.
 
       <arrow> <attr>Mob Type:</attr> %mob-type%
       <arrow> <attr>Tier:</attr> %tier%
       <arrow> <attr>Souls:</attr> %souls%
     no_mob_type: "<red>Not Bound"
+  corrupted_essence:
+    name: "<reset>Corrupted Essence"
+  vile_dust:
+    name: "<reset>Vile Dust"
+  corrupted_ingot:
+    name: "<reset>Corrupted Ingot"
   soul_altar:
     name: "<reset>Soul Altar"
     lore: |-
@@ -23,6 +31,17 @@ item:
       <diamond> 1x <yellow><item:rebarmobs:soul_altar/></yellow>
       <diamond> 4x <yellow><item:quartz_block/></yellow>
       <diamond> 4x <yellow><item:obsidian/></yellow>
+  soul_cage:
+    name: "<reset>Soul Cage"
+    lore: |-
+      <arrow> A cage forged from corrupted metal, hungry for souls.
+      <arrow> It bends the boundary between life and death.
+
+      <guidearrow> <insn>Right click</insn> with <item:rebarmobs:soul_shard> to activate.
+      <guidearrow> <insn>Sneak + Right click</insn> to get <item:rebarmobs:soul_shard> back and deactivate.
+    waila:
+      empty: "Soul Cage | <red>Empty"
+      filled: "Soul Cage | %mob-type% | Tier %tier%"
 
 guide:
   page:
@@ -42,4 +61,4 @@ command:
     success: "<green>Successfully obtained an enchantment book with %enchantment%, level %level%"
   print_pdc:
     description: "Print the PersistentDataContainer of the item holding in main hand"
-    no_item: "<red>No item in main hand!"
+    no_item: "<red>No item in main hand."

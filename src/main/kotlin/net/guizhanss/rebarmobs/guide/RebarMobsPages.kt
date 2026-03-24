@@ -1,6 +1,5 @@
 package net.guizhanss.rebarmobs.guide
 
-import io.github.pylonmc.pylon.PylonPages
 import io.github.pylonmc.rebar.content.guide.RebarGuide
 import io.github.pylonmc.rebar.guide.pages.base.SimpleStaticGuidePage
 import net.guizhanss.rebarmobs.RebarMobs
@@ -18,17 +17,20 @@ object RebarMobsPages {
             .isPluginEnabled("Pylon")
 
     val MAIN = SimpleStaticGuidePage(RebarMobsKeys.REBAR_MOBS)
-    val RESOURCES_MAGIC: SimpleStaticGuidePage =
-        if (isPylonEnabled) PylonPages.MAGIC else SimpleStaticGuidePage(RebarMobsKeys.RESOURCES_MAGIC)
-    val BLOCKS: SimpleStaticGuidePage =
-        if (isPylonEnabled) PylonPages.SIMPLE_MACHINES else SimpleStaticGuidePage(RebarMobsKeys.BLOCKS)
+//    val RESOURCES_MAGIC: SimpleStaticGuidePage =
+//        if (isPylonEnabled) PylonPages.MAGIC else SimpleStaticGuidePage(RebarMobsKeys.RESOURCES_MAGIC)
+//    val MULTIBLOCKS: SimpleStaticGuidePage =
+//        if (isPylonEnabled) PylonPages.SIMPLE_MACHINES else SimpleStaticGuidePage(RebarMobsKeys.BLOCKS)
+//    val BLOCKS: SimpleStaticGuidePage =
+//        if (isPylonEnabled) PylonPages.SIMPLE_MACHINES else SimpleStaticGuidePage(RebarMobsKeys.MULTIBLOCKS)
 
     init {
         RebarGuide.rootPage.addPage(Material.CREEPER_HEAD, MAIN)
 
-        if (!isPylonEnabled) {
-            MAIN.addPage(Material.ECHO_SHARD, RESOURCES_MAGIC)
-            MAIN.addPage(Material.BRICKS, BLOCKS)
-        }
+//        if (!isPylonEnabled) {
+//            MAIN.addPage(Material.ECHO_SHARD, RESOURCES_MAGIC)
+//            MAIN.addPage(Material.BRICKS, MULTIBLOCKS)
+//            MAIN
+//        }
     }
 }

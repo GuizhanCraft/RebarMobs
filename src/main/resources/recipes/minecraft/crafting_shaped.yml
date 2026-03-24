@@ -1,0 +1,22 @@
+rebarmobs:corrupted_ingot:
+  pattern:
+    - "EDE"
+    - "DID"
+    - "EDE"
+  key:
+    E: rebarmobs:corrupted_essence
+    D: rebarmobs:vile_dust
+    I: minecraft:iron_ingot
+  result: rebarmobs:corrupted_ingot
+  category: misc
+
+rebarmobs:soul_cage:
+  pattern:
+    - "CIC"
+    - "I I"
+    - "CIC"
+  key:
+    I: minecraft:iron_bars
+    C: rebarmobs:corrupted_ingot
+  result: rebarmobs:soul_cage
+  category: misc

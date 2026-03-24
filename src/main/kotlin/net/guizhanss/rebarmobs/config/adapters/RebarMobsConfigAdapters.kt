@@ -6,5 +6,5 @@ import org.bukkit.entity.EntityType
 @Suppress("UnstableApiUsage")
 object RebarMobsConfigAdapters {
     @JvmField
-    val ENTITY_TYPE = ConfigAdapter { EntityType.fromName(ConfigAdapter.Companion.STRING.convert(it)) }
+    val ENTITY_TYPE = ConfigAdapter { EntityType.fromName(ConfigAdapter.STRING.convert(it)) }
 }

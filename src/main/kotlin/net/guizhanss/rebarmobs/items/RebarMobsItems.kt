@@ -1,15 +1,18 @@
 package net.guizhanss.rebarmobs.items
 
+import io.github.pylonmc.rebar.item.RebarItem
 import io.papermc.paper.datacomponent.DataComponentTypes
 import net.guizhanss.guizhanlib.kt.rebar.items.register.RebarItemRegistry
 import net.guizhanss.guizhanlib.kt.rebar.items.register.block
 import net.guizhanss.guizhanlib.kt.rebar.items.register.item
 import net.guizhanss.rebarmobs.RebarMobs
 import net.guizhanss.rebarmobs.guide.RebarMobsPages
+import net.guizhanss.rebarmobs.items.blocks.SoulCage
 import net.guizhanss.rebarmobs.items.multiblocks.SoulAltar
 import net.guizhanss.rebarmobs.items.resources.SoulShard
 import net.guizhanss.rebarmobs.utils.RebarMobsKeys
 import org.bukkit.Material
+import org.bukkit.inventory.ItemFlag
 
 @Suppress("unstableApiUsage", "unused")
 object RebarMobsItems : RebarItemRegistry(RebarMobs.instance()) {
@@ -21,7 +24,31 @@ object RebarMobsItems : RebarItemRegistry(RebarMobs.instance()) {
             set(DataComponentTypes.MAX_STACK_SIZE, 1)
         }
         postRegister {
-            RebarMobsPages.RESOURCES_MAGIC.addItem(it)
+            RebarMobsPages.MAIN.addItem(it)
+        }
+    }
+
+    val CORRUPTED_ESSENCE by item<RebarItem> {
+        key = RebarMobsKeys.CORRUPTED_ESSENCE
+        material = Material.PURPLE_DYE
+        postRegister {
+            RebarMobsPages.MAIN.addItem(it)
+        }
+    }
+
+    val VILE_DUST by item<RebarItem> {
+        key = RebarMobsKeys.VILE_DUST
+        material = Material.GLOWSTONE_DUST
+        postRegister {
+            RebarMobsPages.MAIN.addItem(it)
+        }
+    }
+
+    val CORRUPTED_INGOT by item<RebarItem> {
+        key = RebarMobsKeys.CORRUPTED_INGOT
+        material = Material.IRON_INGOT
+        postRegister {
+            RebarMobsPages.MAIN.addItem(it)
         }
     }
     // </editor-fold>
@@ -31,7 +58,22 @@ object RebarMobsItems : RebarItemRegistry(RebarMobs.instance()) {
         key = RebarMobsKeys.SOUL_ALTAR
         material = Material.GLOWSTONE
         postRegister {
-            RebarMobsPages.BLOCKS.addItem(it)
+            RebarMobsPages.MAIN.addItem(it)
+        }
+    }
+    // </editor-fold>
+
+    // <editor-fold desc="Blocks" defaultstate="collapsed">
+    val SOUL_CAGE by block<SoulCage> {
+        key = RebarMobsKeys.SOUL_CAGE
+        material = Material.SPAWNER
+        builder {
+            editMeta { meta ->
+                meta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
+            }
+        }
+        postRegister {
+            RebarMobsPages.MAIN.addItem(it)
         }
     }
     // </editor-fold>

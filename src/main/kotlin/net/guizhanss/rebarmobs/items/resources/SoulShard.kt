@@ -11,7 +11,7 @@ import io.papermc.paper.registry.RegistryKey
 import net.guizhanss.guizhanlib.kt.minecraft.extensions.isAir
 import net.guizhanss.guizhanlib.kt.rebar.utils.persistentItemData
 import net.guizhanss.rebarmobs.config.adapters.RebarMobsConfigAdapters
-import net.guizhanss.rebarmobs.datatypes.RebarMobsDataTypes
+import net.guizhanss.rebarmobs.datatypes.persistent.RebarMobsPersistentDataTypes
 import net.guizhanss.rebarmobs.utils.RebarMobsKeys
 import net.guizhanss.rebarmobs.utils.refreshLore
 import net.guizhanss.rebarmobs.utils.rmKey
@@ -30,9 +30,12 @@ import org.bukkit.inventory.ItemStack
 
 class SoulShard(
     item: ItemStack,
-) : RebarItem(item), RebarInteractor {
-    var mobType: EntityType? by persistentItemData(MOB_TYPE_KEY, RebarMobsDataTypes.ENTITY_TYPE, null)
+) : RebarItem(item),
+    RebarInteractor {
+    var mobType: EntityType? by persistentItemData(MOB_TYPE_KEY, RebarMobsPersistentDataTypes.ENTITY_TYPE, null)
     var soulAmount: Int by persistentItemData(SOUL_AMOUNT_KEY, RebarSerializers.INTEGER, 0)
+
+    fun getTier() = getTier(soulAmount)
 
     override fun getPlaceholders() = listOf(
         RebarArgument.of(
@@ -43,14 +46,14 @@ class SoulShard(
         ),
         RebarArgument.of(
             "tier",
-            getTier(soulAmount),
+            getTier(soulAmount).first,
         ),
         RebarArgument.of("souls", soulAmount),
     )
 
     override fun onUsedToClick(
         event: PlayerInteractEvent,
-        priority: EventPriority
+        priority: EventPriority,
     ) {
         if (event.action != Action.RIGHT_CLICK_AIR) return
         val shard = from<SoulShard>(event.item) ?: return
@@ -60,9 +63,12 @@ class SoulShard(
         // TODO: maybe some animations of souls get released
     }
 
+    override fun toString() = "SoulShard{validItem=${!stack.isAir()}, mobType=${mobType}, soulAmount=$soulAmount}"
+
     data class SoulShardTierConfig(
         val requirement: Int,
         val ignoreLight: Boolean,
+        val requirePlayer: Boolean,
         val spawnInterval: Int,
         val spawnCount: Int,
     )
@@ -78,6 +84,7 @@ class SoulShard(
             return@ConfigAdapter SoulShardTierConfig(
                 section.getOrThrow("requirement", ConfigAdapter.INTEGER),
                 section.getOrThrow("ignore-light", ConfigAdapter.BOOLEAN),
+                section.getOrThrow("require-player", ConfigAdapter.BOOLEAN),
                 section.getOrThrow("spawn-interval", ConfigAdapter.INTEGER),
                 section.getOrThrow("spawn-count", ConfigAdapter.INTEGER),
             )
@@ -90,7 +97,13 @@ class SoulShard(
         ) + settings.getOrThrow("disabled-entities", ConfigAdapter.SET.from(RebarMobsConfigAdapters.ENTITY_TYPE))
         val TIERS = settings.getOrThrow("tiers", ConfigAdapter.LIST.from(TIER_ADAPTER))
 
-        fun getTier(amount: Int) = TIERS.indexOfFirst { amount < it.requirement }.takeIf { it != -1 } ?: TIERS.size
+        /**
+         * Get the tier number and the corresponding tier config
+         */
+        fun getTier(amount: Int): Pair<Int, SoulShardTierConfig?> {
+            val tier = TIERS.indexOfFirst { amount < it.requirement }.takeIf { it != -1 } ?: TIERS.size
+            return tier to tier.takeIf { it > 0 }?.let { TIERS[it - 1] }
+        }
 
         private val soulStealerEnchant: Enchantment by lazy {
             RegistryAccess

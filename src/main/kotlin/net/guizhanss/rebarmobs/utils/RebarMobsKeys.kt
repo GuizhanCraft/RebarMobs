@@ -15,6 +15,7 @@ object RebarMobsKeys {
     // guide pages
     val REBAR_MOBS = rmKey("rebar_mobs")
     val RESOURCES_MAGIC = rmKey("resources_magic")
+    val MULTIBLOCKS = rmKey("multiblocks")
     val BLOCKS = rmKey("blocks")
 
     // enchantments
@@ -22,5 +23,12 @@ object RebarMobsKeys {
 
     // items
     val SOUL_SHARD = rmKey("soul_shard")
+    val CORRUPTED_ESSENCE = rmKey("corrupted_essence")
+    val VILE_DUST = rmKey("vile_dust")
+    val CORRUPTED_INGOT = rmKey("corrupted_ingot")
     val SOUL_ALTAR = rmKey("soul_altar")
+    val SOUL_CAGE = rmKey("soul_cage")
+
+    // misc
+    val SOUL_CAGE_SPAWNED = rmKey("soul_cage_spawned")
 }

@@ -2,15 +2,14 @@ package net.guizhanss.rebarmobs.items.multiblocks
 
 import io.github.pylonmc.rebar.block.BlockStorage
 import io.github.pylonmc.rebar.block.RebarBlock
-import io.github.pylonmc.rebar.block.base.RebarInteractBlock
 import io.github.pylonmc.rebar.block.base.RebarSimpleMultiblock
 import io.github.pylonmc.rebar.block.base.RebarSimpleMultiblock.MultiblockComponent
 import io.github.pylonmc.rebar.block.base.RebarSimpleMultiblock.VanillaMultiblockComponent
 import io.github.pylonmc.rebar.block.context.BlockBreakContext
 import io.github.pylonmc.rebar.block.context.BlockCreateContext
-import io.github.pylonmc.rebar.event.api.annotation.MultiHandler
 import io.github.pylonmc.rebar.item.RebarItem
 import io.papermc.paper.event.block.BlockBreakBlockEvent
+import net.guizhanss.guizhanlib.kt.rebar.items.RebarMainHandInteractBlock
 import net.guizhanss.guizhanlib.minecraft.utils.InventoryUtil
 import net.guizhanss.rebarmobs.recipes.SoulAltarRecipe
 import org.bukkit.GameMode
@@ -18,11 +17,7 @@ import org.bukkit.Material
 import org.bukkit.Particle
 import org.bukkit.Sound
 import org.bukkit.block.Block
-import org.bukkit.event.Event
-import org.bukkit.event.EventPriority
-import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
-import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataContainer
 import org.joml.Vector3i
@@ -30,7 +25,7 @@ import org.joml.Vector3i
 class SoulAltar :
     RebarBlock,
     RebarSimpleMultiblock,
-    RebarInteractBlock {
+    RebarMainHandInteractBlock {
     constructor(block: Block, context: BlockCreateContext) : super(block, context) {
         setMultiblockDirection(context.facing)
     }
@@ -50,24 +45,7 @@ class SoulAltar :
                 Vector3i(-1, 0, -1) to VanillaMultiblockComponent(Material.OBSIDIAN),
             )
 
-    @MultiHandler(priorities = [EventPriority.NORMAL, EventPriority.MONITOR])
-    override fun onInteract(
-        event: PlayerInteractEvent,
-        priority: EventPriority,
-    ) {
-        if (event.action != Action.RIGHT_CLICK_BLOCK || event.useInteractedBlock() == Event.Result.DENY ||
-            event.hand != EquipmentSlot.HAND
-        ) {
-            return
-        }
-
-        if (priority == EventPriority.NORMAL) {
-            event.setUseItemInHand(Event.Result.DENY)
-            return
-        } else {
-            event.setUseInteractedBlock(Event.Result.DENY)
-        }
-
+    override fun onMainHandInteract(event: PlayerInteractEvent) {
         val item = event.item ?: return
 
         for (recipe in SoulAltarRecipe.RECIPE_TYPE) {

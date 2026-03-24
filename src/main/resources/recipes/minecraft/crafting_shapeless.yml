@@ -4,3 +4,12 @@ rebarmobs:soul_altar:
   result:
     rebarmobs:soul_altar: 1
   category: building
+
+rebarmobs:corrupted_essence:
+  ingredients:
+    - minecraft:lapis_lazuli: 1
+    - minecraft:redstone: 1
+    - minecraft:obsidian: 2
+  result:
+    rebarmobs:corrupted_essence: 1
+  category: misc

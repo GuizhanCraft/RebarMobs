@@ -1,4 +1,4 @@
-package net.guizhanss.rebarmobs.datatypes
+package net.guizhanss.rebarmobs.datatypes.persistent
 
 import io.papermc.paper.registry.RegistryAccess
 import io.papermc.paper.registry.RegistryKey
