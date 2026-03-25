@@ -42,15 +42,17 @@ item:
     waila:
       empty: "Soul Cage | <red>Empty"
       filled: "Soul Cage | %mob-type% | Tier %tier%"
+  vile_sword:
+    name: "<reset>Vile Sword"
+    lore: |-
+      <arrow> Gain 1 extra soul when killing
+      <arrow> with this sword in main hand.
 
 guide:
   page:
     rebar_mobs: "<reset>Rebar Mobs"
     resources_magic: "<reset>Magic Resources"
     blocks: "<reset>Blocks"
-
-enchantment:
-  soul_stealer: "Soul Stealer"
 
 command:
   description: "RebarMobs main command"

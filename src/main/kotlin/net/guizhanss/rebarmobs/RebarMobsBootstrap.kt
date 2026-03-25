@@ -27,7 +27,7 @@ class RebarMobsBootstrap : PluginBootstrap {
                     soulStealerTypedKey,
                 ) { builder ->
                     builder
-                        .description(Component.translatable("$PLUGIN_NAMESPACE.enchantment.soul_stealer"))
+                        .description(Component.text("Soul Stealer"))
                         .supportedItems(event.getOrCreateTag(ItemTypeTagKeys.ENCHANTABLE_MELEE_WEAPON))
                         .primaryItems(event.getOrCreateTag(ItemTypeTagKeys.ENCHANTABLE_MELEE_WEAPON))
                         .anvilCost(3)
