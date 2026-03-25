@@ -154,8 +154,11 @@ class SoulShard(
         @EventHandler(priority = EventPriority.MONITOR)
         fun onEntityDeath(e: EntityDeathEvent) {
             val p = e.damageSource.causingEntity as? Player ?: return
+
+            // check entity
             val entity = e.entity
             if (entity.type in DISABLED_ENTITY_TYPES) return
+            if (entity.persistentDataContainer.has(RebarMobsKeys.SOUL_CAGE_SPAWNED)) return
 
             val extraSouls = p.inventory.itemInMainHand.getEnchantmentLevel(soulStealerEnchant)
             val applicableShard = findApplicableShard(p, e.entity.type) ?: return
