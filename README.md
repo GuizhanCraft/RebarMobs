@@ -13,4 +13,4 @@ capture entities, and make them as inventory companion.
 Addon ideas are from the following:
 
 - [Soul Shards Despawn mod](https://modrinth.com/mod/soul-shards-despawn) under MIT license
-
+- [ExtraHeads Slimefun addon](https://github.com/Slimefun-Addon-Community/ExtraHeads) under MIT license
