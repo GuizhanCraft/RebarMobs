@@ -4,5 +4,6 @@ object RebarMobsRecipes {
     init {
         SoulAltarRecipe.RECIPE_TYPE.register()
         CursingRecipe.RECIPE_TYPE.register()
+        MobHeadDropRecipe.RECIPE_TYPE.register()
     }
 }

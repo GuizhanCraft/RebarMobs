@@ -5,6 +5,7 @@ import net.guizhanss.rebarmobs.commands.RebarMobsCommands
 import net.guizhanss.rebarmobs.config.RebarMobsConfig
 import net.guizhanss.rebarmobs.guide.RebarMobsPages
 import net.guizhanss.rebarmobs.items.RebarMobsItems
+import net.guizhanss.rebarmobs.listeners.MobHeadListener
 import net.guizhanss.rebarmobs.recipes.RebarMobsRecipes
 import org.bstats.bukkit.Metrics
 import org.bukkit.Material
@@ -24,6 +25,8 @@ class RebarMobs : AbstractAddon(GITHUB_USER, GITHUB_REPO, GITHUB_BRANCH, AUTO_UP
         RebarMobsItems
         RebarMobsRecipes
 
+        setupListeners()
+
         RebarMobsCommands.register(this)
     }
 
@@ -32,6 +35,10 @@ class RebarMobs : AbstractAddon(GITHUB_USER, GITHUB_REPO, GITHUB_BRANCH, AUTO_UP
 
     protected override fun autoUpdate() {
         // TODO: impl auto update logic
+    }
+
+    private fun setupListeners() {
+        server.pluginManager.registerEvents(MobHeadListener(), this)
     }
 
     private fun setupMetrics() {

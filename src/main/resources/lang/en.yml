@@ -53,6 +53,14 @@ item:
     lore: |-
       <arrow> Gain 1 extra soul when killing
       <arrow> with this sword in main hand.
+  mob_head_info:
+    name: "<reset>Killing an entity"
+    lore: |-
+      <arrow> Killing an specified entity has chance to drop its head.
+      <arrow> Decapitator enchantment can increase chance.
+
+      <arrow> <attr>Base chance:</attr> %base-chance%
+      <arrow> <attr>Decapitator chance:</attr> %decapitator-chance% per level
   mob_head_bat:
     name: "<reset>Bat Head"
   mob_head_blaze:
@@ -179,6 +187,10 @@ item:
     name: "<reset>Camel Husk Head"
   mob_head_parched:
     name: "<reset>Parched Head"
+
+enchantment:
+  soul_stealer: "Soul Stealer"
+  decapitator: "Decapitator"
 
 guide:
   page:

@@ -12,3 +12,24 @@ auto-update:
   # Whether to download the new version.
   # Disabling will only notify in console and every op.
   download: true
+
+# Mob Heads config
+# Only applies to the mob heads added by this addon.
+#
+## Chance Calculation
+# All the chances will be added.
+# For example, base chance = 0.15, level 3 decapitator chance = 0.1 * 3,
+# the final chance would be 0.15+0.1*3=0.45
+mob-heads:
+  # The base chance of getting mob head when killing an entity.
+  base-chance: 0.01
+
+  # The chance increased by each level of Decapitator enchantment.
+  decapitator-chance: 0.02
+
+  # Override settings for certain mobs. Invalid entity types are ignored.
+  # Structure follows above
+  overrides:
+    chicken:
+      base-chance: 0.01
+      decapitator-chance: 0.02

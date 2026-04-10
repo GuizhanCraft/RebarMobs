@@ -20,6 +20,7 @@ object RebarMobsKeys {
 
     // enchantments
     val SOUL_STEALER = rmKey("soul_stealer")
+    val DECAPITATOR = rmKey("decapitator")
 
     // items
     val SOUL_SHARD = rmKey("soul_shard")
@@ -34,6 +35,7 @@ object RebarMobsKeys {
 
     // recipes
     val CURSING = rmKey("cursing")
+    val MOB_HEAD_DROP = rmKey("mob_head_drop")
 
     // misc
     val SOUL_CAGE_SPAWNED = rmKey("soul_cage_spawned") // tag added to spawned

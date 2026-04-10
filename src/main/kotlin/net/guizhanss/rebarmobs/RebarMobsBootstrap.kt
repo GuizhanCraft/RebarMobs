@@ -20,6 +20,8 @@ class RebarMobsBootstrap : PluginBootstrap {
     override fun bootstrap(context: BootstrapContext) {
         val soulStealerKey = NamespacedKey(PLUGIN_NAMESPACE, ENCHANTMENT_SOUL_STEALER)
         val soulStealerTypedKey = EnchantmentKeys.create(soulStealerKey)
+        val decapitatorKey = NamespacedKey(PLUGIN_NAMESPACE, ENCHANTMENT_DECAPITATOR)
+        val decapitatorTypedKey = EnchantmentKeys.create(decapitatorKey)
 
         context.lifecycleManager.registerEventHandler(
             RegistryEvents.ENCHANTMENT.compose().newHandler { event ->
@@ -37,6 +39,20 @@ class RebarMobsBootstrap : PluginBootstrap {
                         .maximumCost(EnchantmentRegistryEntry.EnchantmentCost.of(44, 0))
                         .activeSlots(EquipmentSlotGroup.MAINHAND)
                 }
+                event.registry().register(
+                    decapitatorTypedKey,
+                ) { builder ->
+                    builder
+                        .description(Component.text("Decapitator"))
+                        .supportedItems(event.getOrCreateTag(ItemTypeTagKeys.ENCHANTABLE_MELEE_WEAPON))
+                        .primaryItems(event.getOrCreateTag(ItemTypeTagKeys.ENCHANTABLE_MELEE_WEAPON))
+                        .anvilCost(4)
+                        .maxLevel(5)
+                        .weight(8)
+                        .minimumCost(EnchantmentRegistryEntry.EnchantmentCost.of(5, 12))
+                        .maximumCost(EnchantmentRegistryEntry.EnchantmentCost.of(50, 0))
+                        .activeSlots(EquipmentSlotGroup.MAINHAND)
+                }
             },
         )
 
@@ -46,7 +62,7 @@ class RebarMobsBootstrap : PluginBootstrap {
             val registrar: PostFlattenTagRegistrar<Enchantment> = event.registrar()
             registrar.addToTag(
                 EnchantmentTagKeys.IN_ENCHANTING_TABLE,
-                setOf(soulStealerTypedKey),
+                setOf(soulStealerTypedKey, decapitatorTypedKey),
             )
         }
     }
@@ -54,5 +70,6 @@ class RebarMobsBootstrap : PluginBootstrap {
     companion object {
         private const val PLUGIN_NAMESPACE = "rebarmobs"
         private const val ENCHANTMENT_SOUL_STEALER = "soul_stealer"
+        private const val ENCHANTMENT_DECAPITATOR = "decapitator"
     }
 }

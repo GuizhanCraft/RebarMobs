@@ -16,7 +16,7 @@ import xyz.xenondevs.invui.gui.Gui
 
 @JvmRecord
 data class SoulAltarRecipe(
-    @get:JvmName("getKey_")
+    @get:JvmName("key")
     val key: NamespacedKey,
     val input: ItemStack,
     val result: ItemStack,

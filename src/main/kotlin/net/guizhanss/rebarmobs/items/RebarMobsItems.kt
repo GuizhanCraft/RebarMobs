@@ -18,6 +18,7 @@ import net.guizhanss.rebarmobs.items.multiblocks.SoulAltar
 import net.guizhanss.rebarmobs.items.resources.SoulShard
 import net.guizhanss.rebarmobs.items.tools.QuartzAndSteel
 import net.guizhanss.rebarmobs.items.weapons.VileSword
+import net.guizhanss.rebarmobs.recipes.MobHeadDropRecipe
 import net.guizhanss.rebarmobs.utils.PlayerHead
 import net.guizhanss.rebarmobs.utils.RebarMobsKeys
 import net.guizhanss.rebarmobs.utils.rmKey
@@ -131,11 +132,17 @@ object RebarMobsItems : RebarItemRegistry(RebarMobs.instance()) {
     private fun registerMobHead(entityType: EntityType, head: PlayerHead) {
         if (MOB_HEADS.containsKey(entityType)) error("Entity type $entityType is already registered as mob head!")
 
-        val nsKey = rmKey("mob_head_$entityType")
+        val nsKey = rmKey("mob_head_${entityType.name.lowercase()}")
         val stack = ItemStackBuilder.rebar(head.createHeadItem(), nsKey).build()
-        RebarItem.register<MobHead.Item>(stack)
+
+        MOB_HEADS[entityType] = stack
+        RebarItem.register<MobHead.Item>(stack, nsKey)
         RebarBlock.register<MobHead>(nsKey, Material.PLAYER_HEAD)
+
         RebarMobsPages.MAIN.addItem(stack)
+
+        val recipe = MobHeadDropRecipe(nsKey, entityType, stack)
+        MobHeadDropRecipe.RECIPE_TYPE.addRecipe(recipe)
     }
 
     init {
