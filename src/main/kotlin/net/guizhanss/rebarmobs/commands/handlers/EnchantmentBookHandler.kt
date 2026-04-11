@@ -47,7 +47,7 @@ object EnchantmentBookHandler : KommandExecutor {
                 .translatable(
                     messageKey("success"),
                 ).arguments(
-                    RebarArgument.of("enchantment", Component.translatable(enchantment.translationKey())),
+                    RebarArgument.of("enchantment", enchantment.description()),
                     RebarArgument.of("level", level),
                 ),
         )
