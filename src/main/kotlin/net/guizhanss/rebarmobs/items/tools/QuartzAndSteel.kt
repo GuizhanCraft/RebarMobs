@@ -5,6 +5,7 @@ import io.github.pylonmc.rebar.event.api.annotation.MultiHandler
 import io.github.pylonmc.rebar.item.RebarItem
 import io.github.pylonmc.rebar.item.base.RebarInteractor
 import net.guizhanss.rebarmobs.utils.RebarMobsKeys
+import org.bukkit.GameMode
 import org.bukkit.Material
 import org.bukkit.block.BlockFace
 import org.bukkit.event.Event
@@ -35,7 +36,9 @@ class QuartzAndSteel(item: ItemStack) :
         val fireBlock = clickedBlock.getRelative(event.blockFace)
         if (fireBlock.type.isAir) {
             BlockStorage.placeBlock(fireBlock, RebarMobsKeys.CURSED_FIRE)
-            stack.damage(1, event.player)
+            if (event.player.gameMode != GameMode.CREATIVE) {
+                stack.damage(1, event.player)
+            }
         }
     }
 }
