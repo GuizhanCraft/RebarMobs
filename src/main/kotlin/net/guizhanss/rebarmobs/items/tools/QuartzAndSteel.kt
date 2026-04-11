@@ -36,7 +36,7 @@ class QuartzAndSteel(item: ItemStack) :
         val fireBlock = clickedBlock.getRelative(event.blockFace)
         if (fireBlock.type.isAir) {
             BlockStorage.placeBlock(fireBlock, RebarMobsKeys.CURSED_FIRE)
-            if (event.player.gameMode != GameMode.CREATIVE) {
+            if (event.player.gameMode != GameMode.CREATIVE && event.player.gameMode != GameMode.SPECTATOR) {
                 stack.damage(1, event.player)
             }
         }

@@ -72,7 +72,7 @@ class SoulCage :
             if (tier == 0) return
 
             storedShard = shard
-            if (event.player.gameMode != GameMode.CREATIVE || event.player.gameMode != GameMode.SPECTATOR) {
+            if (event.player.gameMode != GameMode.CREATIVE && event.player.gameMode != GameMode.SPECTATOR) {
                 event.item!!.amount--
             }
             configureSpawner()

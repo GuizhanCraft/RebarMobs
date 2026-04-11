@@ -52,7 +52,7 @@ class SoulAltar :
             if (!recipe.input.isSimilar(item)) continue
 
             // consume ingredient
-            if (event.player.gameMode != GameMode.CREATIVE || event.player.gameMode != GameMode.SPECTATOR) {
+            if (event.player.gameMode != GameMode.CREATIVE && event.player.gameMode != GameMode.SPECTATOR) {
                 item.amount -= recipe.input.amount
             }
 
