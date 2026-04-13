@@ -60,7 +60,7 @@ jobs:
   build-and-release:
     runs-on: ubuntu-latest
     needs: version-and-tag
-    if: always() && (github.ref_type == 'tag' || needs.version-and-tag.result == 'success')
+    if: always() && (github.ref_type == 'tag' || (needs.version-and-tag.result == 'success' && needs.version-and-tag.outputs.should_release == 'true'))
     outputs:
       version: ${{ steps.version.outputs.version }}
       mc_version: ${{ steps.read_mc_version.outputs.mc_version }}
