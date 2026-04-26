@@ -115,7 +115,7 @@ enum class PlayerHead(val texture: String) {
     ENTITY_ZOMBIE_NAUTILUS("fd9a933376da44c3391307cb9f4cf03f16f3a54f495fd5a11bad8a373f9d5720"),
 
     // https://minecraft-heads.com/custom-heads/head/123542-camel-husk
-    ENTITY_CAMEL_HUSK("750bfc9b2cc40f4d8d0224ccabac26b338aa947d99dcde769f859b59b8d0b0e"),
+    ENTITY_CAMEL_HUSK("750bfc9b2cc40f4d8d0224ccbabac26b338aa947d99dcde769f859b59b8d0b0e"),
 
     // https://minecraft-heads.com/custom-heads/head/123518-parched
     ENTITY_PARCHED("24aeceff5f26dd8413c5c03547c234ac03108d187af0b9cd834a8ce12598591c"),
