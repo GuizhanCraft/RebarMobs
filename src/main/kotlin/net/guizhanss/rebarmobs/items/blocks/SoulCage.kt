@@ -48,12 +48,6 @@ class SoulCage :
     var storedShard: SoulShard? = null
         private set
 
-    override fun getBlockTextureProperties(): MutableMap<String, Pair<String, Int>> {
-        val properties = super.getBlockTextureProperties()
-        properties["state"] = (if (storedShard != null) "filled" else "empty") to 2
-        return properties
-    }
-
     override fun write(pdc: PersistentDataContainer) {
         if (storedShard != null) {
             pdc.set(STORED_SHARD_KEY, RebarSerializers.ITEM_STACK, storedShard!!.stack)
@@ -68,7 +62,6 @@ class SoulCage :
             InventoryUtil.push(event.player, storedShard!!.stack)
             storedShard = null
             clearSpawner()
-            scheduleBlockTextureItemRefresh()
         } else {
             if (storedShard != null) return
             val shard = RebarItem.from<SoulShard>(event.item!!.clone()) ?: return
@@ -82,7 +75,6 @@ class SoulCage :
                 event.item!!.amount--
             }
             configureSpawner()
-            scheduleBlockTextureItemRefresh()
         }
     }
 
