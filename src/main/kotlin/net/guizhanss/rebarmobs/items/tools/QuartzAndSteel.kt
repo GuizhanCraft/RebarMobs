@@ -26,7 +26,7 @@ class QuartzAndSteel(item: ItemStack) :
         if (event.action != Action.RIGHT_CLICK_BLOCK || event.useItemInHand() == Event.Result.DENY) return
 
         val clickedBlock = event.clickedBlock ?: return
-        if (clickedBlock.type != Material.SOUL_SAND || event.blockFace != BlockFace.UP) {
+        if ((clickedBlock.type != Material.SOUL_SAND && clickedBlock.type != Material.SOUL_SOIL) || event.blockFace != BlockFace.UP) {
             event.isCancelled = true
             return
         }
