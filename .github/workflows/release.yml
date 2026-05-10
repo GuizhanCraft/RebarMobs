@@ -1,11 +1,6 @@
 name: Release
 
 on:
-  push:
-    branches:
-      - master
-    tags:
-      - 'v*.*.*'
   workflow_dispatch:
 
 concurrency:
@@ -16,7 +11,6 @@ permissions:
   contents: write
 
 jobs:
-  # Calculate version and create tag on master push
   version-and-tag:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
@@ -49,18 +43,17 @@ jobs:
         env:
           BOT_NAME: ${{ vars.BOT_NAME || 'github-actions[bot]' }}
           BOT_EMAIL: ${{ secrets.BOT_EMAIL || 'github-actions[bot]@users.noreply.github.com' }}
-          PUSH_TOKEN: ${{ secrets.BOT_SECRET || github.token }}
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN || github.token }}
         run: |
           git config user.name "$BOT_NAME"
           git config user.email "$BOT_EMAIL"
           git tag -a "${{ steps.version.outputs.tag }}" -m "${{ steps.version.outputs.tag }}"
-          git push "https://x-access-token:${PUSH_TOKEN}@github.com/${{ github.repository }}" "${{ steps.version.outputs.tag }}"
+          git push "https://x-access-token:${BOT_TOKEN}@github.com/${{ github.repository }}" "${{ steps.version.outputs.tag }}"
 
-  # Build and upload on tag push (including auto-created tags)
   build-and-release:
     runs-on: ubuntu-latest
     needs: version-and-tag
-    if: always() && (github.ref_type == 'tag' || (needs.version-and-tag.result == 'success' && needs.version-and-tag.outputs.should_release == 'true'))
+    if: needs.version-and-tag.outputs.should_release == 'true'
     outputs:
       version: ${{ steps.version.outputs.version }}
       mc_version: ${{ steps.read_mc_version.outputs.mc_version }}
@@ -75,18 +68,9 @@ jobs:
       - name: Determine version
         id: version
         run: |
-          if [[ "${{ github.ref_type }}" == "tag" ]]; then
-            # Tag push: extract version from tag name
-            VERSION=${GITHUB_REF_NAME#v}
-            echo "version=$VERSION" >> $GITHUB_OUTPUT
-            echo "tag=$GITHUB_REF_NAME" >> $GITHUB_OUTPUT
-            echo "Building from tag: $GITHUB_REF_NAME, version: $VERSION"
-          else
-            # Master push: use calculated version from previous job
-            echo "version=${{ needs.version-and-tag.outputs.version }}" >> $GITHUB_OUTPUT
-            echo "tag=${{ needs.version-and-tag.outputs.tag }}" >> $GITHUB_OUTPUT
-            echo "Building version: ${{ needs.version-and-tag.outputs.version }}"
-          fi
+          echo "version=${{ needs.version-and-tag.outputs.version }}" >> $GITHUB_OUTPUT
+          echo "tag=${{ needs.version-and-tag.outputs.tag }}" >> $GITHUB_OUTPUT
+          echo "Building version: ${{ needs.version-and-tag.outputs.version }}"
 
       - name: Generate changelog
         id: changelog
@@ -94,12 +78,10 @@ jobs:
           PREVIOUS_TAG=$(git describe --tags --abbrev=0 HEAD~1 2>/dev/null || echo "")
           REPO_URL="https://github.com/${{ github.repository }}"
           if [ -z "$PREVIOUS_TAG" ]; then
-            # No previous tag, list all commits
             CHANGELOG=$(git log --pretty=format:"- [%h](${REPO_URL}/commit/%H) %s" HEAD)
           else
             CHANGELOG=$(git log --pretty=format:"- [%h](${REPO_URL}/commit/%H) %s" "${PREVIOUS_TAG}..HEAD")
           fi
-          # Escape for JSON
           CHANGELOG_ESCAPED=$(echo "$CHANGELOG" | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read()))' || echo '""')
           echo "changelog=$CHANGELOG_ESCAPED" >> $GITHUB_OUTPUT
           echo "Changelog:"
@@ -137,11 +119,10 @@ jobs:
           name: RebarMobs-${{ steps.version.outputs.version }}
           path: build/libs/*.jar
 
-  # Deploy to Guizhan Resources
   deploy-gr:
-    needs: build-and-release
     runs-on: ubuntu-latest
-    if: always() && needs.build-and-release.result == 'success'
+    needs: build-and-release
+    if: needs.build-and-release.result == 'success'
     steps:
       - name: Download build artifact
         uses: actions/download-artifact@v4
@@ -185,7 +166,7 @@ jobs:
           RESPONSE_BODY=$(echo "$HTTP_RESPONSE" | sed '$d')
           echo "Response: $RESPONSE_BODY"
           echo "HTTP Status: $HTTP_STATUS"
-          if [ "$HTTP_STATUS" -ne 200 ]; then
+          if [ "$HTTP_STATUS" -lt 200 ] || [ "$HTTP_STATUS" -ge 300 ]; then
             echo "Error: Upload failed with status $HTTP_STATUS"
             exit 1
           fi
