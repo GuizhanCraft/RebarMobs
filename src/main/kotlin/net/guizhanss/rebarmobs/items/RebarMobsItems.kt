@@ -119,6 +119,7 @@ object RebarMobsItems : RebarItemRegistry(RebarMobs.instance()) {
     val VILE_SWORD by weapon<VileSword> {
         key = RebarMobsKeys.VILE_SWORD
         material = Material.IRON_SWORD
+        hasDurability = true
         postRegister {
             RebarMobsPages.MAIN.addItem(it)
         }
