@@ -4,7 +4,6 @@ import io.github.pylonmc.rebar.block.BlockStorage
 import io.github.pylonmc.rebar.block.RebarBlock
 import io.github.pylonmc.rebar.block.base.RebarSimpleMultiblock
 import io.github.pylonmc.rebar.block.base.RebarSimpleMultiblock.MultiblockComponent
-import io.github.pylonmc.rebar.block.base.RebarSimpleMultiblock.VanillaMultiblockComponent
 import io.github.pylonmc.rebar.block.context.BlockBreakContext
 import io.github.pylonmc.rebar.block.context.BlockCreateContext
 import io.github.pylonmc.rebar.item.RebarItem
@@ -35,14 +34,14 @@ class SoulAltar :
     override val components: Map<Vector3i, MultiblockComponent>
         get() =
             mapOf(
-                Vector3i(1, 0, 0) to VanillaMultiblockComponent(Material.QUARTZ_BLOCK),
-                Vector3i(-1, 0, 0) to VanillaMultiblockComponent(Material.QUARTZ_BLOCK),
-                Vector3i(0, 0, 1) to VanillaMultiblockComponent(Material.QUARTZ_BLOCK),
-                Vector3i(0, 0, -1) to VanillaMultiblockComponent(Material.QUARTZ_BLOCK),
-                Vector3i(1, 0, 1) to VanillaMultiblockComponent(Material.OBSIDIAN),
-                Vector3i(1, 0, -1) to VanillaMultiblockComponent(Material.OBSIDIAN),
-                Vector3i(-1, 0, 1) to VanillaMultiblockComponent(Material.OBSIDIAN),
-                Vector3i(-1, 0, -1) to VanillaMultiblockComponent(Material.OBSIDIAN),
+                Vector3i(1, 0, 0) to MultiblockComponent.of(Material.QUARTZ_BLOCK),
+                Vector3i(-1, 0, 0) to MultiblockComponent.of(Material.QUARTZ_BLOCK),
+                Vector3i(0, 0, 1) to MultiblockComponent.of(Material.QUARTZ_BLOCK),
+                Vector3i(0, 0, -1) to MultiblockComponent.of(Material.QUARTZ_BLOCK),
+                Vector3i(1, 0, 1) to MultiblockComponent.of(Material.OBSIDIAN),
+                Vector3i(1, 0, -1) to MultiblockComponent.of(Material.OBSIDIAN),
+                Vector3i(-1, 0, 1) to MultiblockComponent.of(Material.OBSIDIAN),
+                Vector3i(-1, 0, -1) to MultiblockComponent.of(Material.OBSIDIAN),
             )
 
     override fun onMainHandInteract(event: PlayerInteractEvent) {
