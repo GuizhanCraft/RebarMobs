@@ -56,7 +56,9 @@ jobs:
     if: needs.version-and-tag.outputs.should_release == 'true'
     outputs:
       version: ${{ steps.version.outputs.version }}
-      mc_version: ${{ steps.read_mc_version.outputs.mc_version }}
+      mc_version: ${{ steps.read_versions.outputs.mc_version }}
+      rebar_version: ${{ steps.read_versions.outputs.rebar_version }}
+      pylon_version: ${{ steps.read_versions.outputs.pylon_version }}
       changelog: ${{ steps.changelog.outputs.changelog }}
     steps:
       - name: Checkout repository
@@ -99,8 +101,8 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v5
 
-      - name: Read Minecraft Version
-        id: read_mc_version
+      - name: Read versions from gradle.properties
+        id: read_versions
         run: |
           MC_VERSION=$(grep "^minecraft.version=" gradle.properties | cut -d'=' -f2)
           if [ -z "$MC_VERSION" ]; then
@@ -109,6 +111,22 @@ jobs:
           fi
           echo "mc_version=$MC_VERSION" >> $GITHUB_OUTPUT
           echo "Minecraft version: $MC_VERSION"
+
+          REBAR_VERSION=$(grep "^rebar.version=" gradle.properties | cut -d'=' -f2)
+          if [ -z "$REBAR_VERSION" ]; then
+            echo "Error: Failed to read rebar.version from gradle.properties"
+            exit 1
+          fi
+          echo "rebar_version=$REBAR_VERSION" >> $GITHUB_OUTPUT
+          echo "Rebar version: $REBAR_VERSION"
+
+          PYLON_VERSION=$(grep "^pylon.version=" gradle.properties | cut -d'=' -f2)
+          if [ -z "$PYLON_VERSION" ]; then
+            echo "Error: Failed to read pylon.version from gradle.properties"
+            exit 1
+          fi
+          echo "pylon_version=$PYLON_VERSION" >> $GITHUB_OUTPUT
+          echo "Pylon version: $PYLON_VERSION"
 
       - name: Build with Gradle
         run: ./gradlew spotlessCheck clean test shadowJar -Pplugin.version="${{ steps.version.outputs.version }}"
@@ -145,6 +163,12 @@ jobs:
           ${{ needs.build-and-release.outputs.changelog }}
           CHANGELOG
           )
+          REBAR_VERSION="${{ needs.build-and-release.outputs.rebar_version }}"
+          PYLON_VERSION="${{ needs.build-and-release.outputs.pylon_version }}"
+
+          # Build dependencies array
+          DEPS="[{\"type\":\"required\",\"name\":\"Rebar ${REBAR_VERSION}\"},{\"type\":\"optional\",\"name\":\"Pylon ${PYLON_VERSION}\"}]"
+
           cat <<EOF > payload.json
           {
             "version": "${{ needs.build-and-release.outputs.version }}",
@@ -152,6 +176,7 @@ jobs:
             "channel": "dev",
             "changelog": ${CHANGELOG},
             "minecraft_versions": ["${{ needs.build-and-release.outputs.mc_version }}"],
+            "dependencies": ${DEPS},
             "files": ["${{ steps.filename.outputs.filename }}"]
           }
           EOF
