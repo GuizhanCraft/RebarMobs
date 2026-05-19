@@ -10,7 +10,7 @@ val pylonVersion = providers.gradleProperty("pylon.version").get()
 plugins {
     kotlin("jvm") version "2.3.0"
     id("com.gradleup.shadow") version "9.3.2"
-    id("de.eldoria.plugin-yml.paper") version "0.8.0"
+    id("de.eldoria.plugin-yml.paper") version "0.9.0"
     id("xyz.jpenilla.run-paper") version "3.0.2"
     id("com.diffplug.spotless") version "8.3.0"
 }
@@ -32,7 +32,7 @@ dependencies {
 
     compileOnly(kotlin("stdlib")) // loaded through library loader
     compileOnly(kotlin("reflect")) // loaded through library loader
-    compileOnlyAndTestImpl("io.papermc.paper:paper-api:$minecraftVersion-R0.1-SNAPSHOT")
+    compileOnlyAndTestImpl("io.papermc.paper:paper-api:$minecraftVersion.build.+")
     compileOnlyAndTestImpl("io.github.pylonmc:rebar:$rebarVersion")
     compileOnlyAndTestImpl("io.github.pylonmc:pylon:$pylonVersion")
     implementation("org.bstats:bstats-bukkit:3.1.0")
@@ -40,7 +40,7 @@ dependencies {
     implementation("net.guizhanss:guizhanlib-kt-all:0.3.0-SNAPSHOT")
 
     testImplementation(kotlin("test"))
-    testImplementation("com.github.MockBukkit:MockBukkit:v1.21-SNAPSHOT")
+//    testImplementation("com.github.MockBukkit:MockBukkit:v1.21-SNAPSHOT")
 }
 
 group = "net.guizhanss"
@@ -51,14 +51,14 @@ val mainPackage = "net.guizhanss.rebarmobs"
 
 java {
     disableAutoTargetJvm()
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
 }
 
 kotlin {
     compilerOptions {
         javaParameters = true
-        jvmTarget = JvmTarget.JVM_21
+        jvmTarget = JvmTarget.JVM_25
         freeCompilerArgs.add("-Xexplicit-backing-fields")
     }
 }
@@ -99,7 +99,7 @@ paper {
     bootstrapper = "$mainPackage.RebarMobsBootstrap"
     apiVersion = minecraftVersion
     authors = listOf("ybw0014")
-    description = "Get mob heads, capture mobs, or raise mob pets in your inventory."
+    description = "Get mob heads, collect mob souls, capture mobs, or raise mob pets in your inventory."
     load = BukkitPluginDescription.PluginLoadOrder.STARTUP
 
     bootstrapDependencies {
