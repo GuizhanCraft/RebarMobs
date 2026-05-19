@@ -35,9 +35,9 @@ data class SoulAltarRecipe(
             "# # # # # # # # #",
             "# # # # # # # # #",
         ).addIngredient('#', GuiItems.backgroundBlack())
-        .addIngredient('a', ItemButton.from(RebarMobsItems.SOUL_ALTAR))
-        .addIngredient('i', ItemButton.from(input))
-        .addIngredient('o', ItemButton.from(result))
+        .addIngredient('a', ItemButton.of(RebarMobsItems.SOUL_ALTAR))
+        .addIngredient('i', ItemButton.of(input))
+        .addIngredient('o', ItemButton.of(result))
         .build()
 
     companion object {

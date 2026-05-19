@@ -49,11 +49,11 @@ data class MobHeadDropRecipe(
             .addIngredient('#', GuiItems.backgroundBlack())
             .addIngredient(
                 'm',
-                ItemButton.from(ItemStack(Bukkit.getItemFactory().getSpawnEgg(mobType) ?: Material.BARRIER)),
+                ItemButton.of(ItemStack(Bukkit.getItemFactory().getSpawnEgg(mobType) ?: Material.BARRIER)),
             )
             .addIngredient(
                 'i',
-                ItemButton.from(
+                ItemButton.of(
                     ItemStackBuilder
                         .gui(Material.IRON_SWORD, RebarMobsKeys.MOB_HEAD_DROP)
                         .name(Component.translatable(rmTranslatableKey("item.mob_head_info.name")))
@@ -72,7 +72,7 @@ data class MobHeadDropRecipe(
                         ).build(),
                 ),
             )
-            .addIngredient('r', ItemButton.from(result))
+            .addIngredient('r', ItemButton.of(result))
             .build()
     }
 

@@ -46,7 +46,7 @@ data class CursingRecipe(
         )
         .addIngredient(
             'f',
-            ItemButton.from(
+            ItemButton.of(
                 ItemStackBuilder.gui(Material.SOUL_CAMPFIRE, RebarMobsKeys.CURSED_FIRE).name(
                     Component.translatable(
                         rmTranslatableKey("item.${RebarMobsKeys.CURSED_FIRE.key}.name"),
@@ -54,9 +54,9 @@ data class CursingRecipe(
                 ).build(),
             ),
         )
-        .addIngredient('q', ItemButton.from(RebarMobsItems.QUARTZ_AND_STEEL))
-        .addIngredient('i', ItemButton.from(input))
-        .addIngredient('o', ItemButton.from(result))
+        .addIngredient('q', ItemButton.of(RebarMobsItems.QUARTZ_AND_STEEL))
+        .addIngredient('i', ItemButton.of(input))
+        .addIngredient('o', ItemButton.of(result))
         .build()
 
     companion object {
