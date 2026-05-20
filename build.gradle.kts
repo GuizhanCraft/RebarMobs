@@ -33,9 +33,8 @@ dependencies {
     compileOnly(kotlin("stdlib")) // loaded through library loader
     compileOnly(kotlin("reflect")) // loaded through library loader
     compileOnlyAndTestImpl("io.papermc.paper:paper-api:$minecraftVersion.build.+")
-//    compileOnlyAndTestImpl("io.github.pylonmc:rebar:$rebarVersion")
-    compileOnlyAndTestImpl("com.github.ybw0014:rebar:dfa8399e34")
-    compileOnlyAndTestImpl("io.github.pylonmc:pylon:$pylonVersion")
+    compileOnlyAndTestImpl("io.github.pylonmc:rebar:$rebarVersion")
+//    compileOnlyAndTestImpl("io.github.pylonmc:pylon:$pylonVersion")
     implementation("org.bstats:bstats-bukkit:3.1.0")
     implementation("net.guizhanss:guizhanlib-all:3.0.0-SNAPSHOT")
     implementation("net.guizhanss:guizhanlib-kt-all:0.3.0-SNAPSHOT")

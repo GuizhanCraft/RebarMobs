@@ -129,6 +129,7 @@ baseCommand(plugin, "cmd") {
 - Run `./gradlew clean shadowJar` after code changes to verify type safety
 - New functions: single-purpose, colocated with related code
 - External dependencies: only when necessary, explain why
+- When updating i18n/translation files, only modify `en.yml`; never directly edit other language files (e.g., `zh_CN.yml`)
 
 ## 6. Resources
 
