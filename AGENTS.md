@@ -1,33 +1,44 @@
 # AGENTS.md
 
-## 1. Overview
+## Overview
 
-RebarMobs is a Minecraft Paper plugin (Addon) that built on the Rebar framework with Kotlin DSL extensions from GuizhanLib-KT.
+RebarMobs is a Minecraft Paper plugin (addon) built on the Rebar framework with Kotlin DSL extensions from GuizhanLib-KT.
 
-## 2. Folder Structure
+## Stack
 
-- `src/main/java/net/guizhanss/rebarmobs/RebarMobsLoader.java`: Paper PluginLoader that loads Kotlin runtime into classpath.
-- `src/main/kotlin/net/guizhanss/rebarmobs/`:
-    - `RebarMobsBootstrap.kt`: Paper PluginBootstrap for early registration (enchantments).
-    - `RebarMobs.kt`: Main plugin class extending AbstractAddon, manages lifecycle and component registration.
-    - `commands/`: Command registration using BaseKommand DSL; handlers in subdirectory.
-    - `config/`: Configuration management using yamlConfig DSL.
-    - `datatypes/`: Custom PersistentDataType implementations (e.g., EntityType serialization).
-    - `guide/`: Guide page definitions for in-game documentation.
-    - `items/`: Custom items and blocks; `resources/` for items, `multiblocks/` for structures.
-    - `recipes/`: Custom recipe types and recipe loading.
-    - `utils/`: NamespacedKey management and translation utilities.
-- `src/main/resources/`:
-    - `config.yml`: Plugin configuration.
-    - `lang/en.yml`: English translations using `%placeholder%` format.
-    - `recipes/`: Recipe YAML definitions.
-- `build.gradle.kts`: Gradle build with Paper plugin metadata; dependencies on Rebar, Pylon, GuizhanLib.
+- **Language**: Kotlin (JVM 21+), minimal Java for Paper PluginLoader
+- **Framework**: Paper 1.21+, Rebar addon framework, GuizhanLib-KT DSL extensions
+- **Build**: Gradle with Kotlin DSL, Shadow plugin
+- **Dependencies**: Rebar, Pylon (optional)
 
-## 3. Core Behaviors & Patterns
+## Commands
 
-### Item Registration Pattern
+- Build and package: `./gradlew clean shadowJar`
+- Format code: `./gradlew spotlessApply` (mandatory before finishing any code changes)
+- Kotlin lint: ktlint (via Spotless)
+- Java lint: Google Java Format AOSP (via Spotless)
 
-Use `RebarItemRegistry` DSL to register items. Items are defined as delegated properties:
+## Conventions
+
+### Naming
+
+- Kotlin: PascalCase classes, camelCase functions/properties
+- NamespacedKey keys: underscore separator (`soul_shard`, `rebar_mobs`)
+- Translation keys: match NamespacedKey format (`item.soul_shard.name`, `guide.page.rebar_mobs`)
+- Config keys and translation sub-keys: hyphen separator (`auto-update`, `no-mob-type`)
+- Placeholder names: `%mob-type%`, `%tier%`
+
+### Code Style
+
+- Run `./gradlew spotlessApply` before finishing any work involving code changes
+- Minimal changes; preserve public APIs
+- New functions: single-purpose, colocated with related code
+
+## Architecture & Patterns
+
+### Item Registration
+
+Use `RebarItemRegistry` DSL with delegated properties:
 
 ```kotlin
 object RebarMobsItems : RebarItemRegistry(RebarMobs.instance()) {
@@ -35,9 +46,9 @@ object RebarMobsItems : RebarItemRegistry(RebarMobs.instance()) {
 }
 ```
 
-### Data Persistence (PDC)
+### Data Persistence
 
-Use `persistentItemData` delegated property for ItemStack data storage:
+Use `persistentItemData` delegated property for ItemStack data:
 
 ```kotlin
 var data: Type by persistentItemData(KEY, DATATYPE) { defaultValue }
@@ -57,19 +68,11 @@ class MyItem(item: ItemStack) : RebarItem(item) {
 
 ### Translation System
 
-Don't use hard coded messages/item names that are visible to players, they should all be translatable.
-
-Language file are under `src/main/resources/lang/[LOCALE].yml`, supports Minimessage with some extended tags specified by Rebar [here](https://github.com/pylonmc/rebar/blob/master/rebar/src/main/kotlin/io/github/pylonmc/rebar/item/builder/RebarMiniMessage.kt).
-
-Use `RebarArgument.of("name", value)` for named placeholders. Placeholders use `%name%` format, NOT `{0}`:
-
-```kotlin
-Component.translatable(
-    key,
-    RebarArgument.of("enchantment", name),
-    RebarArgument.of("level", level)
-)
-```
+- No hard-coded player-visible strings; all translatable
+- Language files: `src/main/resources/lang/[LOCALE].yml`
+- Placeholders use `%name%` format, NOT `{0}`
+- Use `RebarArgument.of("name", value)` for named placeholders
+- Only modify `en.yml`; never directly edit other language files (e.g., `zh_CN.yml`)
 
 ### Command DSL
 
@@ -81,58 +84,17 @@ baseCommand(plugin, "cmd") {
 }
 ```
 
-## 4. Conventions
+## Rules
 
-### Naming
+- **Never suppress type errors** with unsafe casts or suppression annotations unless absolutely unavoidable
+- **Build verification**: Run `./gradlew clean shadowJar` after code changes to verify type safety
+- **No external dependencies** without justification
+- **Tests/lint**: Only create when explicitly requested
+- **i18n changes**: Only modify `en.yml`; other locales are community-maintained
+- **Player heads**: Store in `PlayerHead` enum with the hash part in texture URL
 
-- Kotlin files use PascalCase for classes, camelCase for functions/properties
-- NamespacedKey constants in `RebarMobsKeys` object
-- Player heads are stored in `PlayerHead` enum with the hash part in texture url
+## Resources
 
-#### Key Naming Conventions
-
-**NamespacedKey keys (in `RebarMobsKeys`):** Use underscore (`_`) separator
-- Items: `soul_shard`, `corrupted_essence`, `vile_dust`
-- Guide pages: `rebar_mobs`, `resources_magic`, `multiblocks`, `blocks`
-- Enchantments: `soul_stealer`
-- Misc: `soul_cage_spawned`
-
-**Translation keys:** Match NamespacedKey format for items, guide pages, enchantments
-- Item translations: `item.soul_shard.name`, `item.soul_shard.lore`
-- Guide page translations: `guide.page.rebar_mobs`
-- Enchantment translations: `enchantment.soul_stealer`
-
-**Other keys:** Use hyphen (`-`) separator
-- Sub-keys in translations: `no-mob-type`, `invalid-enchantment`, `filled`
-- Config keys: `auto-update`, `interval-days`
-- Placeholder names in translations: `%mob-type%`, `%tier%`, `%souls%` 
-
-### Code Style
-
-- MUST run `./gradlew spotlessApply` before finishing any work involving code changes
-- For spotless, Kotlin uses ktlint, Java uses Google Java Format (AOSP)
-
-### Paper Plugin Structure
-
-- `RebarMobsLoader`: Loads libraries
-- `RebarMobsBootstrap`: Early-stage registration (enchantments, registry entries)
-- `RebarMobs`: Main plugin lifecycle
-
-## 5. Working Agreements
-
-- Respond in user's preferred language; if unspecified, infer from codebase (keep tech terms in English, never translate code blocks)
-- Create tests/lint only when explicitly requested
-- Build context by reviewing related usages and patterns before editing
-- Prefer simple solutions; avoid unnecessary abstraction
-- Ask for clarification when requirements are ambiguous
-- Minimal changes; preserve public APIs
-- Run `./gradlew clean shadowJar` after code changes to verify type safety
-- New functions: single-purpose, colocated with related code
-- External dependencies: only when necessary, explain why
-- When updating i18n/translation files, only modify `en.yml`; never directly edit other language files (e.g., `zh_CN.yml`)
-
-## 6. Resources
-
-Rebar repository: https://github.com/pylonmc/rebar
-Pylon repository: https://github.com/pylonmc/pylon
-Soul Shards Despawn repository: https://github.com/0x00002a/Soul-Shards-Despawn
+- Rebar: https://github.com/pylonmc/rebar
+- Pylon: https://github.com/pylonmc/pylon
+- Soul Shards Despawn (inspiration): https://github.com/0x00002a/Soul-Shards-Despawn
