@@ -41,3 +41,7 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### OMO ###
+.omo/
+!.omo/rules
