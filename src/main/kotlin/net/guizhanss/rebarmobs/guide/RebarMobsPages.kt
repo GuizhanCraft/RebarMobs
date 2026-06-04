@@ -2,36 +2,24 @@ package net.guizhanss.rebarmobs.guide
 
 import io.github.pylonmc.rebar.content.guide.RebarGuide
 import io.github.pylonmc.rebar.guide.pages.base.SimpleStaticGuidePage
-import net.guizhanss.rebarmobs.RebarMobs
 import net.guizhanss.rebarmobs.utils.RebarMobsKeys
 import org.bukkit.Material
 
-/**
- * Use Pylon's guide pages when available, otherwise use our own pages.
- */
 object RebarMobsPages {
-    private val isPylonEnabled =
-        RebarMobs
-            .instance()
-            .server.pluginManager
-            .isPluginEnabled("Pylon")
-
     val MAIN = SimpleStaticGuidePage(RebarMobsKeys.REBAR_MOBS)
-
-//    val RESOURCES_MAGIC: SimpleStaticGuidePage =
-//        if (isPylonEnabled) PylonPages.MAGIC else SimpleStaticGuidePage(RebarMobsKeys.RESOURCES_MAGIC)
-//    val MULTIBLOCKS: SimpleStaticGuidePage =
-//        if (isPylonEnabled) PylonPages.SIMPLE_MACHINES else SimpleStaticGuidePage(RebarMobsKeys.BLOCKS)
-//    val BLOCKS: SimpleStaticGuidePage =
-//        if (isPylonEnabled) PylonPages.SIMPLE_MACHINES else SimpleStaticGuidePage(RebarMobsKeys.MULTIBLOCKS)
+    val MATERIALS = SimpleStaticGuidePage(RebarMobsKeys.MATERIALS)
+    val BLOCKS = SimpleStaticGuidePage(RebarMobsKeys.BLOCKS)
+    val TOOLS = SimpleStaticGuidePage(RebarMobsKeys.TOOLS)
+    val WEAPONS = SimpleStaticGuidePage(RebarMobsKeys.WEAPONS)
+    val MOB_HEADS = SimpleStaticGuidePage(RebarMobsKeys.MOB_HEADS)
 
     init {
         RebarGuide.rootPage.addPage(Material.CREEPER_HEAD, MAIN)
 
-//        if (!isPylonEnabled) {
-//            MAIN.addPage(Material.ECHO_SHARD, RESOURCES_MAGIC)
-//            MAIN.addPage(Material.BRICKS, MULTIBLOCKS)
-//            MAIN
-//        }
+        MAIN.addPage(Material.ECHO_SHARD, MATERIALS)
+        MAIN.addPage(Material.SPAWNER, BLOCKS)
+        MAIN.addPage(Material.FLINT_AND_STEEL, TOOLS)
+        MAIN.addPage(Material.IRON_SWORD, WEAPONS)
+        MAIN.addPage(Material.PLAYER_HEAD, MOB_HEADS)
     }
 }

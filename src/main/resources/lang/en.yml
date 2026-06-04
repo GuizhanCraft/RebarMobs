@@ -2,7 +2,7 @@ addon: "Rebar Mobs"
 
 item:
   soul_shard:
-    name: "<reset>Soul Shard"
+    name: "Soul Shard"
     lore: |-
       <arrow> A fractured crystal, pulsing with captured essence.
 
@@ -14,15 +14,15 @@ item:
       <arrow> <attr>Souls:</attr> %souls%
     no-mob-type: "<red>Not Bound"
   corrupted_essence:
-    name: "<reset>Corrupted Essence"
+    name: "Corrupted Essence"
   vile_dust:
-    name: "<reset>Vile Dust"
+    name: "Vile Dust"
   corrupted_ingot:
-    name: "<reset>Corrupted Ingot"
+    name: "Corrupted Ingot"
   vile_sword_frame:
-    name: "<reset>Vile Sword Frame"
+    name: "Vile Sword Frame"
   soul_altar:
-    name: "<reset>Soul Altar"
+    name: "Soul Altar"
     lore: |-
       <star> Multiblock
       <arrow> An ancient altar that whispers of transformation.
@@ -34,7 +34,7 @@ item:
       <diamond> 4x <yellow><item:quartz_block/></yellow>
       <diamond> 4x <yellow><item:obsidian/></yellow>
   soul_cage:
-    name: "<reset>Soul Cage"
+    name: "Soul Cage"
     lore: |-
       <arrow> A cage forged from corrupted metal, hungry for souls.
       <arrow> It bends the boundary between life and death.
@@ -45,16 +45,16 @@ item:
       empty: "Soul Cage | <red>Empty"
       filled: "Soul Cage | %mob-type% | Tier %tier%"
   cursed_fire:
-    name: "<reset>Cursed Fire"
+    name: "Cursed Fire"
   quartz_and_steel:
-    name: "<reset>Quartz and Steel"
+    name: "Quartz and Steel"
   vile_sword:
-    name: "<reset>Vile Sword"
+    name: "Vile Sword"
     lore: |-
       <arrow> Gain 1 extra soul when killing
       <arrow> with this sword in main hand.
   mob_head_info:
-    name: "<reset>Killing an entity"
+    name: "Killing an entity"
     lore: |-
       <arrow> Killing an specified entity has chance to drop its head.
       <arrow> Decapitator enchantment can increase chance.
@@ -62,129 +62,129 @@ item:
       <arrow> <attr>Base chance:</attr> %base-chance%
       <arrow> <attr>Decapitator chance:</attr> %decapitator-chance% per level
   mob_head_bat:
-    name: "<reset>Bat Head"
+    name: "Bat Head"
   mob_head_blaze:
-    name: "<reset>Blaze Head"
+    name: "Blaze Head"
   mob_head_cave_spider:
-    name: "<reset>Cave Spider Head"
+    name: "Cave Spider Head"
   mob_head_chicken:
-    name: "<reset>Chicken Head"
+    name: "Chicken Head"
   mob_head_cow:
-    name: "<reset>Cow Head"
+    name: "Cow Head"
   mob_head_dolphin:
-    name: "<reset>Dolphin Head"
+    name: "Dolphin Head"
   mob_head_drowned:
-    name: "<reset>Drowned Head"
+    name: "Drowned Head"
   mob_head_elder_guardian:
-    name: "<reset>Elder Guardian Head"
+    name: "Elder Guardian Head"
   mob_head_enderman:
-    name: "<reset>Enderman Head"
+    name: "Enderman Head"
   mob_head_evoker:
-    name: "<reset>Evoker Head"
+    name: "Evoker Head"
   mob_head_ghast:
-    name: "<reset>Ghast Head"
+    name: "Ghast Head"
   mob_head_guardian:
-    name: "<reset>Guardian Head"
+    name: "Guardian Head"
   mob_head_horse:
-    name: "<reset>Horse Head"
+    name: "Horse Head"
   mob_head_husk:
-    name: "<reset>Husk Head"
+    name: "Husk Head"
   mob_head_illusioner:
-    name: "<reset>Illusioner Head"
+    name: "Illusioner Head"
   mob_head_iron_golem:
-    name: "<reset>Iron Golem Head"
+    name: "Iron Golem Head"
   mob_head_llama:
-    name: "<reset>Llama Head"
+    name: "Llama Head"
   mob_head_magma_cube:
-    name: "<reset>Magma Cube Head"
+    name: "Magma Cube Head"
   mob_head_mooshroom:
-    name: "<reset>Mooshroom Head"
+    name: "Mooshroom Head"
   mob_head_ocelot:
-    name: "<reset>Ocelot Head"
+    name: "Ocelot Head"
   mob_head_parrot:
-    name: "<reset>Parrot Head"
+    name: "Parrot Head"
   mob_head_pig:
-    name: "<reset>Pig Head"
+    name: "Pig Head"
   mob_head_polar_bear:
-    name: "<reset>Polar Bear Head"
+    name: "Polar Bear Head"
   mob_head_rabbit:
-    name: "<reset>Rabbit Head"
+    name: "Rabbit Head"
   mob_head_sheep:
-    name: "<reset>Sheep Head"
+    name: "Sheep Head"
   mob_head_shulker:
-    name: "<reset>Shulker Head"
+    name: "Shulker Head"
   mob_head_slime:
-    name: "<reset>Slime Head"
+    name: "Slime Head"
   mob_head_spider:
-    name: "<reset>Spider Head"
+    name: "Spider Head"
   mob_head_squid:
-    name: "<reset>Squid Head"
+    name: "Squid Head"
   mob_head_stray:
-    name: "<reset>Stray Head"
+    name: "Stray Head"
   mob_head_turtle:
-    name: "<reset>Turtle Head"
+    name: "Turtle Head"
   mob_head_vex:
-    name: "<reset>Vex Head"
+    name: "Vex Head"
   mob_head_villager:
-    name: "<reset>Villager Head"
+    name: "Villager Head"
   mob_head_vindicator:
-    name: "<reset>Vindicator Head"
+    name: "Vindicator Head"
   mob_head_witch:
-    name: "<reset>Witch Head"
+    name: "Witch Head"
   mob_head_wither:
-    name: "<reset>Wither Head"
+    name: "Wither Head"
   mob_head_zombie_villager:
-    name: "<reset>Zombie Villager Head"
+    name: "Zombie Villager Head"
   mob_head_ravager:
-    name: "<reset>Ravager Head"
+    name: "Ravager Head"
   mob_head_pillager:
-    name: "<reset>Pillager Head"
+    name: "Pillager Head"
   mob_head_fox:
-    name: "<reset>Fox Head"
+    name: "Fox Head"
   mob_head_panda:
-    name: "<reset>Panda Head"
+    name: "Panda Head"
   mob_head_wandering_trader:
-    name: "<reset>Wandering Trader Head"
+    name: "Wandering Trader Head"
   mob_head_zombified_piglin:
-    name: "<reset>Zombified Piglin Head"
+    name: "Zombified Piglin Head"
   mob_head_strider:
-    name: "<reset>Strider Head"
+    name: "Strider Head"
   mob_head_axolotl:
-    name: "<reset>Axolotl Head"
+    name: "Axolotl Head"
   mob_head_glow_squid:
-    name: "<reset>Glow Squid Head"
+    name: "Glow Squid Head"
   mob_head_goat:
-    name: "<reset>Goat Head"
+    name: "Goat Head"
   mob_head_allay:
-    name: "<reset>Allay Head"
+    name: "Allay Head"
   mob_head_frog:
-    name: "<reset>Frog Head"
+    name: "Frog Head"
   mob_head_tadpole:
-    name: "<reset>Tadpole Head"
+    name: "Tadpole Head"
   mob_head_camel:
-    name: "<reset>Camel Head"
+    name: "Camel Head"
   mob_head_sniffer:
-    name: "<reset>Sniffer Head"
+    name: "Sniffer Head"
   mob_head_armadillo:
-    name: "<reset>Armadillo Head"
+    name: "Armadillo Head"
   mob_head_bogged:
-    name: "<reset>Bogged Head"
+    name: "Bogged Head"
   mob_head_breeze:
-    name: "<reset>Breeze Head"
+    name: "Breeze Head"
   mob_head_creaking:
-    name: "<reset>Creaking Head"
+    name: "Creaking Head"
   mob_head_happy_ghast:
-    name: "<reset>Happy Ghast Head"
+    name: "Happy Ghast Head"
   mob_head_copper_golem:
-    name: "<reset>Copper Golem Head"
+    name: "Copper Golem Head"
   mob_head_nautilus:
-    name: "<reset>Nautilus Head"
+    name: "Nautilus Head"
   mob_head_zombie_nautilus:
-    name: "<reset>Zombie Nautilus Head"
+    name: "Zombie Nautilus Head"
   mob_head_camel_husk:
-    name: "<reset>Camel Husk Head"
+    name: "Camel Husk Head"
   mob_head_parched:
-    name: "<reset>Parched Head"
+    name: "Parched Head"
 
 enchantment:
   soul_stealer: "Soul Stealer"
@@ -192,9 +192,13 @@ enchantment:
 
 guide:
   page:
-    rebar_mobs: "<reset>Rebar Mobs"
-    resources_magic: "<reset>Magic Resources"
-    blocks: "<reset>Blocks"
+    rebar_mobs: "Rebar Mobs"
+    materials: "Materials"
+    multiblocks: "Multiblocks"
+    blocks: "Blocks"
+    tools: "Tools"
+    weapons: "Weapons"
+    mob_heads: "Mob Heads"
 
 command:
   description: "RebarMobs main command"

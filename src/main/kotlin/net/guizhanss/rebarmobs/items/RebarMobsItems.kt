@@ -38,7 +38,7 @@ object RebarMobsItems : RebarItemRegistry(RebarMobs.instance()) {
             set(DataComponentTypes.MAX_STACK_SIZE, 1)
         }
         postRegister {
-            RebarMobsPages.MAIN.addItem(it)
+            RebarMobsPages.MATERIALS.addItem(it)
         }
     }
 
@@ -46,7 +46,7 @@ object RebarMobsItems : RebarItemRegistry(RebarMobs.instance()) {
         key = RebarMobsKeys.CORRUPTED_ESSENCE
         material = Material.PURPLE_DYE
         postRegister {
-            RebarMobsPages.MAIN.addItem(it)
+            RebarMobsPages.MATERIALS.addItem(it)
         }
     }
 
@@ -54,7 +54,7 @@ object RebarMobsItems : RebarItemRegistry(RebarMobs.instance()) {
         key = RebarMobsKeys.VILE_DUST
         material = Material.GLOWSTONE_DUST
         postRegister {
-            RebarMobsPages.MAIN.addItem(it)
+            RebarMobsPages.MATERIALS.addItem(it)
         }
     }
 
@@ -62,7 +62,7 @@ object RebarMobsItems : RebarItemRegistry(RebarMobs.instance()) {
         key = RebarMobsKeys.CORRUPTED_INGOT
         material = Material.IRON_INGOT
         postRegister {
-            RebarMobsPages.MAIN.addItem(it)
+            RebarMobsPages.MATERIALS.addItem(it)
         }
     }
 
@@ -70,7 +70,7 @@ object RebarMobsItems : RebarItemRegistry(RebarMobs.instance()) {
         key = RebarMobsKeys.VILE_SWORD_FRAME
         material = Material.STICK
         postRegister {
-            RebarMobsPages.MAIN.addItem(it)
+            RebarMobsPages.MATERIALS.addItem(it)
         }
     }
     // </editor-fold>
@@ -80,7 +80,7 @@ object RebarMobsItems : RebarItemRegistry(RebarMobs.instance()) {
         key = RebarMobsKeys.SOUL_ALTAR
         material = Material.GLOWSTONE
         postRegister {
-            RebarMobsPages.MAIN.addItem(it)
+            RebarMobsPages.BLOCKS.addItem(it)
         }
     }
     // </editor-fold>
@@ -95,7 +95,7 @@ object RebarMobsItems : RebarItemRegistry(RebarMobs.instance()) {
             }
         }
         postRegister {
-            RebarMobsPages.MAIN.addItem(it)
+            RebarMobsPages.BLOCKS.addItem(it)
         }
     }
 
@@ -110,7 +110,7 @@ object RebarMobsItems : RebarItemRegistry(RebarMobs.instance()) {
         key = RebarMobsKeys.QUARTZ_AND_STEEL
         material = Material.FLINT_AND_STEEL
         postRegister {
-            RebarMobsPages.MAIN.addItem(it)
+            RebarMobsPages.TOOLS.addItem(it)
         }
     }
     // </editor-fold>
@@ -121,7 +121,7 @@ object RebarMobsItems : RebarItemRegistry(RebarMobs.instance()) {
         material = Material.IRON_SWORD
         hasDurability = true
         postRegister {
-            RebarMobsPages.MAIN.addItem(it)
+            RebarMobsPages.WEAPONS.addItem(it)
         }
     }
     // </editor-fold>
@@ -140,7 +140,7 @@ object RebarMobsItems : RebarItemRegistry(RebarMobs.instance()) {
         RebarItem.register<MobHead.Item>(stack, nsKey)
         RebarBlock.register<MobHead>(nsKey, Material.PLAYER_HEAD)
 
-        RebarMobsPages.MAIN.addItem(stack)
+        RebarMobsPages.MOB_HEADS.addItem(stack)
 
         val recipe = MobHeadDropRecipe(nsKey, entityType, stack)
         MobHeadDropRecipe.RECIPE_TYPE.addRecipe(recipe)

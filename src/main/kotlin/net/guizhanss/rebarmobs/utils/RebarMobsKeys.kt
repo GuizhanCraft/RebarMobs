@@ -14,9 +14,11 @@ fun rmTranslatableKey(path: String) = "${RebarMobs.instance().key.namespace}.$pa
 object RebarMobsKeys {
     // guide pages
     val REBAR_MOBS = rmKey("rebar_mobs")
-    val RESOURCES_MAGIC = rmKey("resources_magic")
-    val MULTIBLOCKS = rmKey("multiblocks")
+    val MATERIALS = rmKey("materials")
     val BLOCKS = rmKey("blocks")
+    val TOOLS = rmKey("tools")
+    val WEAPONS = rmKey("weapons")
+    val MOB_HEADS = rmKey("mob_heads")
 
     // enchantments
     val SOUL_STEALER = rmKey("soul_stealer")
