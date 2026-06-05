@@ -33,6 +33,11 @@ object RebarMobsKeys {
     val SOUL_ALTAR = rmKey("soul_altar") // also recipe key
     val SOUL_CAGE = rmKey("soul_cage")
     val QUARTZ_AND_STEEL = rmKey("quartz_and_steel")
+    val LEATHER_LASSO = rmKey("leather_lasso")
+    val AQUATIC_LASSO = rmKey("aquatic_lasso")
+    val GOLDEN_LASSO = rmKey("golden_lasso")
+    val DIAMOND_LASSO = rmKey("diamond_lasso")
+    val HOSTILE_LASSO = rmKey("hostile_lasso")
     val VILE_SWORD = rmKey("vile_sword")
 
     // recipes

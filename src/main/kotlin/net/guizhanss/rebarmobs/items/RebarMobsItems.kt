@@ -17,6 +17,11 @@ import net.guizhanss.rebarmobs.items.blocks.SoulCage
 import net.guizhanss.rebarmobs.items.multiblocks.SoulAltar
 import net.guizhanss.rebarmobs.items.resources.SoulShard
 import net.guizhanss.rebarmobs.items.tools.QuartzAndSteel
+import net.guizhanss.rebarmobs.items.tools.lassos.AquaticLasso
+import net.guizhanss.rebarmobs.items.tools.lassos.DiamondLasso
+import net.guizhanss.rebarmobs.items.tools.lassos.GoldenLasso
+import net.guizhanss.rebarmobs.items.tools.lassos.HostileLasso
+import net.guizhanss.rebarmobs.items.tools.lassos.LeatherLasso
 import net.guizhanss.rebarmobs.items.weapons.VileSword
 import net.guizhanss.rebarmobs.recipes.MobHeadDropRecipe
 import net.guizhanss.rebarmobs.utils.PlayerHead
@@ -109,6 +114,61 @@ object RebarMobsItems : RebarItemRegistry(RebarMobs.instance()) {
     val QUARTZ_AND_STEEL by item<QuartzAndSteel> {
         key = RebarMobsKeys.QUARTZ_AND_STEEL
         material = Material.FLINT_AND_STEEL
+        postRegister {
+            RebarMobsPages.TOOLS.addItem(it)
+        }
+    }
+
+    val LEATHER_LASSO by item<LeatherLasso> {
+        key = RebarMobsKeys.LEATHER_LASSO
+        material = Material.LEAD
+        builder {
+            set(DataComponentTypes.MAX_STACK_SIZE, 1)
+        }
+        postRegister {
+            RebarMobsPages.TOOLS.addItem(it)
+        }
+    }
+
+    val AQUATIC_LASSO by item<AquaticLasso> {
+        key = RebarMobsKeys.AQUATIC_LASSO
+        material = Material.LEAD
+        builder {
+            set(DataComponentTypes.MAX_STACK_SIZE, 1)
+        }
+        postRegister {
+            RebarMobsPages.TOOLS.addItem(it)
+        }
+    }
+
+    val GOLDEN_LASSO by item<GoldenLasso> {
+        key = RebarMobsKeys.GOLDEN_LASSO
+        material = Material.LEAD
+        builder {
+            set(DataComponentTypes.MAX_STACK_SIZE, 1)
+        }
+        postRegister {
+            RebarMobsPages.TOOLS.addItem(it)
+        }
+    }
+
+    val DIAMOND_LASSO by item<DiamondLasso> {
+        key = RebarMobsKeys.DIAMOND_LASSO
+        material = Material.LEAD
+        builder {
+            set(DataComponentTypes.MAX_STACK_SIZE, 1)
+        }
+        postRegister {
+            RebarMobsPages.TOOLS.addItem(it)
+        }
+    }
+
+    val HOSTILE_LASSO by item<HostileLasso> {
+        key = RebarMobsKeys.HOSTILE_LASSO
+        material = Material.LEAD
+        builder {
+            set(DataComponentTypes.MAX_STACK_SIZE, 1)
+        }
         postRegister {
             RebarMobsPages.TOOLS.addItem(it)
         }

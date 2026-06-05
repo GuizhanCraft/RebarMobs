@@ -20,6 +20,6 @@ object RebarMobsPages {
         MAIN.addPage(Material.SPAWNER, BLOCKS)
         MAIN.addPage(Material.FLINT_AND_STEEL, TOOLS)
         MAIN.addPage(Material.IRON_SWORD, WEAPONS)
-        MAIN.addPage(Material.PLAYER_HEAD, MOB_HEADS)
+        MAIN.addPage(Material.CREEPER_HEAD, MOB_HEADS)
     }
 }

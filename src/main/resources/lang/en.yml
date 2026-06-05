@@ -48,6 +48,49 @@ item:
     name: "Cursed Fire"
   quartz_and_steel:
     name: "Quartz and Steel"
+  mob_lasso:
+    status:
+      empty: "<red>Empty"
+      filled: "<green>Holding %entity-type%"
+    capture:
+      not-empty: "<red>Cannot capture: this lasso is already holding %entity-type%."
+      wrong-type: "<red>This lasso cannot capture %entity-type%."
+      too-strong: "<red>Cannot capture: the target is too strong. Weaken it first."
+      soul-cage-spawned: "<red>Cannot capture mobs spawned by Soul Cage."
+      error: "<red>An error has occurred while capturing."
+    release:
+      not-enough-space: "<red>Not enough space to release the captured mob."
+      error: "<red>An error has occurred while releasing."
+  leather_lasso:
+    name: "Leather Lasso"
+    lore: |-
+      <arrow> A simple lasso for capturing overworld land animals.
+
+      <arrow> <attr>Status:</attr> %status%
+  aquatic_lasso:
+    name: "Aquatic Lasso"
+    lore: |-
+      <arrow> A lasso designed for aquatic and amphibious mobs.
+
+      <arrow> <attr>Status:</attr> %status%
+  golden_lasso:
+    name: "Golden Lasso"
+    lore: |-
+      <arrow> A golden lasso for most passive mobs, villagers, and nether travelers.
+
+      <arrow> <attr>Status:</attr> %status%
+  diamond_lasso:
+    name: "Diamond Lasso"
+    lore: |-
+      <arrow> A reinforced lasso for utility and special mobs.
+
+      <arrow> <attr>Status:</attr> %status%
+  hostile_lasso:
+    name: "Hostile Lasso"
+    lore: |-
+      <arrow> A dangerous lasso for weakened hostile mobs.
+
+      <arrow> <attr>Status:</attr> %status%"
   vile_sword:
     name: "Vile Sword"
     lore: |-
