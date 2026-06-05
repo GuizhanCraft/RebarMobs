@@ -64,7 +64,9 @@ class SoulCage :
             clearSpawner()
         } else {
             if (storedShard != null) return
-            val shard = RebarItem.from<SoulShard>(event.item!!.clone()) ?: return
+            val shardItem = event.item
+            if (shardItem == null || shardItem.type.isAir) return
+            val shard = RebarItem.from<SoulShard>(shardItem.clone()) ?: return
             if (shard.mobType == null) return
 
             val (tier, _) = shard.getTier()
@@ -72,7 +74,7 @@ class SoulCage :
 
             storedShard = shard
             if (event.player.gameMode != GameMode.CREATIVE && event.player.gameMode != GameMode.SPECTATOR) {
-                event.item!!.amount--
+                shardItem.amount--
             }
             configureSpawner()
         }
