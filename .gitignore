@@ -45,3 +45,4 @@ bin/
 ### OMO ###
 .omo/
 !.omo/rules
+.playwright-mcp/

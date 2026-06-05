@@ -5,6 +5,9 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 val pluginVersion = providers.gradleProperty("plugin.version").get()
 val minecraftVersion = providers.gradleProperty("minecraft.version").get()
 val rebarVersion = providers.gradleProperty("rebar.version").get()
+val rebarSnapshot = providers.gradleProperty("rebar.snapshot").get().toBoolean()
+val rebarSnapshotVersion = providers.gradleProperty("rebar.snapshot.version").getOrElse("1.0.0-SNAPSHOT")
+val effectiveRebarVersion = if (rebarSnapshot) rebarSnapshotVersion else rebarVersion
 val pylonVersion = providers.gradleProperty("pylon.version").get()
 
 plugins {
@@ -33,7 +36,7 @@ dependencies {
     compileOnly(kotlin("stdlib")) // loaded through library loader
     compileOnly(kotlin("reflect")) // loaded through library loader
     compileOnlyAndTestImpl("io.papermc.paper:paper-api:$minecraftVersion.build.+")
-    compileOnlyAndTestImpl("io.github.pylonmc:rebar:$rebarVersion")
+    compileOnlyAndTestImpl("io.github.pylonmc:rebar:$effectiveRebarVersion")
 //    compileOnlyAndTestImpl("io.github.pylonmc:pylon:$pylonVersion")
     implementation("org.bstats:bstats-bukkit:3.1.0")
     implementation("net.guizhanss:guizhanlib-all:3.0.0-SNAPSHOT")
