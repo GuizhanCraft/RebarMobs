@@ -1,7 +1,8 @@
-package net.guizhanss.rebarmobs.utils
+package net.guizhanss.rebarmobs.utils.lassos
 
 import org.bukkit.Bukkit
 import org.bukkit.Location
+import org.bukkit.Material
 import org.bukkit.attribute.Attribute
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.LivingEntity
@@ -63,6 +64,8 @@ enum class MobLassoTier {
     },
     AQUATIC {
         override fun capture(entity: LivingEntity): CaptureResult = capture(entity, AQUATIC_ENTITY_TYPES)
+        override fun release(entityType: EntityType, blockMaterial: Material): Boolean = super.release(entityType, blockMaterial) ||
+            (entityType in AQUATIC_ENTITY_TYPES && blockMaterial == Material.WATER)
     },
     GOLDEN {
         override fun capture(entity: LivingEntity): CaptureResult = capture(entity, GOLDEN_ENTITY_TYPES)
@@ -81,7 +84,15 @@ enum class MobLassoTier {
     },
     ;
 
+    /**
+     * Attempt to capture the target [LivingEntity].
+     */
     abstract fun capture(entity: LivingEntity): CaptureResult
+
+    /**
+     * Attempt to release the target [EntityType] in block with [Material].
+     */
+    open fun release(entityType: EntityType, blockMaterial: Material): Boolean = blockMaterial.isAir
 
     companion object {
         private val BLOCKED_ENTITY_TYPES = setOf(

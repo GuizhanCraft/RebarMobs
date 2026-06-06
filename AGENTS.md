@@ -7,7 +7,8 @@ RebarMobs is a Minecraft Paper plugin (addon) built on the Rebar framework with 
 ## Stack
 
 - **Language**: Kotlin (JVM 21+), minimal Java for Paper PluginLoader
-- **Framework**: Paper 1.21+, Rebar addon framework, GuizhanLib-KT DSL extensions
+- **Framework**: Paper, Rebar addon framework, GuizhanLib-KT DSL extensions
+- **Versions**: See `gradle.properties` for all controlled versions (plugin, Minecraft, Rebar, Pylon). Note: Minecraft switched to `YY.major.minor` format in 2026 (e.g. `26.1.2`); the last old-format release was `1.21.11`.
 - **Build**: Gradle with Kotlin DSL, Shadow plugin
 - **Dependencies**: Rebar, Pylon (optional)
 
@@ -56,7 +57,7 @@ var data: Type by persistentItemData(KEY, DATATYPE) { defaultValue }
 
 ### Event Listeners
 
-Place Bukkit Listener in companion object of RebarItem subclass. Framework auto-registers:
+Place Bukkit Listener in the **direct** companion object of the `RebarItem` subclass. The framework only auto-registers the current class's own companion object, not inherited ones from parent classes:
 
 ```kotlin
 class MyItem(item: ItemStack) : RebarItem(item) {

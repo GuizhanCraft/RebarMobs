@@ -59,7 +59,7 @@ item:
       soul-cage-spawned: "<red>Cannot capture mobs spawned by Soul Cage."
       error: "<red>An error has occurred while capturing."
     release:
-      not-enough-space: "<red>Not enough space to release the captured mob."
+      invalid-block-type: "<red>The captured mob cannot be released at that location."
       error: "<red>An error has occurred while releasing."
   leather_lasso:
     name: "Leather Lasso"

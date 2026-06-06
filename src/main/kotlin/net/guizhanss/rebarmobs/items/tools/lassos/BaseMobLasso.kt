@@ -5,21 +5,25 @@ import io.github.pylonmc.rebar.event.api.annotation.MultiHandler
 import io.github.pylonmc.rebar.i18n.RebarArgument
 import io.github.pylonmc.rebar.item.RebarItem
 import io.github.pylonmc.rebar.item.base.RebarBlockInteractor
+import io.github.pylonmc.rebar.item.base.RebarInventoryTicker
 import io.github.pylonmc.rebar.item.base.RebarItemEntityInteractor
 import net.guizhanss.guizhanlib.kt.rebar.utils.delegates.persistentItemData
+import net.guizhanss.rebarmobs.RebarMobs
 import net.guizhanss.rebarmobs.datatypes.persistent.RebarMobsPersistentDataTypes
-import net.guizhanss.rebarmobs.utils.CaptureResult
-import net.guizhanss.rebarmobs.utils.CapturedMobSnapshot
-import net.guizhanss.rebarmobs.utils.MobLassoTier
 import net.guizhanss.rebarmobs.utils.RebarMobsKeys
-import net.guizhanss.rebarmobs.utils.captureEntity
+import net.guizhanss.rebarmobs.utils.lassos.CaptureResult
+import net.guizhanss.rebarmobs.utils.lassos.CapturedMobSnapshot
+import net.guizhanss.rebarmobs.utils.lassos.MobLassoEffects
+import net.guizhanss.rebarmobs.utils.lassos.MobLassoTier
+import net.guizhanss.rebarmobs.utils.lassos.captureEntity
+import net.guizhanss.rebarmobs.utils.lassos.releaseEntity
 import net.guizhanss.rebarmobs.utils.refreshLore
-import net.guizhanss.rebarmobs.utils.releaseEntity
 import net.guizhanss.rebarmobs.utils.rmKey
 import net.guizhanss.rebarmobs.utils.rmTranslatableKey
 import net.kyori.adventure.text.Component
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.LivingEntity
+import org.bukkit.entity.Player
 import org.bukkit.event.Event
 import org.bukkit.event.EventPriority
 import org.bukkit.event.block.Action
@@ -33,14 +37,15 @@ abstract class BaseMobLasso(
     private val tier: MobLassoTier,
 ) : RebarItem(item),
     RebarBlockInteractor,
-    RebarItemEntityInteractor {
+    RebarItemEntityInteractor,
+    RebarInventoryTicker {
 
-    private var capturedType: EntityType? by persistentItemData(
+    var capturedType: EntityType? by persistentItemData(
         CAPTURED_TYPE_KEY,
         RebarMobsPersistentDataTypes.ENTITY_TYPE,
         null,
     )
-    private var capturedSnapshot: String? by persistentItemData(
+    var capturedSnapshot: String? by persistentItemData(
         CAPTURED_SNAPSHOT_KEY,
         RebarSerializers.STRING,
         null,
@@ -78,16 +83,20 @@ abstract class BaseMobLasso(
         val snapshotString = lasso.capturedSnapshot ?: return
         val clickedBlock = event.clickedBlock ?: return
         val spawnBlock = clickedBlock.getRelative(event.blockFace)
-        if (!spawnBlock.type.isAir) {
-            player.sendMessage(Component.translatable(lassoTranslatableKey("release.not-enough-space")))
+        if (!lasso.tier.release(type, spawnBlock.type)) {
+            player.sendMessage(Component.translatable(lassoTranslatableKey("release.invalid-block-type")))
+            MobLassoEffects.releaseFailureInvalidBlockType(player, spawnBlock.location)
             return
         }
 
         val location = spawnBlock.location.toCenterLocation()
         val spawned = releaseEntity(CapturedMobSnapshot(type, snapshotString), location) ?: run {
             player.sendMessage(Component.translatable(lassoTranslatableKey("release.error")))
+            MobLassoEffects.releaseError(player, location)
             return
         }
+
+        MobLassoEffects.releaseSuccess(player, spawned)
 
         lasso.capturedType = null
         lasso.capturedSnapshot = null
@@ -114,6 +123,7 @@ abstract class BaseMobLasso(
                     RebarArgument.of("entity-type", Component.translatable(capturedType.translationKey())),
                 ),
             )
+            MobLassoEffects.captureFailureFull(player)
             return
         }
 
@@ -121,6 +131,7 @@ abstract class BaseMobLasso(
 
         if (target.persistentDataContainer.has(RebarMobsKeys.SOUL_CAGE_SPAWNED)) {
             player.sendMessage(Component.translatable(lassoTranslatableKey("capture.soul-cage-spawned")))
+            MobLassoEffects.captureFailureSoulCage(player, target)
             return
         }
 
@@ -134,10 +145,12 @@ abstract class BaseMobLasso(
                             RebarArgument.of("entity-type", Component.translatable(target.type.translationKey())),
                         ),
                     )
+                    MobLassoEffects.captureFailureWrongType(player, target)
                 }
 
                 CaptureResult.HOSTILE_TOO_STRONG -> {
                     player.sendMessage(Component.translatable(lassoTranslatableKey("capture.too-strong")))
+                    MobLassoEffects.captureFailureTooStrong(player, target)
                 }
             }
             return
@@ -145,13 +158,27 @@ abstract class BaseMobLasso(
 
         val snapshot = captureEntity(target) ?: run {
             player.sendMessage(Component.translatable(lassoTranslatableKey("capture.error")))
+            MobLassoEffects.captureError(player, target)
             return
         }
+
+        MobLassoEffects.captureSuccess(player, target)
 
         lasso.capturedType = snapshot.entityType
         lasso.capturedSnapshot = snapshot.snapshotString
         lasso.refreshLore(player.locale())
         target.remove()
+    }
+
+    override val baseTickInterval: Long
+        get() = RebarMobs.configs.mobLassoAmbientInterval.value.toLong()
+
+    override fun onTick(player: Player) {
+        if (!RebarMobs.configs.mobLassoAmbientEnabled.value) return
+        val type = capturedType ?: return
+        val mainHand = player.inventory.itemInMainHand
+        if (!mainHand.isSimilar(stack)) return
+        MobLassoEffects.playAmbientSound(player, type)
     }
 
     companion object {

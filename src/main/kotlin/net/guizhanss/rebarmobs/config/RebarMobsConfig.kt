@@ -13,6 +13,8 @@ class RebarMobsConfig(
     lateinit var autoUpdateIntervalDays: ConfigField<Int>
     lateinit var autoUpdateDownload: ConfigField<Boolean>
     lateinit var mobHeadsConfig: ConfigField<MobHeadsConfig>
+    lateinit var mobLassoAmbientEnabled: ConfigField<Boolean>
+    lateinit var mobLassoAmbientInterval: ConfigField<Int>
 
     private val config =
         yamlConfig(plugin, "config.yml") {
@@ -22,6 +24,8 @@ class RebarMobsConfig(
             mobHeadsConfig = custom {
                 it.getConfigurationSection("mob-heads").loadMobHeadsConfig()
             }
+            mobLassoAmbientEnabled = boolean("mob-lasso.ambient.enabled", true)
+            mobLassoAmbientInterval = int("mob-lasso.ambient.interval", 60)
         }
 
     init {
