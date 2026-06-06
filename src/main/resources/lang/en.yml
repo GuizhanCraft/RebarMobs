@@ -90,7 +90,7 @@ item:
     lore: |-
       <arrow> A dangerous lasso for weakened hostile mobs.
 
-      <arrow> <attr>Status:</attr> %status%"
+      <arrow> <attr>Status:</attr> %status%
   vile_sword:
     name: "Vile Sword"
     lore: |-
