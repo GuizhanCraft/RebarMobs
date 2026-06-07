@@ -11,6 +11,7 @@ import net.guizhanss.guizhanlib.kt.rebar.items.register.blockOnly
 import net.guizhanss.guizhanlib.kt.rebar.items.register.item
 import net.guizhanss.guizhanlib.kt.rebar.items.register.weapon
 import net.guizhanss.rebarmobs.RebarMobs
+import net.guizhanss.rebarmobs.guide.MobLassoItemButton
 import net.guizhanss.rebarmobs.guide.RebarMobsPages
 import net.guizhanss.rebarmobs.items.blocks.CursedFire
 import net.guizhanss.rebarmobs.items.blocks.MobHead
@@ -28,6 +29,7 @@ import net.guizhanss.rebarmobs.recipes.MobHeadDropRecipe
 import net.guizhanss.rebarmobs.utils.PlayerHead
 import net.guizhanss.rebarmobs.utils.RebarMobsKeys
 import net.guizhanss.rebarmobs.utils.rmKey
+import net.guizhanss.rebarmobs.utils.tags.RebarMobsTag
 import org.bukkit.Material
 import org.bukkit.entity.EntityType
 import org.bukkit.inventory.ItemFlag
@@ -127,7 +129,13 @@ object RebarMobsItems : RebarItemRegistry(RebarMobs.instance()) {
             set(DataComponentTypes.MAX_STACK_SIZE, 1)
         }
         postRegister {
-            RebarMobsPages.TOOLS.addItem(it)
+            RebarMobsPages.TOOLS.addButton(
+                MobLassoItemButton(
+                    listOf(it),
+                    RebarMobsKeys.AQUA_LASSO_MOBS,
+                    RebarMobsTag.AQUA_LASSO_ALLOWED,
+                ),
+            )
         }
     }
 
@@ -138,7 +146,13 @@ object RebarMobsItems : RebarItemRegistry(RebarMobs.instance()) {
             set(DataComponentTypes.MAX_STACK_SIZE, 1)
         }
         postRegister {
-            RebarMobsPages.TOOLS.addItem(it)
+            RebarMobsPages.TOOLS.addButton(
+                MobLassoItemButton(
+                    listOf(it),
+                    RebarMobsKeys.GOLDEN_LASSO_MOBS,
+                    RebarMobsTag.GOLDEN_LASSO_ALLOWED,
+                ),
+            )
         }
     }
 
@@ -149,7 +163,13 @@ object RebarMobsItems : RebarItemRegistry(RebarMobs.instance()) {
             set(DataComponentTypes.MAX_STACK_SIZE, 1)
         }
         postRegister {
-            RebarMobsPages.TOOLS.addItem(it)
+            RebarMobsPages.TOOLS.addButton(
+                MobLassoItemButton(
+                    listOf(it),
+                    RebarMobsKeys.DIAMOND_LASSO_MOBS,
+                    RebarMobsTag.DIAMOND_LASSO_ALLOWED,
+                ),
+            )
         }
     }
 
@@ -160,7 +180,13 @@ object RebarMobsItems : RebarItemRegistry(RebarMobs.instance()) {
             set(DataComponentTypes.MAX_STACK_SIZE, 1)
         }
         postRegister {
-            RebarMobsPages.TOOLS.addItem(it)
+            RebarMobsPages.TOOLS.addButton(
+                MobLassoItemButton(
+                    listOf(it),
+                    RebarMobsKeys.HOSTILE_LASSO_MOBS,
+                    RebarMobsTag.HOSTILE_LASSO_ALLOWED,
+                ),
+            )
         }
     }
     // </editor-fold>
@@ -274,7 +300,14 @@ object RebarMobsItems : RebarItemRegistry(RebarMobs.instance()) {
         }
         postRegister {
             RebarGuide.hideItemUnlessAdmin(RebarMobsKeys.CREATIVE_LASSO)
-            RebarMobsPages.ADMIN_ITEMS.addItem(it)
+            RebarMobsPages.ADMIN_ITEMS.addButton(
+                MobLassoItemButton(
+                    listOf(it),
+                    RebarMobsKeys.CREATIVE_LASSO_MOBS,
+                    RebarMobsTag.CREATIVE_LASSO_BLOCKED,
+                    inverted = true,
+                ),
+            )
         }
     }
     // </editor-fold>

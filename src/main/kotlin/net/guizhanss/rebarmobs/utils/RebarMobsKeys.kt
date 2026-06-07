@@ -20,6 +20,11 @@ object RebarMobsKeys {
     val WEAPONS = rmKey("weapons")
     val MOB_HEADS = rmKey("mob_heads")
     val ADMIN_ITEMS = rmKey("admin_items")
+    val GOLDEN_LASSO_MOBS = rmKey("golden_lasso_mobs")
+    val AQUA_LASSO_MOBS = rmKey("aqua_lasso_mobs")
+    val DIAMOND_LASSO_MOBS = rmKey("diamond_lasso_mobs")
+    val HOSTILE_LASSO_MOBS = rmKey("hostile_lasso_mobs")
+    val CREATIVE_LASSO_MOBS = rmKey("creative_lasso_mobs")
 
     // enchantments
     val SOUL_STEALER = rmKey("soul_stealer")

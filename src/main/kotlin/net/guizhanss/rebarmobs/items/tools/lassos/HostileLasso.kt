@@ -1,6 +1,5 @@
 package net.guizhanss.rebarmobs.items.tools.lassos
 
-import io.github.pylonmc.rebar.config.RebarConfig
 import io.github.pylonmc.rebar.config.Settings
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter
 import io.github.pylonmc.rebar.datatypes.RebarSerializers
