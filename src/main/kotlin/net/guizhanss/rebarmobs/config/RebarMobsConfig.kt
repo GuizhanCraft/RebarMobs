@@ -15,6 +15,7 @@ class RebarMobsConfig(
     lateinit var mobHeadsConfig: ConfigField<MobHeadsConfig>
     lateinit var mobLassoAmbientEnabled: ConfigField<Boolean>
     lateinit var mobLassoAmbientInterval: ConfigField<Int>
+    lateinit var mobLassoRenameEnabled: ConfigField<Boolean>
 
     private val config =
         yamlConfig(plugin, "config.yml") {
@@ -26,6 +27,7 @@ class RebarMobsConfig(
             }
             mobLassoAmbientEnabled = boolean("mob-lasso.ambient.enabled", true)
             mobLassoAmbientInterval = int("mob-lasso.ambient.interval", 60)
+            mobLassoRenameEnabled = boolean("mob-lasso.rename.enabled", false)
         }
 
     init {

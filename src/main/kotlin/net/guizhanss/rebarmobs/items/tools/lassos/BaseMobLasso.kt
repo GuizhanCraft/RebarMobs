@@ -8,6 +8,7 @@ import io.github.pylonmc.rebar.item.RebarItem
 import io.github.pylonmc.rebar.item.base.RebarBlockInteractor
 import io.github.pylonmc.rebar.item.base.RebarInventoryTicker
 import io.github.pylonmc.rebar.item.base.RebarItemEntityInteractor
+import io.papermc.paper.datacomponent.DataComponentTypes
 import net.guizhanss.guizhanlib.kt.rebar.utils.delegates.persistentItemData
 import net.guizhanss.rebarmobs.RebarMobs
 import net.guizhanss.rebarmobs.datatypes.persistent.RebarMobsPersistentDataTypes
@@ -132,12 +133,13 @@ abstract class BaseMobLasso(
             return
         }
 
-        onRelease()
-        tryCatch("An error occurred while playing release effects") {
-            MobLassoEffects.releaseSuccess(player, spawned)
-        }
-        refreshLore(player.locale())
         event.isCancelled = true
+        if (RebarMobs.configs.mobLassoRenameEnabled.value) {
+            applyCustomName(spawned)
+        }
+        onRelease()
+        refreshLore(player.locale())
+        MobLassoEffects.releaseSuccess(player, spawned)
     }
 
     protected open fun onRelease() {
@@ -145,6 +147,10 @@ abstract class BaseMobLasso(
         capturedSnapshot = null
         capturedAt = null
         lastAmbientAt = null
+    }
+
+    private fun applyCustomName(entity: LivingEntity) {
+        stack.getData(DataComponentTypes.CUSTOM_NAME)?.let { entity.customName(it) }
     }
     // release end
 
@@ -234,11 +240,12 @@ abstract class BaseMobLasso(
         val snapshot = CapturedMobSnapshot(type, capturedSnapshot)
         val releasedEntity = releaseEntity(snapshot, player.location.toCenterLocation()) ?: return
 
-        onRelease()
-        tryCatch("An error occurred while playing release effects") {
-            MobLassoEffects.releaseSuccess(player, releasedEntity)
+        if (RebarMobs.configs.mobLassoRenameEnabled.value) {
+            applyCustomName(releasedEntity)
         }
+        onRelease()
         refreshLore(player.locale())
+        MobLassoEffects.releaseSuccess(player, releasedEntity)
     }
 
     private fun handleTickAmbient(player: Player) {
