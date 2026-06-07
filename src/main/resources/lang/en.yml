@@ -93,7 +93,7 @@ item:
       <arrow> <attr>Status:</attr> %status%
       <arrow> <attr>Escape after:</attr> %escape-after%
   creative_lasso:
-    name: "<red>Creative Lasso"
+    name: "<#ff00ff>Creative Lasso"
     lore: |-
       <arrow> A lasso for almost every mob.
 
@@ -250,7 +250,7 @@ guide:
     tools: "Tools"
     weapons: "Weapons"
     mob_heads: "Mob Heads"
-    admin_items: "Admin Items"
+    admin_items: "<light_purple>Admin Items"
 
 command:
   description: "RebarMobs main command"

@@ -44,7 +44,7 @@ mob-lasso:
     # So, by default, players will hear ambient every 60*10 Minecraft ticks, which is 30 seconds.
     interval: 60
 
-  # When enabled, renaming a lasso with an anvil will set the released mob's custom name.
+  # When enabled, renaming a lasso will set the released mob's custom name.
   # If the lasso is not renamed, the mob's original custom name (if any) will be restored.
   rename:
     enabled: false
