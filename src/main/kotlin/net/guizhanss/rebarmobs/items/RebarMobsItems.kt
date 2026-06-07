@@ -1,6 +1,7 @@
 package net.guizhanss.rebarmobs.items
 
 import io.github.pylonmc.rebar.block.RebarBlock
+import io.github.pylonmc.rebar.content.guide.RebarGuide
 import io.github.pylonmc.rebar.item.RebarItem
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder
 import io.papermc.paper.datacomponent.DataComponentTypes
@@ -17,11 +18,11 @@ import net.guizhanss.rebarmobs.items.blocks.SoulCage
 import net.guizhanss.rebarmobs.items.multiblocks.SoulAltar
 import net.guizhanss.rebarmobs.items.resources.SoulShard
 import net.guizhanss.rebarmobs.items.tools.QuartzAndSteel
-import net.guizhanss.rebarmobs.items.tools.lassos.AquaticLasso
+import net.guizhanss.rebarmobs.items.tools.lassos.AquaLasso
+import net.guizhanss.rebarmobs.items.tools.lassos.CreativeLasso
 import net.guizhanss.rebarmobs.items.tools.lassos.DiamondLasso
 import net.guizhanss.rebarmobs.items.tools.lassos.GoldenLasso
 import net.guizhanss.rebarmobs.items.tools.lassos.HostileLasso
-import net.guizhanss.rebarmobs.items.tools.lassos.LeatherLasso
 import net.guizhanss.rebarmobs.items.weapons.VileSword
 import net.guizhanss.rebarmobs.recipes.MobHeadDropRecipe
 import net.guizhanss.rebarmobs.utils.PlayerHead
@@ -119,19 +120,8 @@ object RebarMobsItems : RebarItemRegistry(RebarMobs.instance()) {
         }
     }
 
-    val LEATHER_LASSO by item<LeatherLasso> {
-        key = RebarMobsKeys.LEATHER_LASSO
-        material = Material.LEAD
-        builder {
-            set(DataComponentTypes.MAX_STACK_SIZE, 1)
-        }
-        postRegister {
-            RebarMobsPages.TOOLS.addItem(it)
-        }
-    }
-
-    val AQUATIC_LASSO by item<AquaticLasso> {
-        key = RebarMobsKeys.AQUATIC_LASSO
+    val AQUA_LASSO by item<AquaLasso> {
+        key = RebarMobsKeys.AQUA_LASSO
         material = Material.LEAD
         builder {
             set(DataComponentTypes.MAX_STACK_SIZE, 1)
@@ -272,6 +262,20 @@ object RebarMobsItems : RebarItemRegistry(RebarMobs.instance()) {
         registerMobHead(EntityType.HAPPY_GHAST, PlayerHead.ENTITY_HAPPY_GHAST)
         registerMobHead(EntityType.COPPER_GOLEM, PlayerHead.ENTITY_COPPER_GOLEM)
         registerMobHead(EntityType.NAUTILUS, PlayerHead.ENTITY_NAUTILUS)
+    }
+    // </editor-fold>
+
+    // <editor-fold desc="Admin Items" defaultstate="collapsed"
+    val CREATIVE_LASSO by item<CreativeLasso> {
+        key = RebarMobsKeys.CREATIVE_LASSO
+        material = Material.LEAD
+        builder {
+            set(DataComponentTypes.MAX_STACK_SIZE, 1)
+        }
+        postRegister {
+            RebarGuide.hideItemUnlessAdmin(RebarMobsKeys.CREATIVE_LASSO)
+            RebarMobsPages.ADMIN_ITEMS.addItem(it)
+        }
     }
     // </editor-fold>
 }

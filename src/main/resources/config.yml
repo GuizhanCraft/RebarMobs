@@ -34,10 +34,8 @@ mob-heads:
       base-chance: 0.01
       decapitator-chance: 0.02
 
-# Mob Lasso config
+# Shared Mob Lasso config
 mob-lasso:
-
-
   # Ambient is triggered when player holds a mob lasso in their main hand and the lasso is holding a mob.
   ambient:
     enabled: true

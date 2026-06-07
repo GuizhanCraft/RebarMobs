@@ -19,6 +19,7 @@ object RebarMobsKeys {
     val TOOLS = rmKey("tools")
     val WEAPONS = rmKey("weapons")
     val MOB_HEADS = rmKey("mob_heads")
+    val ADMIN_ITEMS = rmKey("admin_items")
 
     // enchantments
     val SOUL_STEALER = rmKey("soul_stealer")
@@ -33,11 +34,11 @@ object RebarMobsKeys {
     val SOUL_ALTAR = rmKey("soul_altar") // also recipe key
     val SOUL_CAGE = rmKey("soul_cage")
     val QUARTZ_AND_STEEL = rmKey("quartz_and_steel")
-    val LEATHER_LASSO = rmKey("leather_lasso")
-    val AQUATIC_LASSO = rmKey("aquatic_lasso")
+    val AQUA_LASSO = rmKey("aqua_lasso")
     val GOLDEN_LASSO = rmKey("golden_lasso")
     val DIAMOND_LASSO = rmKey("diamond_lasso")
     val HOSTILE_LASSO = rmKey("hostile_lasso")
+    val CREATIVE_LASSO = rmKey("creative_lasso")
     val VILE_SWORD = rmKey("vile_sword")
 
     // recipes

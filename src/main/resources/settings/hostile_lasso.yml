@@ -1,0 +1,8 @@
+holding-duration: 360
+
+health-threshold: 0.5
+
+carrying-damage:
+  enabled: true
+  interval: 10
+  amount: 1.0

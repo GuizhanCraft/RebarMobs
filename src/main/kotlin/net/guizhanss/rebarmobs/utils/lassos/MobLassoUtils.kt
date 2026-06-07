@@ -2,19 +2,17 @@ package net.guizhanss.rebarmobs.utils.lassos
 
 import org.bukkit.Bukkit
 import org.bukkit.Location
-import org.bukkit.Material
-import org.bukkit.attribute.Attribute
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.LivingEntity
 
-data class CapturedMobSnapshot(val entityType: EntityType, val snapshotString: String)
+data class CapturedMobSnapshot(val entityType: EntityType, val snapshot: String?)
 
 /**
  * Create a [CapturedMobSnapshot] from the given entity.
  */
 @Suppress("UnstableApiUsage")
 fun captureEntity(entity: LivingEntity): CapturedMobSnapshot? = runCatching {
-    val snapshot = entity.createSnapshot() ?: return null
+    val snapshot = entity.createSnapshot() ?: return CapturedMobSnapshot(entity.type, null)
     val snapshotString = snapshot.getAsString()
     Bukkit.getEntityFactory().createEntitySnapshot(snapshotString) // validate the created string
     CapturedMobSnapshot(entity.type, snapshotString)
@@ -28,8 +26,13 @@ fun releaseEntity(
     snapshot: CapturedMobSnapshot,
     location: Location,
 ): LivingEntity? = runCatching {
-    val entitySnapshot = Bukkit.getEntityFactory().createEntitySnapshot(snapshot.snapshotString)
-    val entity = entitySnapshot.createEntity(location)
+    val entity = if (snapshot.snapshot == null) {
+        location.world.spawnEntity(location, snapshot.entityType)
+    } else {
+        val entitySnapshot = Bukkit.getEntityFactory().createEntitySnapshot(snapshot.snapshot)
+        entitySnapshot.createEntity(location)
+    }
+
     if (entity is LivingEntity && entity.isValid && entity.type == snapshot.entityType) {
         entity
     } else {
@@ -45,7 +48,7 @@ enum class CaptureResult {
     OK,
 
     /**
-     * Low tier or blocked type.
+     * Unsupported entity type.
      */
     WRONG_ENTITY_TYPE,
 

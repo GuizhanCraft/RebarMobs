@@ -1,5 +1,6 @@
 package net.guizhanss.rebarmobs.items.tools.lassos
 
+import io.github.pylonmc.rebar.config.RebarConfig
 import io.github.pylonmc.rebar.datatypes.RebarSerializers
 import io.github.pylonmc.rebar.event.api.annotation.MultiHandler
 import io.github.pylonmc.rebar.i18n.RebarArgument
@@ -14,13 +15,15 @@ import net.guizhanss.rebarmobs.utils.RebarMobsKeys
 import net.guizhanss.rebarmobs.utils.lassos.CaptureResult
 import net.guizhanss.rebarmobs.utils.lassos.CapturedMobSnapshot
 import net.guizhanss.rebarmobs.utils.lassos.MobLassoEffects
-import net.guizhanss.rebarmobs.utils.lassos.MobLassoTier
 import net.guizhanss.rebarmobs.utils.lassos.captureEntity
 import net.guizhanss.rebarmobs.utils.lassos.releaseEntity
 import net.guizhanss.rebarmobs.utils.refreshLore
 import net.guizhanss.rebarmobs.utils.rmKey
 import net.guizhanss.rebarmobs.utils.rmTranslatableKey
+import net.guizhanss.rebarmobs.utils.tryCatch
 import net.kyori.adventure.text.Component
+import org.bukkit.Material
+import org.bukkit.Tag
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
@@ -29,12 +32,10 @@ import org.bukkit.event.EventPriority
 import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEntityEvent
 import org.bukkit.event.player.PlayerInteractEvent
-import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
 
 abstract class BaseMobLasso(
     item: ItemStack,
-    private val tier: MobLassoTier,
 ) : RebarItem(item),
     RebarBlockInteractor,
     RebarItemEntityInteractor,
@@ -50,6 +51,21 @@ abstract class BaseMobLasso(
         RebarSerializers.STRING,
         null,
     )
+    var capturedAt: Long? by persistentItemData(
+        CAPTURED_AT_KEY,
+        RebarSerializers.LONG,
+        null,
+    )
+    var lastAmbientAt: Long? by persistentItemData(
+        LAST_AMBIENT_AT_KEY,
+        RebarSerializers.LONG,
+        null,
+    )
+
+    /**
+     * The Rebar inventory ticks of how long the captured mobs will be automatically released.
+     */
+    abstract val holdingDuration: Int
 
     override fun getPlaceholders(): List<RebarArgument> {
         val type = capturedType
@@ -65,62 +81,92 @@ abstract class BaseMobLasso(
                     Component.translatable(lassoTranslatableKey("status.empty"))
                 },
             ),
+            RebarArgument.of(
+                "escape-after",
+                if (holdingDuration <= 0) {
+                    Component.translatable(lassoTranslatableKey("escape-after.never"))
+                } else {
+                    Component.translatable(
+                        lassoTranslatableKey("escape-after.ticks"),
+                        RebarArgument.of("ticks", Component.text(holdingDuration)),
+                        RebarArgument.of(
+                            "seconds",
+                            Component.text(holdingDuration * RebarConfig.INVENTORY_TICKER_BASE_RATE / 20),
+                        ),
+                    )
+                },
+            ),
         )
     }
 
+    // release start
+    protected open fun canReleaseAt(
+        entityType: EntityType,
+        blockMaterial: Material,
+    ): Boolean = blockMaterial.isAir
+
+    /**
+     * Release handler.
+     */
     @MultiHandler([EventPriority.HIGHEST])
     override fun onUsedToClickBlock(
         event: PlayerInteractEvent,
         priority: EventPriority,
     ) {
-        if (event.hand != EquipmentSlot.HAND) return
         if (event.action != Action.RIGHT_CLICK_BLOCK || event.useItemInHand() == Event.Result.DENY) return
-        val player = event.player
-        val item = player.inventory.itemInMainHand
-        val lasso = RebarItem.from<BaseMobLasso>(item) ?: return
 
-        val type = lasso.capturedType ?: return
-        val snapshotString = lasso.capturedSnapshot ?: return
+        val type = capturedType ?: return
         val clickedBlock = event.clickedBlock ?: return
+        val player = event.player
         val spawnBlock = clickedBlock.getRelative(event.blockFace)
-        if (!lasso.tier.release(type, spawnBlock.type)) {
+        if (!canReleaseAt(type, spawnBlock.type)) {
             player.sendMessage(Component.translatable(lassoTranslatableKey("release.invalid-block-type")))
             MobLassoEffects.releaseFailureInvalidBlockType(player, spawnBlock.location)
             return
         }
 
         val location = spawnBlock.location.toCenterLocation()
-        val spawned = releaseEntity(CapturedMobSnapshot(type, snapshotString), location) ?: run {
+        val spawned = releaseEntity(CapturedMobSnapshot(type, capturedSnapshot), location) ?: run {
             player.sendMessage(Component.translatable(lassoTranslatableKey("release.error")))
             MobLassoEffects.releaseError(player, location)
             return
         }
 
-        MobLassoEffects.releaseSuccess(player, spawned)
-
-        lasso.capturedType = null
-        lasso.capturedSnapshot = null
-        lasso.refreshLore(player.locale())
+        onRelease()
+        tryCatch("An error occurred while playing release effects") {
+            MobLassoEffects.releaseSuccess(player, spawned)
+        }
+        refreshLore(player.locale())
         event.isCancelled = true
     }
 
+    protected open fun onRelease() {
+        capturedType = null
+        capturedSnapshot = null
+        capturedAt = null
+        lastAmbientAt = null
+    }
+    // release end
+
+    // capture start
+    abstract fun capture(entity: LivingEntity): CaptureResult
+
+    /**
+     * Capture handler.
+     */
     @MultiHandler([EventPriority.HIGHEST])
     override fun onUsedToRightClickEntity(
         event: PlayerInteractEntityEvent,
         priority: EventPriority,
     ) {
-        if (event.hand != EquipmentSlot.HAND) return
-        val player = event.player
-        val item = player.inventory.itemInMainHand
-        val lasso = RebarItem.from<BaseMobLasso>(item) ?: return
         event.isCancelled = true
+        val player = event.player
 
-        val capturedType = lasso.capturedType
         if (capturedType != null) {
             player.sendMessage(
                 Component.translatable(
                     lassoTranslatableKey("capture.not-empty"),
-                    RebarArgument.of("entity-type", Component.translatable(capturedType.translationKey())),
+                    RebarArgument.of("entity-type", Component.translatable(capturedType!!.translationKey())),
                 ),
             )
             MobLassoEffects.captureFailureFull(player)
@@ -135,7 +181,7 @@ abstract class BaseMobLasso(
             return
         }
 
-        val result = lasso.tier.capture(target)
+        val result = capture(target)
         if (result != CaptureResult.OK) {
             when (result) {
                 CaptureResult.WRONG_ENTITY_TYPE -> {
@@ -164,26 +210,79 @@ abstract class BaseMobLasso(
 
         MobLassoEffects.captureSuccess(player, target)
 
-        lasso.capturedType = snapshot.entityType
-        lasso.capturedSnapshot = snapshot.snapshotString
-        lasso.refreshLore(player.locale())
+        capturedType = snapshot.entityType
+        capturedSnapshot = snapshot.snapshot
+        capturedAt = System.currentTimeMillis()
+        refreshLore(player.locale())
         target.remove()
     }
+    // capture end
 
-    override val baseTickInterval: Long
-        get() = RebarMobs.configs.mobLassoAmbientInterval.value.toLong()
+    override val baseTickInterval = 1L
 
     override fun onTick(player: Player) {
+        tryCatch("An error occurred while ticking lasso carrying") { handleTickCarrying(player) }
+        tryCatch("An error occurred while ticking lasso ambient") { handleTickAmbient(player) }
+    }
+
+    private fun handleTickCarrying(player: Player) {
+        val type = capturedType ?: return
+
+        if (holdingDuration <= 0) return
+        if (!isIntervalElapsed(capturedAt, holdingDuration)) return
+
+        val snapshot = CapturedMobSnapshot(type, capturedSnapshot)
+        val releasedEntity = releaseEntity(snapshot, player.location.toCenterLocation()) ?: return
+
+        onRelease()
+        tryCatch("An error occurred while playing release effects") {
+            MobLassoEffects.releaseSuccess(player, releasedEntity)
+        }
+        refreshLore(player.locale())
+    }
+
+    private fun handleTickAmbient(player: Player) {
         if (!RebarMobs.configs.mobLassoAmbientEnabled.value) return
         val type = capturedType ?: return
+
         val mainHand = player.inventory.itemInMainHand
-        if (!mainHand.isSimilar(stack)) return
+        val mainHandLasso = RebarItem.from<BaseMobLasso>(mainHand) ?: return
+        if (!mainHandLasso.stack.isSimilar(this.stack)) return
+
+        if (!isIntervalElapsed(lastAmbientAt, RebarMobs.configs.mobLassoAmbientInterval.value)) return
+        lastAmbientAt = System.currentTimeMillis()
+
         MobLassoEffects.playAmbientSound(player, type)
     }
 
     companion object {
         val CAPTURED_TYPE_KEY = rmKey("lasso_captured_type")
         val CAPTURED_SNAPSHOT_KEY = rmKey("lasso_captured_snapshot")
+        val CAPTURED_AT_KEY = rmKey("lasso_captured_at")
+        val LAST_AMBIENT_AT_KEY = rmKey("lasso_last_ambient_at")
+
+        val BLOCKED_ENTITY_TYPES = setOf(
+            EntityType.UNKNOWN,
+            EntityType.PLAYER,
+            EntityType.ARMOR_STAND,
+        )
+
+        @JvmSynthetic
+        internal fun captureByTag(entity: LivingEntity, tag: Tag<EntityType>): CaptureResult {
+            if (!isEntityTypeAllowed(entity.type, tag)) {
+                return CaptureResult.WRONG_ENTITY_TYPE
+            }
+            return CaptureResult.OK
+        }
+
+        fun isEntityTypeAllowed(type: EntityType, tag: Tag<EntityType>) = type !in BLOCKED_ENTITY_TYPES && tag.isTagged(type)
+
+        @JvmSynthetic
+        internal fun isIntervalElapsed(lastTimestamp: Long?, intervalTicks: Int): Boolean {
+            val last = lastTimestamp ?: 0L
+            val intervalMs = intervalTicks.toLong() * RebarConfig.INVENTORY_TICKER_BASE_RATE * 50L
+            return System.currentTimeMillis() - last >= intervalMs
+        }
 
         private fun lassoTranslatableKey(path: String) = rmTranslatableKey("item.mob_lasso.$path")
     }

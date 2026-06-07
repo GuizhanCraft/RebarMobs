@@ -14,3 +14,4 @@ Addon ideas are from the following:
 
 - [Soul Shards Despawn mod](https://modrinth.com/mod/soul-shards-despawn) under MIT license
 - [ExtraHeads Slimefun addon](https://github.com/Slimefun-Addon-Community/ExtraHeads) under MIT license
+- [Mob Lassos mod](https://github.com/Fuzss/mob-lassos) under MPL-2.0 license

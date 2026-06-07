@@ -1,0 +1,17 @@
+{
+	"replace": false,
+	"values": [
+		"#minecraft:aquatic",
+		"minecraft:dolphin",
+		"minecraft:squid",
+		"minecraft:glow_squid",
+		"minecraft:turtle",
+		"minecraft:axolotl",
+		"minecraft:frog",
+		"minecraft:tadpole",
+		"minecraft:cod",
+		"minecraft:salmon",
+		"minecraft:tropical_fish",
+		"minecraft:pufferfish"
+	]
+}

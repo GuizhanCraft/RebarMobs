@@ -7,6 +7,7 @@ import net.guizhanss.rebarmobs.guide.RebarMobsPages
 import net.guizhanss.rebarmobs.items.RebarMobsItems
 import net.guizhanss.rebarmobs.listeners.MobHeadListener
 import net.guizhanss.rebarmobs.recipes.RebarMobsRecipes
+import net.guizhanss.rebarmobs.utils.tags.RebarMobsTag
 import org.bstats.bukkit.Metrics
 import org.bukkit.Material
 import java.util.Locale
@@ -18,6 +19,8 @@ class RebarMobs : AbstractAddon(GITHUB_USER, GITHUB_REPO, GITHUB_BRANCH, AUTO_UP
 
     override fun enable() {
         setupMetrics()
+
+        RebarMobsTag.loadAll(this)
 
         configs = RebarMobsConfig(this)
 

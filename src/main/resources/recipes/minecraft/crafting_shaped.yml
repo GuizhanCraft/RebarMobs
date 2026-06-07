@@ -31,3 +31,48 @@ rebarmobs:vile_sword_frame:
     S: minecraft:stick
   result: rebarmobs:vile_sword_frame
   category: misc
+
+rebarmobs:golden_lasso:
+  pattern:
+    - "GGG"
+    - "GLG"
+    - "GGG"
+  key:
+    G: minecraft:gold_ingot
+    L: minecraft:lead
+  result: rebarmobs:golden_lasso
+  category: misc
+
+rebarmobs:aqua_lasso:
+  pattern:
+    - "PPP"
+    - "PLP"
+    - "PPP"
+  key:
+    P: minecraft:prismarine_shard
+    L: minecraft:lead
+  result: rebarmobs:aqua_lasso
+  category: misc
+
+rebarmobs:diamond_lasso:
+  pattern:
+    - "DDD"
+    - "DLD"
+    - "DDD"
+  key:
+    D: minecraft:diamond
+    L: minecraft:lead
+  result: rebarmobs:diamond_lasso
+  category: misc
+
+rebarmobs:hostile_lasso:
+  pattern:
+    - "BIB"
+    - "ILI"
+    - "BIB"
+  key:
+    B: minecraft:blaze_rod
+    I: minecraft:iron_nugget
+    L: minecraft:lead
+  result: rebarmobs:hostile_lasso
+  category: misc

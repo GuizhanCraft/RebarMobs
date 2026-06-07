@@ -1,0 +1,10 @@
+{
+	"replace": false,
+	"values": [
+		"#rebarmobs:golden_lasso_allowed",
+		"#rebarmobs:aqua_lasso_allowed",
+		"minecraft:iron_golem",
+		"minecraft:allay",
+		"minecraft:copper_golem"
+	]
+}

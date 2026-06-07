@@ -1,5 +1,6 @@
 package net.guizhanss.rebarmobs.utils
 
+import io.github.pylonmc.rebar.config.RebarConfig
 import io.github.pylonmc.rebar.i18n.RebarTranslator.Companion.translate
 import io.github.pylonmc.rebar.item.RebarItem
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder.Companion.loreKey

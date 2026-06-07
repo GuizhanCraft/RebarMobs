@@ -85,6 +85,10 @@ baseCommand(plugin, "cmd") {
 }
 ```
 
+## Framework API Reference
+
+For the full upstream API reference, call `skill(name="rebar")` when you need to implement new items, blocks, entities, or commands. **Before implementing anything, always check the upstream Rebar source — do not reinvent boilerplate that already exists.**
+
 ## Rules
 
 - **Never suppress type errors** with unsafe casts or suppression annotations unless absolutely unavoidable
@@ -93,9 +97,4 @@ baseCommand(plugin, "cmd") {
 - **Tests/lint**: Only create when explicitly requested
 - **i18n changes**: Only modify `en.yml`; other locales are community-maintained
 - **Player heads**: Store in `PlayerHead` enum with the hash part in texture URL
-
-## Resources
-
-- Rebar: https://github.com/pylonmc/rebar
-- Pylon: https://github.com/pylonmc/pylon
-- Soul Shards Despawn (inspiration): https://github.com/0x00002a/Soul-Shards-Despawn
+- **Consult upstream source**: Before implementing new items, blocks, or entities, load the `rebar` skill and check the upstream interfaces. Do not reinvent boilerplate that Rebar already provides
