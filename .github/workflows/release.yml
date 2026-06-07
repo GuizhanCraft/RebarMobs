@@ -11,14 +11,13 @@ permissions:
   contents: write
 
 jobs:
-  version-and-tag:
+  check-version:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
     outputs:
       version: ${{ steps.version.outputs.version }}
       tag: ${{ steps.version.outputs.tag }}
       should_release: ${{ steps.version.outputs.should_release }}
-      tag_created: ${{ steps.create-tag.outcome == 'success' }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -31,37 +30,21 @@ jobs:
         id: version
         run: bash .github/scripts/next-version.sh
 
-      - name: Check if tag already exists
+      - name: Ensure release tag does not already exist
         if: steps.version.outputs.should_release == 'true'
-        id: check-tag
         run: |
           if git rev-parse "${{ steps.version.outputs.tag }}" >/dev/null 2>&1; then
-            echo "Tag ${{ steps.version.outputs.tag }} already exists — will skip tag creation"
-            echo "tag_exists=true" >> $GITHUB_OUTPUT
-          else
-            echo "Tag ${{ steps.version.outputs.tag }} does not exist — will create"
-            echo "tag_exists=false" >> $GITHUB_OUTPUT
+            echo "Error: Tag ${{ steps.version.outputs.tag }} already exists"
+            exit 1
           fi
-
-      - name: Create git tag
-        if: steps.version.outputs.should_release == 'true' && steps.check-tag.outputs.tag_exists != 'true'
-        id: create-tag
-        env:
-          BOT_NAME: ${{ vars.BOT_NAME || 'github-actions[bot]' }}
-          BOT_EMAIL: ${{ secrets.BOT_EMAIL || 'github-actions[bot]@users.noreply.github.com' }}
-          BOT_TOKEN: ${{ secrets.BOT_TOKEN || github.token }}
-        run: |
-          git config user.name "$BOT_NAME"
-          git config user.email "$BOT_EMAIL"
-          git tag -a "${{ steps.version.outputs.tag }}" -m "${{ steps.version.outputs.tag }}"
-          git push "https://x-access-token:${BOT_TOKEN}@github.com/${{ github.repository }}" "${{ steps.version.outputs.tag }}"
 
   build-and-release:
     runs-on: ubuntu-latest
-    needs: version-and-tag
-    if: needs.version-and-tag.outputs.should_release == 'true'
+    needs: check-version
+    if: needs.check-version.outputs.should_release == 'true'
     outputs:
       version: ${{ steps.version.outputs.version }}
+      tag: ${{ steps.version.outputs.tag }}
       mc_version: ${{ steps.read_versions.outputs.mc_version }}
       rebar_version: ${{ steps.read_versions.outputs.rebar_version }}
       pylon_version: ${{ steps.read_versions.outputs.pylon_version }}
@@ -76,9 +59,9 @@ jobs:
       - name: Determine version
         id: version
         run: |
-          echo "version=${{ needs.version-and-tag.outputs.version }}" >> $GITHUB_OUTPUT
-          echo "tag=${{ needs.version-and-tag.outputs.tag }}" >> $GITHUB_OUTPUT
-          echo "Building version: ${{ needs.version-and-tag.outputs.version }}"
+          echo "version=${{ needs.check-version.outputs.version }}" >> "$GITHUB_OUTPUT"
+          echo "tag=${{ needs.check-version.outputs.tag }}" >> "$GITHUB_OUTPUT"
+          echo "Building version: ${{ needs.check-version.outputs.version }}"
 
       - name: Generate changelog
         id: changelog
@@ -91,7 +74,7 @@ jobs:
             CHANGELOG=$(git log --pretty=format:"- [%h](${REPO_URL}/commit/%H) %s" "${PREVIOUS_TAG}..HEAD")
           fi
           CHANGELOG_ESCAPED=$(echo "$CHANGELOG" | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read()))' || echo '""')
-          echo "changelog=$CHANGELOG_ESCAPED" >> $GITHUB_OUTPUT
+          echo "changelog=$CHANGELOG_ESCAPED" >> "$GITHUB_OUTPUT"
           echo "Changelog:"
           echo "$CHANGELOG"
 
@@ -115,7 +98,7 @@ jobs:
             echo "Error: Failed to read minecraft.version from gradle.properties"
             exit 1
           fi
-          echo "mc_version=$MC_VERSION" >> $GITHUB_OUTPUT
+          echo "mc_version=$MC_VERSION" >> "$GITHUB_OUTPUT"
           echo "Minecraft version: $MC_VERSION"
 
           REBAR_VERSION=$(grep "^rebar.version=" gradle.properties | cut -d'=' -f2)
@@ -123,7 +106,7 @@ jobs:
             echo "Error: Failed to read rebar.version from gradle.properties"
             exit 1
           fi
-          echo "rebar_version=$REBAR_VERSION" >> $GITHUB_OUTPUT
+          echo "rebar_version=$REBAR_VERSION" >> "$GITHUB_OUTPUT"
           echo "Rebar version: $REBAR_VERSION"
 
           PYLON_VERSION=$(grep "^pylon.version=" gradle.properties | cut -d'=' -f2)
@@ -131,7 +114,7 @@ jobs:
             echo "Error: Failed to read pylon.version from gradle.properties"
             exit 1
           fi
-          echo "pylon_version=$PYLON_VERSION" >> $GITHUB_OUTPUT
+          echo "pylon_version=$PYLON_VERSION" >> "$GITHUB_OUTPUT"
           echo "Pylon version: $PYLON_VERSION"
 
       - name: Build with Gradle
@@ -157,10 +140,10 @@ jobs:
       - name: Get filename
         id: filename
         run: |
-          JAR_PATH=$(ls staging/RebarMobs-*.jar | head -n 1)
+          JAR_PATH=$(find staging -maxdepth 1 -type f -name 'RebarMobs-*.jar' | sort | head -n 1)
           FILENAME=$(basename "$JAR_PATH")
-          echo "jar_path=$JAR_PATH" >> $GITHUB_OUTPUT
-          echo "filename=$FILENAME" >> $GITHUB_OUTPUT
+          echo "jar_path=$JAR_PATH" >> "$GITHUB_OUTPUT"
+          echo "filename=$FILENAME" >> "$GITHUB_OUTPUT"
           echo "Jar: $FILENAME"
 
       - name: Create JSON Payload
@@ -205,17 +188,14 @@ jobs:
         env:
           GUIZHAN_RESOURCES_TOKEN: ${{ secrets.GUIZHAN_RESOURCES_TOKEN }}
 
-  cleanup-tag:
+  create-tag:
     runs-on: ubuntu-latest
-    needs: [version-and-tag, build-and-release, deploy-gr]
+    needs: [check-version, build-and-release, deploy-gr]
     if: |
-      always() &&
-      needs.version-and-tag.result == 'success' &&
-      needs.version-and-tag.outputs.tag_created == 'true' &&
-      (needs.build-and-release.result == 'failure' ||
-       needs.build-and-release.result == 'cancelled' ||
-       needs.deploy-gr.result == 'failure' ||
-       needs.deploy-gr.result == 'cancelled')
+      needs.check-version.result == 'success' &&
+      needs.check-version.outputs.should_release == 'true' &&
+      needs.build-and-release.result == 'success' &&
+      needs.deploy-gr.result == 'success'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -224,9 +204,13 @@ jobs:
           fetch-tags: true
           token: ${{ secrets.BOT_TOKEN || github.token }}
 
-      - name: Delete tag
+      - name: Create git tag
         env:
+          BOT_NAME: ${{ vars.BOT_NAME || 'github-actions[bot]' }}
+          BOT_EMAIL: ${{ secrets.BOT_EMAIL || 'github-actions[bot]@users.noreply.github.com' }}
           BOT_TOKEN: ${{ secrets.BOT_TOKEN || github.token }}
         run: |
-          echo "Cleaning up failed release: deleting tag ${{ needs.version-and-tag.outputs.tag }}"
-          git push "https://x-access-token:${BOT_TOKEN}@github.com/${{ github.repository }}" --delete "${{ needs.version-and-tag.outputs.tag }}"
+          git config user.name "$BOT_NAME"
+          git config user.email "$BOT_EMAIL"
+          git tag -a "${{ needs.check-version.outputs.tag }}" -m "${{ needs.check-version.outputs.tag }}"
+          git push "https://x-access-token:${BOT_TOKEN}@github.com/${{ github.repository }}" "${{ needs.check-version.outputs.tag }}"
