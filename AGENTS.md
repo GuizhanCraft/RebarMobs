@@ -98,3 +98,10 @@ For the full upstream API reference, call `skill(name="rebar")` when you need to
 - **i18n changes**: Only modify `en.yml`; other locales are community-maintained
 - **Player heads**: Store in `PlayerHead` enum with the hash part in texture URL
 - **Consult upstream source**: Before implementing new items, blocks, or entities, load the `rebar` skill and check the upstream interfaces. Do not reinvent boilerplate that Rebar already provides
+
+## Resources
+
+- Rebar: https://github.com/pylonmc/rebar
+- Pylon: https://github.com/pylonmc/pylon
+- Soul Shards Despawn (inspiration): https://github.com/0x00002a/Soul-Shards-Despawn
+- Mob Lassos (inspiration): https://github.com/Fuzss/mob-lassos
