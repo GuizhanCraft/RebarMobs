@@ -68,6 +68,12 @@ object MobLassoEffects {
         player.playSound(loc, Sound.ENTITY_ENDERMAN_TELEPORT, 0.8f, 0.5f)
     }
 
+    fun captureAttempt(player: Player, target: LivingEntity) {
+        val loc = target.location.toCenterLocation()
+        target.world.spawnParticle(Particle.END_ROD, loc, 5, 0.3, 0.5, 0.3, 0.02)
+        player.playSound(loc, Sound.BLOCK_CHAIN_PLACE, 0.6f, 1.2f)
+    }
+
     fun releaseSuccess(player: Player, entity: LivingEntity) {
         val loc = entity.location.toCenterLocation()
         val world = entity.world
@@ -80,6 +86,29 @@ object MobLassoEffects {
         player.playSound(loc, Sound.BLOCK_TRIPWIRE_DETACH, 1.0f, 1.0f)
     }
 
+    fun releaseEscape(player: Player, entity: LivingEntity) {
+        val loc = entity.location.toCenterLocation()
+        val world = entity.world
+
+        // ANGRY_VILLAGER + SMOKE — looks like the mob is breaking free
+        world.spawnParticle(Particle.ANGRY_VILLAGER, loc.clone().add(0.0, 0.5, 0.0), 15, 0.4, 0.4, 0.4, 0.05)
+        world.spawnParticle(Particle.SMOKE, loc, 25, 0.5, 0.5, 0.5, 0.08)
+        // Chain break sound
+        player.playSound(loc, Sound.BLOCK_CHAIN_BREAK, 1.0f, 0.8f)
+        player.playSound(loc, Sound.ENTITY_ENDERMAN_TELEPORT, 0.6f, 0.7f)
+    }
+
+    fun releaseSuccessInWater(player: Player, entity: LivingEntity) {
+        val loc = entity.location.toCenterLocation()
+        val world = entity.world
+
+        // BUBBLE + SPLASH
+        world.spawnParticle(Particle.BUBBLE_POP, loc, 20, 0.4, 0.3, 0.4, 0.05)
+        world.spawnParticle(Particle.SPLASH, loc.clone().add(0.0, 0.2, 0.0), 15, 0.3, 0.1, 0.3, 0.0)
+        player.playSound(loc, Sound.ENTITY_GENERIC_SPLASH, 0.8f, 1.0f)
+        player.playSound(loc, Sound.BLOCK_TRIPWIRE_DETACH, 0.6f, 1.0f)
+    }
+
     fun releaseFailureInvalidBlockType(player: Player, loc: Location) {
         val world = loc.world ?: return
         world.spawnParticle(Particle.SMOKE, loc.toCenterLocation(), 15, 0.3, 0.3, 0.3, 0.05)
@@ -90,6 +119,28 @@ object MobLassoEffects {
         val world = loc.world ?: return
         world.spawnParticle(Particle.SMOKE, loc.toCenterLocation(), 20, 0.3, 0.3, 0.3, 0.05)
         player.playSound(loc, Sound.ENTITY_ENDERMAN_TELEPORT, 0.8f, 0.5f)
+    }
+
+    fun carryingDamage(player: Player, amount: Double) {
+        val loc = player.location.toCenterLocation()
+        val world = player.world
+
+        // Small sparks / damage indicator
+        world.spawnParticle(Particle.CRIT, loc.clone().add(0.0, 0.5, 0.0), 10, 0.3, 0.5, 0.3, 0.1)
+        world.spawnParticle(Particle.DAMAGE_INDICATOR, loc.clone().add(0.0, 0.5, 0.0), 5, 0.2, 0.3, 0.2, 0.05)
+        player.playSound(loc, Sound.ENTITY_PLAYER_HURT, 0.8f, 1.0f)
+        player.playSound(loc, Sound.ENTITY_ZOMBIE_AMBIENT, 0.4f, 0.6f)
+    }
+
+    fun tickEffects(player: Player, entityType: EntityType) {
+        val loc = player.location.toCenterLocation()
+        val world = player.world
+
+        // Tiny orbiting particle around the player to show "something is inside"
+        val angle = System.currentTimeMillis() % 3600 / 10.0
+        val x = kotlin.math.cos(Math.toRadians(angle)) * 0.8
+        val z = kotlin.math.sin(Math.toRadians(angle)) * 0.8
+        world.spawnParticle(Particle.SOUL, loc.clone().add(x, 0.5, z), 1, 0.0, 0.0, 0.0, 0.0)
     }
 
     fun playAmbientSound(player: Player, entityType: EntityType) {

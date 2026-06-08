@@ -9,8 +9,10 @@ import io.github.pylonmc.rebar.item.interfaces.BlockInteractRebarItemHandler
 import io.github.pylonmc.rebar.item.interfaces.EntityInteractRebarItemHandler
 import io.github.pylonmc.rebar.item.interfaces.InventoryTickerRebarItem
 import io.papermc.paper.datacomponent.DataComponentTypes
+import net.guizhanss.guizhanlib.kt.rebar.utils.delegates.customModelDataString
 import net.guizhanss.guizhanlib.kt.rebar.utils.delegates.persistentItemData
 import net.guizhanss.rebarmobs.RebarMobs
+import net.guizhanss.rebarmobs.datatypes.cmd.RebarMobsCustomModelDataTypes
 import net.guizhanss.rebarmobs.datatypes.persistent.RebarMobsPersistentDataTypes
 import net.guizhanss.rebarmobs.utils.RebarMobsKeys
 import net.guizhanss.rebarmobs.utils.lassos.CaptureResult
@@ -61,6 +63,11 @@ abstract class BaseMobLasso(
         LAST_AMBIENT_AT_KEY,
         RebarSerializers.LONG,
         null,
+    )
+
+    private var statusCmd: Boolean? by customModelDataString(
+        LASSO_STATUS_CMD_PREFIX,
+        RebarMobsCustomModelDataTypes.BOOLEAN,
     )
 
     /**
@@ -147,6 +154,7 @@ abstract class BaseMobLasso(
         capturedSnapshot = null
         capturedAt = null
         lastAmbientAt = null
+        statusCmd = false
     }
 
     private fun applyCustomName(entity: LivingEntity) {
@@ -180,6 +188,8 @@ abstract class BaseMobLasso(
         }
 
         val target = event.rightClicked as? LivingEntity ?: return
+
+        MobLassoEffects.captureAttempt(player, target)
 
         if (target.persistentDataContainer.has(RebarMobsKeys.SOUL_CAGE_SPAWNED)) {
             player.sendMessage(Component.translatable(lassoTranslatableKey("capture.soul-cage-spawned")))
@@ -219,6 +229,7 @@ abstract class BaseMobLasso(
         capturedType = snapshot.entityType
         capturedSnapshot = snapshot.snapshot
         capturedAt = System.currentTimeMillis()
+        statusCmd = true
         refreshLore(player.locale())
         target.remove()
     }
@@ -245,7 +256,7 @@ abstract class BaseMobLasso(
         }
         onRelease()
         refreshLore(player.locale())
-        MobLassoEffects.releaseSuccess(player, releasedEntity)
+        MobLassoEffects.releaseEscape(player, releasedEntity)
     }
 
     private fun handleTickAmbient(player: Player) {
@@ -259,6 +270,7 @@ abstract class BaseMobLasso(
         if (!isIntervalElapsed(lastAmbientAt, RebarMobs.configs.mobLassoAmbientInterval.value)) return
         lastAmbientAt = System.currentTimeMillis()
 
+        MobLassoEffects.tickEffects(player, type)
         MobLassoEffects.playAmbientSound(player, type)
     }
 
@@ -267,6 +279,7 @@ abstract class BaseMobLasso(
         val CAPTURED_SNAPSHOT_KEY = rmKey("lasso_captured_snapshot")
         val CAPTURED_AT_KEY = rmKey("lasso_captured_at")
         val LAST_AMBIENT_AT_KEY = rmKey("lasso_last_ambient_at")
+        val LASSO_STATUS_CMD_PREFIX = rmKey("lasso_status").toString()
 
         val BLOCKED_ENTITY_TYPES = setOf(
             EntityType.UNKNOWN,

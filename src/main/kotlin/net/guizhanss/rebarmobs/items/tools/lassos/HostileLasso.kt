@@ -6,6 +6,7 @@ import io.github.pylonmc.rebar.datatypes.RebarSerializers
 import net.guizhanss.guizhanlib.kt.rebar.utils.delegates.persistentItemData
 import net.guizhanss.rebarmobs.utils.RebarMobsKeys
 import net.guizhanss.rebarmobs.utils.lassos.CaptureResult
+import net.guizhanss.rebarmobs.utils.lassos.MobLassoEffects
 import net.guizhanss.rebarmobs.utils.rmKey
 import net.guizhanss.rebarmobs.utils.tags.RebarMobsTag
 import org.bukkit.GameMode
@@ -54,6 +55,7 @@ class HostileLasso(item: ItemStack) : BaseMobLasso(item) {
         lastHostileDamageAt = System.currentTimeMillis()
 
         player.damage(CARRYING_DAMAGE_AMOUNT)
+        MobLassoEffects.carryingDamage(player, CARRYING_DAMAGE_AMOUNT)
     }
 
     companion object {
