@@ -1,6 +1,6 @@
 package net.guizhanss.rebarmobs.items.tools.lassos
 
-import io.github.pylonmc.rebar.config.Settings
+import io.github.pylonmc.rebar.config.ConfigSection
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter
 import io.github.pylonmc.rebar.datatypes.RebarSerializers
 import net.guizhanss.guizhanlib.kt.rebar.utils.delegates.persistentItemData
@@ -59,7 +59,7 @@ class HostileLasso(item: ItemStack) : BaseMobLasso(item) {
     companion object {
         val LAST_HOSTILE_DAMAGE_AT_KEY = rmKey("lasso_last_hostile_damage_at")
 
-        private val settings = Settings.get(RebarMobsKeys.HOSTILE_LASSO)
+        private val settings = ConfigSection.fromSettings(RebarMobsKeys.HOSTILE_LASSO)
 
         val HOLDING_DURATION = settings.getOrThrow("holding-duration", ConfigAdapter.INTEGER)
         val HEALTH_THRESHOLD = settings.getOrThrow("health-threshold", ConfigAdapter.DOUBLE)

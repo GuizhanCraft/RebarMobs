@@ -2,16 +2,16 @@ package net.guizhanss.rebarmobs.items.blocks
 
 import io.github.pylonmc.rebar.block.BlockStorage
 import io.github.pylonmc.rebar.block.RebarBlock
-import io.github.pylonmc.rebar.block.base.RebarBreakHandler
 import io.github.pylonmc.rebar.block.context.BlockBreakContext
 import io.github.pylonmc.rebar.block.context.BlockCreateContext
-import io.github.pylonmc.rebar.config.Settings
+import io.github.pylonmc.rebar.block.interfaces.BlockBreakRebarBlockHandler
+import io.github.pylonmc.rebar.config.ConfigSection
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter
 import io.github.pylonmc.rebar.datatypes.RebarSerializers
 import io.github.pylonmc.rebar.i18n.RebarArgument
 import io.github.pylonmc.rebar.item.RebarItem
 import io.github.pylonmc.rebar.waila.WailaDisplay
-import net.guizhanss.guizhanlib.kt.rebar.items.RebarMainHandInteractBlock
+import net.guizhanss.guizhanlib.kt.rebar.items.MainHandInteractRebarBlockHandler
 import net.guizhanss.guizhanlib.minecraft.utils.InventoryUtil
 import net.guizhanss.rebarmobs.items.resources.SoulShard
 import net.guizhanss.rebarmobs.utils.RebarMobsKeys
@@ -35,8 +35,8 @@ import org.bukkit.persistence.PersistentDataType
 
 class SoulCage :
     RebarBlock,
-    RebarMainHandInteractBlock,
-    RebarBreakHandler {
+    MainHandInteractRebarBlockHandler,
+    BlockBreakRebarBlockHandler {
     constructor(block: Block, context: BlockCreateContext) : super(block, context)
 
     constructor(block: Block, pdc: PersistentDataContainer) : super(block, pdc) {
@@ -56,7 +56,7 @@ class SoulCage :
         }
     }
 
-    override fun onMainHandInteract(event: PlayerInteractEvent) {
+    override fun onMainHandInteractedWith(event: PlayerInteractEvent) {
         if (event.player.isSneaking) {
             if (storedShard == null) return
             InventoryUtil.push(event.player, storedShard!!.stack)
@@ -80,7 +80,7 @@ class SoulCage :
         }
     }
 
-    override fun onBreak(
+    override fun onBlockBreak(
         drops: MutableList<ItemStack>,
         context: BlockBreakContext,
     ) {
@@ -149,7 +149,7 @@ class SoulCage :
     companion object : Listener {
         val STORED_SHARD_KEY = rmKey("stored_shard")
 
-        private val settings = Settings.get(RebarMobsKeys.SOUL_CAGE)
+        private val settings = ConfigSection.fromSettings(RebarMobsKeys.SOUL_CAGE)
 
         val MAX_NEARBY_ENTITIES = settings.getOrThrow("max-nearby-entities", ConfigAdapter.INTEGER)
         val PLAYER_ACTIVATION_RANGE = settings.getOrThrow("player-activation-range", ConfigAdapter.INTEGER)

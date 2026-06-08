@@ -3,7 +3,7 @@ package net.guizhanss.rebarmobs.items.tools
 import io.github.pylonmc.rebar.block.BlockStorage
 import io.github.pylonmc.rebar.event.api.annotation.MultiHandler
 import io.github.pylonmc.rebar.item.RebarItem
-import io.github.pylonmc.rebar.item.base.RebarInteractor
+import io.github.pylonmc.rebar.item.interfaces.InteractRebarItemHandler
 import net.guizhanss.rebarmobs.utils.RebarMobsKeys
 import org.bukkit.GameMode
 import org.bukkit.Material
@@ -16,10 +16,10 @@ import org.bukkit.inventory.ItemStack
 
 class QuartzAndSteel(item: ItemStack) :
     RebarItem(item),
-    RebarInteractor {
+    InteractRebarItemHandler {
 
     @MultiHandler([EventPriority.HIGHEST])
-    override fun onUsedToClick(
+    override fun onInteract(
         event: PlayerInteractEvent,
         priority: EventPriority,
     ) {

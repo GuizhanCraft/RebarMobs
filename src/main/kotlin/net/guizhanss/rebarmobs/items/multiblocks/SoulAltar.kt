@@ -2,13 +2,13 @@ package net.guizhanss.rebarmobs.items.multiblocks
 
 import io.github.pylonmc.rebar.block.BlockStorage
 import io.github.pylonmc.rebar.block.RebarBlock
-import io.github.pylonmc.rebar.block.base.RebarSimpleMultiblock
-import io.github.pylonmc.rebar.block.base.RebarSimpleMultiblock.MultiblockComponent
 import io.github.pylonmc.rebar.block.context.BlockBreakContext
 import io.github.pylonmc.rebar.block.context.BlockCreateContext
+import io.github.pylonmc.rebar.block.interfaces.SimpleRebarMultiblock
+import io.github.pylonmc.rebar.block.interfaces.SimpleRebarMultiblock.MultiblockComponent
 import io.github.pylonmc.rebar.item.RebarItem
 import io.papermc.paper.event.block.BlockBreakBlockEvent
-import net.guizhanss.guizhanlib.kt.rebar.items.RebarMainHandInteractBlock
+import net.guizhanss.guizhanlib.kt.rebar.items.MainHandInteractRebarBlockHandler
 import net.guizhanss.guizhanlib.minecraft.utils.InventoryUtil
 import net.guizhanss.rebarmobs.recipes.SoulAltarRecipe
 import org.bukkit.GameMode
@@ -23,8 +23,8 @@ import org.joml.Vector3i
 
 class SoulAltar :
     RebarBlock,
-    RebarSimpleMultiblock,
-    RebarMainHandInteractBlock {
+    SimpleRebarMultiblock,
+    MainHandInteractRebarBlockHandler {
     constructor(block: Block, context: BlockCreateContext) : super(block, context) {
         setMultiblockDirection(context.facing)
     }
@@ -44,7 +44,7 @@ class SoulAltar :
                 Vector3i(-1, 0, -1) to MultiblockComponent.of(Material.OBSIDIAN),
             )
 
-    override fun onMainHandInteract(event: PlayerInteractEvent) {
+    override fun onMainHandInteractedWith(event: PlayerInteractEvent) {
         val item = event.item ?: return
 
         for (recipe in SoulAltarRecipe.RECIPE_TYPE) {

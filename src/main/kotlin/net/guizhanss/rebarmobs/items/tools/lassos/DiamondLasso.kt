@@ -1,6 +1,6 @@
 package net.guizhanss.rebarmobs.items.tools.lassos
 
-import io.github.pylonmc.rebar.config.Settings
+import io.github.pylonmc.rebar.config.ConfigSection
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter
 import net.guizhanss.rebarmobs.utils.RebarMobsKeys
 import net.guizhanss.rebarmobs.utils.lassos.CaptureResult
@@ -15,7 +15,7 @@ class DiamondLasso(item: ItemStack) : BaseMobLasso(item) {
     override fun capture(entity: LivingEntity): CaptureResult = captureByTag(entity, RebarMobsTag.DIAMOND_LASSO_ALLOWED)
 
     companion object {
-        private val settings = Settings.get(RebarMobsKeys.DIAMOND_LASSO)
+        private val settings = ConfigSection.fromSettings(RebarMobsKeys.DIAMOND_LASSO)
 
         val HOLDING_DURATION = settings.getOrThrow("holding-duration", ConfigAdapter.INTEGER)
     }

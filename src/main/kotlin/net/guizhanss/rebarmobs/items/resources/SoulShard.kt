@@ -1,12 +1,12 @@
 package net.guizhanss.rebarmobs.items.resources
 
-import io.github.pylonmc.rebar.config.Settings
+import io.github.pylonmc.rebar.config.ConfigSection
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter
 import io.github.pylonmc.rebar.datatypes.RebarSerializers
 import io.github.pylonmc.rebar.event.api.annotation.MultiHandler
 import io.github.pylonmc.rebar.i18n.RebarArgument
 import io.github.pylonmc.rebar.item.RebarItem
-import io.github.pylonmc.rebar.item.base.RebarInteractor
+import io.github.pylonmc.rebar.item.interfaces.InteractRebarItemHandler
 import io.papermc.paper.registry.RegistryAccess
 import io.papermc.paper.registry.RegistryKey
 import net.guizhanss.guizhanlib.kt.minecraft.extensions.isAir
@@ -35,7 +35,7 @@ import org.bukkit.inventory.ItemStack
 class SoulShard(
     item: ItemStack,
 ) : RebarItem(item),
-    RebarInteractor {
+    InteractRebarItemHandler {
     private var mobTypePdc: EntityType? by persistentItemData(
         MOB_TYPE_KEY,
         RebarMobsPersistentDataTypes.ENTITY_TYPE,
@@ -71,7 +71,7 @@ class SoulShard(
     )
 
     @MultiHandler([EventPriority.MONITOR])
-    override fun onUsedToClick(
+    override fun onInteract(
         event: PlayerInteractEvent,
         priority: EventPriority,
     ) {
@@ -98,7 +98,7 @@ class SoulShard(
         val SOUL_AMOUNT_KEY = rmKey("soul_amount")
         val MOB_TYPE_CMD_PREFIX = "$MOB_TYPE_KEY:"
 
-        private val settings = Settings.get(RebarMobsKeys.SOUL_SHARD)
+        private val settings = ConfigSection.fromSettings(RebarMobsKeys.SOUL_SHARD)
 
         private val TIER_ADAPTER = ConfigAdapter<SoulShardTierConfig> {
             val section = ConfigAdapter.CONFIG_SECTION.convert(it)

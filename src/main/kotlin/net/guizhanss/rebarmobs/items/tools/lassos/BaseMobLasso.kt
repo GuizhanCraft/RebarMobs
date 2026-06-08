@@ -5,9 +5,9 @@ import io.github.pylonmc.rebar.datatypes.RebarSerializers
 import io.github.pylonmc.rebar.event.api.annotation.MultiHandler
 import io.github.pylonmc.rebar.i18n.RebarArgument
 import io.github.pylonmc.rebar.item.RebarItem
-import io.github.pylonmc.rebar.item.base.RebarBlockInteractor
-import io.github.pylonmc.rebar.item.base.RebarInventoryTicker
-import io.github.pylonmc.rebar.item.base.RebarItemEntityInteractor
+import io.github.pylonmc.rebar.item.interfaces.BlockInteractRebarItemHandler
+import io.github.pylonmc.rebar.item.interfaces.EntityInteractRebarItemHandler
+import io.github.pylonmc.rebar.item.interfaces.InventoryTickerRebarItem
 import io.papermc.paper.datacomponent.DataComponentTypes
 import net.guizhanss.guizhanlib.kt.rebar.utils.delegates.persistentItemData
 import net.guizhanss.rebarmobs.RebarMobs
@@ -31,16 +31,16 @@ import org.bukkit.entity.Player
 import org.bukkit.event.Event
 import org.bukkit.event.EventPriority
 import org.bukkit.event.block.Action
-import org.bukkit.event.player.PlayerInteractEntityEvent
+import org.bukkit.event.player.PlayerInteractAtEntityEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
 
 abstract class BaseMobLasso(
     item: ItemStack,
 ) : RebarItem(item),
-    RebarBlockInteractor,
-    RebarItemEntityInteractor,
-    RebarInventoryTicker {
+    BlockInteractRebarItemHandler,
+    EntityInteractRebarItemHandler,
+    InventoryTickerRebarItem {
 
     var capturedType: EntityType? by persistentItemData(
         CAPTURED_TYPE_KEY,
@@ -110,7 +110,7 @@ abstract class BaseMobLasso(
      * Release handler.
      */
     @MultiHandler([EventPriority.HIGHEST])
-    override fun onUsedToClickBlock(
+    override fun onInteractWithBlock(
         event: PlayerInteractEvent,
         priority: EventPriority,
     ) {
@@ -161,8 +161,8 @@ abstract class BaseMobLasso(
      * Capture handler.
      */
     @MultiHandler([EventPriority.HIGHEST])
-    override fun onUsedToRightClickEntity(
-        event: PlayerInteractEntityEvent,
+    override fun onInteractWithEntity(
+        event: PlayerInteractAtEntityEvent,
         priority: EventPriority,
     ) {
         event.isCancelled = true

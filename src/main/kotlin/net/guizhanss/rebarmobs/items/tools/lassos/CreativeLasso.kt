@@ -1,6 +1,6 @@
 package net.guizhanss.rebarmobs.items.tools.lassos
 
-import io.github.pylonmc.rebar.config.Settings
+import io.github.pylonmc.rebar.config.ConfigSection
 import io.github.pylonmc.rebar.config.adapter.ConfigAdapter
 import net.guizhanss.rebarmobs.utils.RebarMobsKeys
 import net.guizhanss.rebarmobs.utils.lassos.CaptureResult
@@ -23,7 +23,7 @@ class CreativeLasso(item: ItemStack) : BaseMobLasso(item) {
     override fun canReleaseAt(entityType: EntityType, blockMaterial: Material) = true
 
     companion object {
-        private val settings = Settings.get(RebarMobsKeys.CREATIVE_LASSO)
+        private val settings = ConfigSection.fromSettings(RebarMobsKeys.CREATIVE_LASSO)
 
         val HOLDING_DURATION = settings.getOrThrow("holding-duration", ConfigAdapter.INTEGER)
     }
