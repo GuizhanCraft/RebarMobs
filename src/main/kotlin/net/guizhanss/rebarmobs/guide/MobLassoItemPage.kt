@@ -46,7 +46,7 @@ class MobLassoItemPage(
 
         val spawnEggButtons = allowedTypes.mapNotNull { type ->
             Bukkit.getItemFactory().getSpawnEgg(type)?.let { eggMaterial ->
-                ItemButton(ItemStack.of(eggMaterial)) { stack, _ ->
+                ItemButton.of(ItemStack.of(eggMaterial)) { stack, _ ->
                     ItemStackBuilder.of(stack)
                         .name(Component.translatable(type.translationKey()))
                         .build()

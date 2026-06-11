@@ -42,7 +42,7 @@ data class CursingRecipe(
         ).addIngredient('#', GuiItems.backgroundBlack())
         .addIngredient(
             's',
-            ItemButton(Material.SOUL_SAND.toItem(), Material.SOUL_SOIL.toItem()),
+            ItemButton.of(listOf(ItemStack.of(Material.SOUL_SAND), ItemStack.of(Material.SOUL_SOIL))),
         )
         .addIngredient(
             'f',

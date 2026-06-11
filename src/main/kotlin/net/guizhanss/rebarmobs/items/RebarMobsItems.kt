@@ -131,7 +131,7 @@ object RebarMobsItems : RebarItemRegistry(RebarMobs.instance()) {
         postRegister {
             RebarMobsPages.TOOLS.addButton(
                 MobLassoItemButton(
-                    listOf(it),
+                    it,
                     RebarMobsKeys.AQUA_LASSO_MOBS,
                     RebarMobsTag.AQUA_LASSO_ALLOWED,
                 ),
@@ -148,7 +148,7 @@ object RebarMobsItems : RebarItemRegistry(RebarMobs.instance()) {
         postRegister {
             RebarMobsPages.TOOLS.addButton(
                 MobLassoItemButton(
-                    listOf(it),
+                    it,
                     RebarMobsKeys.GOLDEN_LASSO_MOBS,
                     RebarMobsTag.GOLDEN_LASSO_ALLOWED,
                 ),
@@ -165,7 +165,7 @@ object RebarMobsItems : RebarItemRegistry(RebarMobs.instance()) {
         postRegister {
             RebarMobsPages.TOOLS.addButton(
                 MobLassoItemButton(
-                    listOf(it),
+                    it,
                     RebarMobsKeys.DIAMOND_LASSO_MOBS,
                     RebarMobsTag.DIAMOND_LASSO_ALLOWED,
                 ),
@@ -182,7 +182,7 @@ object RebarMobsItems : RebarItemRegistry(RebarMobs.instance()) {
         postRegister {
             RebarMobsPages.TOOLS.addButton(
                 MobLassoItemButton(
-                    listOf(it),
+                    it,
                     RebarMobsKeys.HOSTILE_LASSO_MOBS,
                     RebarMobsTag.HOSTILE_LASSO_ALLOWED,
                 ),
@@ -302,7 +302,7 @@ object RebarMobsItems : RebarItemRegistry(RebarMobs.instance()) {
             RebarGuide.hideItemUnlessAdmin(RebarMobsKeys.CREATIVE_LASSO)
             RebarMobsPages.ADMIN_ITEMS.addButton(
                 MobLassoItemButton(
-                    listOf(it),
+                    it,
                     RebarMobsKeys.CREATIVE_LASSO_MOBS,
                     RebarMobsTag.CREATIVE_LASSO_BLOCKED,
                     inverted = true,

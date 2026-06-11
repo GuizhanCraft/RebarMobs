@@ -12,13 +12,13 @@ import xyz.xenondevs.invui.item.AbstractItem
 import xyz.xenondevs.invui.item.ItemProvider
 
 class MobLassoItemButton(
-    stacks: List<ItemStack>,
+    private val stack: ItemStack,
     private val key: NamespacedKey,
     private val tag: RebarMobsTag<EntityType>,
     private val inverted: Boolean = false,
 ) : AbstractItem() {
 
-    private val itemButton = ItemButton(stacks)
+    private val itemButton = ItemButton.of(stack)
 
     override fun getItemProvider(viewer: Player): ItemProvider = itemButton.getItemProvider(viewer)
 
@@ -27,7 +27,7 @@ class MobLassoItemButton(
     override fun handleClick(clickType: ClickType, player: Player, click: Click) {
         when (clickType) {
             ClickType.LEFT -> {
-                MobLassoItemPage(itemButton.currentStack, key, tag, inverted).open(player)
+                MobLassoItemPage(stack, key, tag, inverted).open(player)
             }
 
             else -> itemButton.handleClick(clickType, player, click)
