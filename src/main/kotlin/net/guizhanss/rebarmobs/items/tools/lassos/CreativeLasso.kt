@@ -14,12 +14,11 @@ class CreativeLasso(item: ItemStack) : BaseMobLasso(item) {
     override val holdingDuration: Int
         get() = HOLDING_DURATION
 
-    override fun capture(entity: LivingEntity): CaptureResult =
-        if (entity.type in BLOCKED_ENTITY_TYPES || RebarMobsTag.CREATIVE_LASSO_BLOCKED.isTagged(entity.type)) {
-            CaptureResult.WRONG_ENTITY_TYPE
-        } else {
-            CaptureResult.OK
-        }
+    override fun capture(entity: LivingEntity): CaptureResult = if (entity.type in BLOCKED_ENTITY_TYPES || RebarMobsTag.CREATIVE_LASSO_BLOCKED.isTagged(entity.type)) {
+        CaptureResult.WRONG_ENTITY_TYPE
+    } else {
+        CaptureResult.OK
+    }
 
     override fun canReleaseAt(entityType: EntityType, blockMaterial: Material) = true
 
