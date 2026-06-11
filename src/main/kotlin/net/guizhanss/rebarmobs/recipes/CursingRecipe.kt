@@ -9,7 +9,6 @@ import io.github.pylonmc.rebar.recipe.FluidOrItem
 import io.github.pylonmc.rebar.recipe.RebarRecipe
 import io.github.pylonmc.rebar.recipe.RecipeInput
 import io.github.pylonmc.rebar.util.gui.GuiItems
-import net.guizhanss.guizhanlib.kt.minecraft.extensions.toItem
 import net.guizhanss.rebarmobs.items.RebarMobsItems
 import net.guizhanss.rebarmobs.utils.RebarMobsKeys
 import net.guizhanss.rebarmobs.utils.rmTranslatableKey
