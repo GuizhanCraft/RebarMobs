@@ -90,6 +90,20 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v6
 
+      - name: Apply code formatting
+        env:
+          BOT_NAME: ${{ vars.BOT_NAME || 'github-actions[bot]' }}
+          BOT_EMAIL: ${{ secrets.BOT_EMAIL || 'github-actions[bot]@users.noreply.github.com' }}
+        run: |
+          ./gradlew spotlessApply
+          if [ -n "$(git status --porcelain)" ]; then
+            git config user.name "$BOT_NAME"
+            git config user.email "$BOT_EMAIL"
+            git add -A
+            git commit -m "chore: spotless apply"
+            git push
+          fi
+
       - name: Read versions from gradle.properties
         id: read_versions
         run: |
