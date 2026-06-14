@@ -13,7 +13,7 @@ import org.bukkit.Material
 import java.util.Locale
 
 class RebarMobs : AbstractAddon(GITHUB_USER, GITHUB_REPO, GITHUB_BRANCH, AUTO_UPDATE_KEY) {
-    override val languages = setOf(Locale.ENGLISH)
+    override val languages = setOf(Locale.ENGLISH, Locale.SIMPLIFIED_CHINESE)
 
     override val material = Material.CREEPER_HEAD
 
