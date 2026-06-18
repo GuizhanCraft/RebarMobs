@@ -6,7 +6,21 @@ capture entities, and make them as inventory companion.
 ## Requirement
 
 - [Rebar](https://github.com/pylonmc/rebar)
-- [Pylon](https://github.com/pylonmc/pylon) (optional)
+
+## Features
+
+- **Mob Heads** - Obtainable skulls for almost all living entities, which can be placed as decorative blocks.
+- **Soul Shards** - Collect souls from slain mobs to charge the shard. Higher tiers unlock better spawning capabilities.
+- **Soul Cage** - Insert a charged Soul Shard to create a custom mob spawner with configurable spawn rate and conditions (configurable by server owners).
+- **Mob Lassos** - Capture and transport living mobs. Includes specialized variants:
+  - **Golden Lasso** for most land animals.
+  - **Diamond Lasso** for most land animals, but they never escape.
+  - **Aqua Lasso** for aquatic mobs, releasable in water.
+  - **Hostile Lasso** for hostile mobs, damages the carrier while holding.
+
+## Resource Pack
+
+All custom textures for RebarMobs are included in the official [Pylon Resource Pack](https://github.com/pylonmc/pylon-resource-pack), created by Pandicka.
 
 ## Credits
 
