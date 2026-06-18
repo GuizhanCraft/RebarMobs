@@ -1,15 +1,17 @@
 # Rebar Mobs
 
 A [Rebar](https://github.com/pylonmc/rebar) addon that adds mob heads, soul shards and cages, and mob lassos for
-capturing, transporting, and spawning living entities.
+collecting, spawning, capturing, and transporting mobs.
 
-## Requirement
+## Download & Requirement
 
-- [Rebar](https://github.com/pylonmc/rebar)
+[![Download](https://img.shields.io/badge/Click_Here_to_Download-green?style=for-the-badge)](https://staging.resources.guizhanss.com/plugin/RebarMobs#download)
+
+- [Rebar](https://github.com/pylonmc/rebar). Currently, the Rebar version that Rebar Mobs will work on is displayed in the specific version's page.
 
 ## Features
 
-- **Mob Heads** - Obtainable skulls for almost all living entities, which can be placed as decorative blocks.
+- **Mob Heads** - Obtainable skulls for almost all living entities, except those already exist in vanilla Minecraft. Can be placed as decorative blocks.
 - **Soul Shards** - Collect souls from slain mobs to charge the shard. Higher tiers unlock better spawning capabilities.
 - **Soul Cage** - Insert a charged Soul Shard to create a custom mob spawner with configurable spawn rate and conditions (configurable by server owners).
 - **Mob Lassos** - Capture and transport living mobs. Includes specialized variants:
