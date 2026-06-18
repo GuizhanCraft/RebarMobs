@@ -1,7 +1,7 @@
 # Rebar Mobs
 
-A [Rebar](https://github.com/pylonmc/rebar) addon that add skulls for almost all living entities, allowing players to
-capture entities, and make them as inventory companion.
+A [Rebar](https://github.com/pylonmc/rebar) addon that adds mob heads, soul shards and cages, and mob lassos for
+capturing, transporting, and spawning living entities.
 
 ## Requirement
 

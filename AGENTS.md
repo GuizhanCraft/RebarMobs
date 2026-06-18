@@ -6,7 +6,7 @@ RebarMobs is a Minecraft Paper plugin (addon) built on the Rebar framework with 
 
 ## Stack
 
-- **Language**: Kotlin (JVM 21+), minimal Java for Paper PluginLoader
+- **Language**: Kotlin, minimal Java for Paper PluginLoader
 - **Framework**: Paper, Rebar addon framework, GuizhanLib-KT DSL extensions
 - **Versions**: See `gradle.properties` for all controlled versions (plugin, Minecraft, Rebar, Pylon). Note: Minecraft switched to `YY.major.minor` format in 2026 (e.g. `26.1.2`); the last old-format release was `1.21.11`.
 - **Build**: Gradle with Kotlin DSL, Shadow plugin
