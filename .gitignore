@@ -42,7 +42,9 @@ bin/
 ### Mac OS ###
 .DS_Store
 
-### OMO ###
+### AI ###
 .omo/
 !.omo/rules
 .playwright-mcp/
+.slim/
+.codegraph/
