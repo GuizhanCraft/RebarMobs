@@ -15,7 +15,7 @@ plugins {
     id("com.gradleup.shadow") version "9.4.2"
     id("de.eldoria.plugin-yml.paper") version "0.9.0"
     id("xyz.jpenilla.run-paper") version "3.0.2"
-    id("com.diffplug.spotless") version "8.6.0"
+    id("com.diffplug.spotless") version "8.10.0"
 }
 
 repositories {
