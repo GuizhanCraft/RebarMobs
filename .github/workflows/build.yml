@@ -1,10 +1,12 @@
-name: PR
+name: Build
 
 on:
   pull_request:
     branches:
       - master
-  workflow_dispatch:
+  push:
+    branches:
+      - master
 
 jobs:
   build:
@@ -34,5 +36,5 @@ jobs:
       - name: Upload build artifact
         uses: actions/upload-artifact@v7
         with:
-          name: PR Build
+          name: Build
           path: build/libs/*.jar
