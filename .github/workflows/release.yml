@@ -145,6 +145,9 @@ jobs:
     needs: build-and-release
     if: needs.build-and-release.result == 'success'
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
       - name: Download build artifact
         uses: actions/download-artifact@v8
         with:
@@ -169,8 +172,27 @@ jobs:
           REBAR_VERSION="${{ needs.build-and-release.outputs.rebar_version }}"
           PYLON_VERSION="${{ needs.build-and-release.outputs.pylon_version }}"
 
+          REBAR_VID=$(./.github/scripts/resolve-dependency.sh "${{ vars.GUIZHAN_RESOURCES_BASE_URL }}" rebar "$REBAR_VERSION")
+          PYLON_VID=$(./.github/scripts/resolve-dependency.sh "${{ vars.GUIZHAN_RESOURCES_BASE_URL }}" pylon "$PYLON_VERSION")
+
           # Build dependencies array
-          DEPS="[{\"type\":\"required\",\"name\":\"Rebar ${REBAR_VERSION}\"},{\"type\":\"optional\",\"name\":\"Pylon ${PYLON_VERSION}\"}]"
+          if [ -n "$REBAR_VID" ]; then
+            echo "Rebar dependency: using version_id ${REBAR_VID}"
+            REBAR_DEP="{\"type\":\"required\",\"version_id\":\"${REBAR_VID}\"}"
+          else
+            echo "Rebar dependency: using name fallback (Rebar ${REBAR_VERSION})"
+            REBAR_DEP="{\"type\":\"required\",\"name\":\"Rebar ${REBAR_VERSION}\"}"
+          fi
+
+          if [ -n "$PYLON_VID" ]; then
+            echo "Pylon dependency: using version_id ${PYLON_VID}"
+            PYLON_DEP="{\"type\":\"optional\",\"version_id\":\"${PYLON_VID}\"}"
+          else
+            echo "Pylon dependency: using name fallback (Pylon ${PYLON_VERSION})"
+            PYLON_DEP="{\"type\":\"optional\",\"name\":\"Pylon ${PYLON_VERSION}\"}"
+          fi
+
+          DEPS="[${REBAR_DEP},${PYLON_DEP}]"
 
           cat <<EOF > payload.json
           {
