@@ -47,5 +47,4 @@ bin/
 .playwright-mcp/
 .slim/
 .codegraph/
-.opencode/
-.slim/
+.cortexkit/
