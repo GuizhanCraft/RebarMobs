@@ -51,6 +51,7 @@ object RebarMobsKeys {
     val MOB_HEAD_DROP = rmKey("mob_head_drop")
 
     // misc
+    val REBAR_MOBS_TRANSLATOR = rmKey("rebar_mobs_translator")
     val SOUL_CAGE_SPAWNED = rmKey("soul_cage_spawned") // tag added to spawned
     val VILE_SWORD_KILLED = rmKey("vile_sword_killed") // tag added to entity that is killed by vile sword
     val CURSED_FIRE = rmKey("cursed_fire")
