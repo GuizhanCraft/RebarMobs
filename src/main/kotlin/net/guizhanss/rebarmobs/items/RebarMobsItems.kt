@@ -253,6 +253,13 @@ object RebarMobsItems : RebarItemRegistry(RebarMobs.instance()) {
         registerMobHead(EntityType.ZOMBIE_NAUTILUS, PlayerHead.ENTITY_ZOMBIE_NAUTILUS)
         registerMobHead(EntityType.CAMEL_HUSK, PlayerHead.ENTITY_CAMEL_HUSK)
         registerMobHead(EntityType.PARCHED, PlayerHead.ENTITY_PARCHED)
+        registerMobHead(EntityType.ENDERMITE, PlayerHead.ENTITY_ENDERMITE)
+        registerMobHead(EntityType.HOGLIN, PlayerHead.ENTITY_HOGLIN)
+        registerMobHead(EntityType.PHANTOM, PlayerHead.ENTITY_PHANTOM)
+        registerMobHead(EntityType.PIGLIN_BRUTE, PlayerHead.ENTITY_PIGLIN_BRUTE)
+        registerMobHead(EntityType.SILVERFISH, PlayerHead.ENTITY_SILVERFISH)
+        registerMobHead(EntityType.WARDEN, PlayerHead.ENTITY_WARDEN)
+        registerMobHead(EntityType.ZOGLIN, PlayerHead.ENTITY_ZOGLIN)
 
         // Passive mobs
         registerMobHead(EntityType.BAT, PlayerHead.ENTITY_BAT)
@@ -288,6 +295,20 @@ object RebarMobsItems : RebarItemRegistry(RebarMobs.instance()) {
         registerMobHead(EntityType.HAPPY_GHAST, PlayerHead.ENTITY_HAPPY_GHAST)
         registerMobHead(EntityType.COPPER_GOLEM, PlayerHead.ENTITY_COPPER_GOLEM)
         registerMobHead(EntityType.NAUTILUS, PlayerHead.ENTITY_NAUTILUS)
+        registerMobHead(EntityType.SULFUR_CUBE, PlayerHead.ENTITY_SULFUR_CUBE)
+        registerMobHead(EntityType.BEE, PlayerHead.ENTITY_BEE)
+        registerMobHead(EntityType.CAT, PlayerHead.ENTITY_CAT)
+        registerMobHead(EntityType.COD, PlayerHead.ENTITY_COD)
+        registerMobHead(EntityType.DONKEY, PlayerHead.ENTITY_DONKEY)
+        registerMobHead(EntityType.MULE, PlayerHead.ENTITY_MULE)
+        registerMobHead(EntityType.PUFFERFISH, PlayerHead.ENTITY_PUFFERFISH)
+        registerMobHead(EntityType.SALMON, PlayerHead.ENTITY_SALMON)
+        registerMobHead(EntityType.SKELETON_HORSE, PlayerHead.ENTITY_SKELETON_HORSE)
+        registerMobHead(EntityType.SNOW_GOLEM, PlayerHead.ENTITY_SNOW_GOLEM)
+        registerMobHead(EntityType.TRADER_LLAMA, PlayerHead.ENTITY_TRADER_LLAMA)
+        registerMobHead(EntityType.TROPICAL_FISH, PlayerHead.ENTITY_TROPICAL_FISH)
+        registerMobHead(EntityType.WOLF, PlayerHead.ENTITY_WOLF)
+        registerMobHead(EntityType.ZOMBIE_HORSE, PlayerHead.ENTITY_ZOMBIE_HORSE)
     }
     // </editor-fold>
 

@@ -236,6 +236,48 @@ item:
     name: "Camel Husk Head"
   mob_head_parched:
     name: "Parched Head"
+  mob_head_endermite:
+    name: "Endermite Head"
+  mob_head_hoglin:
+    name: "Hoglin Head"
+  mob_head_phantom:
+    name: "Phantom Head"
+  mob_head_piglin_brute:
+    name: "Piglin Brute Head"
+  mob_head_silverfish:
+    name: "Silverfish Head"
+  mob_head_warden:
+    name: "Warden Head"
+  mob_head_zoglin:
+    name: "Zoglin Head"
+  mob_head_sulfur_cube:
+    name: "Sulfur Cube Head"
+  mob_head_bee:
+    name: "Bee Head"
+  mob_head_cat:
+    name: "Cat Head"
+  mob_head_cod:
+    name: "Cod Head"
+  mob_head_donkey:
+    name: "Donkey Head"
+  mob_head_mule:
+    name: "Mule Head"
+  mob_head_pufferfish:
+    name: "Pufferfish Head"
+  mob_head_salmon:
+    name: "Salmon Head"
+  mob_head_skeleton_horse:
+    name: "Skeleton Horse Head"
+  mob_head_snow_golem:
+    name: "Snow Golem Head"
+  mob_head_trader_llama:
+    name: "Trader Llama Head"
+  mob_head_tropical_fish:
+    name: "Tropical Fish Head"
+  mob_head_wolf:
+    name: "Wolf Head"
+  mob_head_zombie_horse:
+    name: "Zombie Horse Head"
 
 enchantment:
   soul_stealer: "Soul Stealer"

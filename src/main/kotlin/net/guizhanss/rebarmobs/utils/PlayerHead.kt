@@ -120,6 +120,69 @@ enum class PlayerHead(val texture: String) {
     // https://minecraft-heads.com/custom-heads/head/123518-parched
     ENTITY_PARCHED("24aeceff5f26dd8413c5c03547c234ac03108d187af0b9cd834a8ce12598591c"),
 
+    // https://minecraft-heads.com/custom-heads/head/18427-endermite
+    ENTITY_ENDERMITE("5bc7b9d36fb92b6bf292be73d32c6c5b0ecc25b44323a541fae1f1e67e393a3e"),
+
+    // https://minecraft-heads.com/custom-heads/head/34783-hoglin
+    ENTITY_HOGLIN("9bb9bc0f01dbd762a08d9e77c08069ed7c95364aa30ca1072208561b730e8d75"),
+
+    // https://minecraft-heads.com/custom-heads/head/17931-phantom
+    ENTITY_PHANTOM("746830da5f83a3aaed838a99156ad781a789cfcf13e25beef7f54a86e4fa4"),
+
+    // https://minecraft-heads.com/custom-heads/head/38372-piglin-brute
+    ENTITY_PIGLIN_BRUTE("3e300e9027349c4907497438bac29e3a4c87a848c50b34c21242727b57f4e1cf"),
+
+    // https://minecraft-heads.com/custom-heads/head/106998-silverfish
+    ENTITY_SILVERFISH("bfe13237e1109cab7264dc53b0aa697cf9a7c62c984a269fb0755a288912bbca"),
+
+    // https://minecraft-heads.com/custom-heads/head/100620-warden
+    ENTITY_WARDEN("b84d5a30166509864fb1774c72fd9df338fc5c599c84e6e8fe223ba6b17291cd"),
+
+    // https://minecraft-heads.com/custom-heads/head/35932-zoglin
+    ENTITY_ZOGLIN("e67e18602e03035ad68967ce090235d8996663fb9ea47578d3a7ebbc42a5ccf9"),
+
+    // https://minecraft-heads.com/custom-heads/head/128259-sulfur-cube
+    ENTITY_SULFUR_CUBE("205ec0241f084e1776a201f6df8c124c8637671fd85e0af5e77090f4e9c38602"),
+
+    // https://minecraft-heads.com/custom-heads/head/128170-bee
+    ENTITY_BEE("9c72c132073ec5a058218d6fbfb4a9970652ced9214d53f4f614b3902fd99a7a"),
+
+    // https://minecraft-heads.com/custom-heads/head/103253-orange-tabby-cat
+    ENTITY_CAT("22d4a972b4cb28774ee5563d4e7b89e4855a228bebe23346ad1174066f0a07aa"),
+
+    // https://minecraft-heads.com/custom-heads/head/17898-cod-fish
+    ENTITY_COD("7892d7dd6aadf35f86da27fb63da4edda211df96d2829f691462a4fb1cab0"),
+
+    // https://minecraft-heads.com/custom-heads/head/125655-donkey
+    ENTITY_DONKEY("f57ceea4e2a7bc996f0708f1af949f78dcd9cf3ea6b6f123347ddfc3a2259bb5"),
+
+    // https://minecraft-heads.com/custom-heads/head/25319-mule
+    ENTITY_MULE("16272233c1eb1bf47baf5c6cf86f93d15af9708ad2ca18f6c90153499226885"),
+
+    // https://minecraft-heads.com/custom-heads/head/121384-pufferfish
+    ENTITY_PUFFERFISH("4e5bbb9f1b5dfe92f455bea48181b6f23f56dd2a7de022c780c55aa51b61638c"),
+
+    // https://minecraft-heads.com/custom-heads/head/17714-salmon
+    ENTITY_SALMON("afbdf10317a7a6315c3cbaf7edc590f0d97714bd699c8615a24f72bb8a9bc"),
+
+    // https://minecraft-heads.com/custom-heads/head/105331-skeleton-horse
+    ENTITY_SKELETON_HORSE("ac7d8a16d3f0f98b598df93f2c2d34e75171cd52dbf4a1211d7b84c019416a40"),
+
+    // https://minecraft-heads.com/custom-heads/head/109991-snow-golem
+    ENTITY_SNOW_GOLEM("e6f20aec528c3968dd8164f9d9336b081b3a2c7ecf189cf73df6f925e5a4ed14"),
+
+    // https://minecraft-heads.com/custom-heads/head/113925-trader-llama-grayed
+    ENTITY_TRADER_LLAMA("b1c54365d1ceac0da4a86b09067a17a4fd849eac422c79992642157996430289"),
+
+    // https://minecraft-heads.com/custom-heads/head/107004-tropical-fish-grayed
+    ENTITY_TROPICAL_FISH("5ac3bd91eab2d5a3980b75ddb93f77970dba8fbb45a862ae5e77c10cf5e7e5e1"),
+
+    // https://minecraft-heads.com/custom-heads/head/127233-wolf
+    ENTITY_WOLF("fd117e055b9d2c298d215802fbeabe5cc9cbdabef0bf73f18c7cc2b4bec8a898"),
+
+    // https://minecraft-heads.com/custom-heads/head/13581-zombie-horse
+    ENTITY_ZOMBIE_HORSE("5b54f2bc2b6f59abb8c3f9d6c3a3154e3fefe238f2bad593db2de7fa3a4"),
+
     ;
 
     fun createHeadItem() = createPlayerHead(texture)
