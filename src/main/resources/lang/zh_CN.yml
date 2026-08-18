@@ -1,20 +1,39 @@
 addon: "Rebar 生物"
 item:
   soul_shard:
-    name: "<reset>灵魂碎片"
+    name: "灵魂碎片"
+    lore: |-
+      <arrow> 一块破碎的晶体，搏动着捕获而来的生物精华。
+
+      <guidearrow> 主手手持该物品并<insn>潜行 + 右键</insn>
+      <guidearrow> 以重置生物类型与灵魂数量。
+
+      <arrow> <attr>生物类型:</attr> %mob-type%
+      <arrow> <attr>等级:</attr> %tier%
+      <arrow> <attr>灵魂数:</attr> %souls%
     no-mob-type: "<red>未绑定"
   corrupted_essence:
-    name: "<reset>腐化精华"
+    name: "腐化精华"
   vile_dust:
-    name: "<reset>邪恶之尘"
+    name: "邪恶之尘"
   corrupted_ingot:
-    name: "<reset>腐化锭"
+    name: "腐化锭"
   vile_sword_frame:
-    name: "<reset>邪恶之剑框架"
+    name: "邪恶之剑框架"
   soul_altar:
-    name: "<reset>灵魂祭坛"
+    name: "灵魂祭坛"
+    lore: |-
+      <star> 多方块结构
+      <arrow> 一个古老的祭坛，低语着转变。
+      <arrow> 手持材料物品<insn>右键点击</insn>以使用。
+      <arrow> <red>整个多方块结构将被摧毁。</red>
+
+      <u>组成部分</u>
+      <diamond> 1x <yellow><item:rebarmobs:soul_altar/></yellow>
+      <diamond> 4x <yellow><item:quartz_block/></yellow>
+      <diamond> 4x <yellow><item:obsidian/></yellow>
   soul_cage:
-    name: "<reset>灵魂笼子"
+    name: "灵魂笼子"
     lore: |-
       <arrow> 一座由腐化金属锻造的牢笼，贪婪地渴求灵魂。
       <arrow> 它扭曲了生与死之间的界限。
@@ -25,16 +44,67 @@ item:
       empty: "灵魂笼子 | <red>空"
       filled: "灵魂笼子 | %mob-type% | 等级 %tier%"
   cursed_fire:
-    name: "<reset>诅咒之火"
+    name: "诅咒之火"
   quartz_and_steel:
-    name: "<reset>石英打火石"
+    name: "石英打火石"
+  mob_lasso:
+    status:
+      empty: "<red>空"
+      filled: "<green>已捕获%entity-type%"
+    escape-after:
+      never: "<yellow>从不"
+      ticks: "%ticks% 刻 (%seconds% 秒)"
+    capture:
+      not-empty: "<red>无法捕捉：该生物套索已捕获%entity-type%。"
+      wrong-type: "<red>该生物套索无法捕获%entity-type%。"
+      too-strong: "<red>无法捕捉：目标生命值过高，请先降低其生命值。"
+      soul-cage-spawned: "<red>无法捕捉由灵魂笼子生成的生物。"
+      error: "<red>捕捉过程中发生错误。"
+    release:
+      invalid-block-type: "<red>无法在该位置释放捕获的生物。"
+      error: "<red>释放过程中发生错误。"
+  aqua_lasso:
+    name: "水生套索"
+    lore: |-
+      <arrow> 用于捕捉水生和两栖生物的套索。
+
+      <arrow> <attr>状态:</attr> %status%
+      <arrow> <attr>逃跑时间:</attr> %escape-after%
+  golden_lasso:
+    name: "金制套索"
+    lore: |-
+      <arrow> 适合捕捉大部分陆地动物的金制套索。
+
+      <arrow> <attr>状态:</attr> %status%
+      <arrow> <attr>逃跑时间:</attr> %escape-after%
+  diamond_lasso:
+    name: "钻石套索"
+    lore: |-
+      <arrow> 适合捕捉大部分陆地动物的加固套索。
+
+      <arrow> <attr>状态:</attr> %status%
+      <arrow> <attr>逃跑时间:</attr> %escape-after%
+  hostile_lasso:
+    name: "敌对套索"
+    lore: |-
+      <arrow> 可用于捕捉虚弱的敌对生物。
+
+      <arrow> <attr>状态:</attr> %status%
+      <arrow> <attr>逃跑时间:</attr> %escape-after%
+  creative_lasso:
+    name: "<#ff00ff>创造套索"
+    lore: |-
+      <arrow> 几乎可用于所有生物的套索。
+
+      <arrow> <attr>状态:</attr> %status%
+      <arrow> <attr>逃跑时间:</attr> %escape-after%
   vile_sword:
-    name: "<reset>邪恶之剑"
+    name: "邪恶之剑"
     lore: |-
       <arrow> 主手手持该剑击杀
       <arrow> 可额外获得一个灵魂。
   mob_head_info:
-    name: "<reset>击杀生物"
+    name: "击杀生物"
     lore: |-
       <arrow> 击杀指定的生物有几率掉落其头颅。
       <arrow> 斩首者附魔可额外增加几率。
@@ -42,137 +112,142 @@ item:
       <arrow> <attr>基础几率:</attr> %base-chance%
       <arrow> <attr>斩首者几率:</attr> 每级%decapitator-chance%
   mob_head_bat:
-    name: "<reset>蝙蝠头"
+    name: "蝙蝠头"
   mob_head_blaze:
-    name: "<reset>烈焰人头"
+    name: "烈焰人头"
   mob_head_cave_spider:
-    name: "<reset>洞穴蜘蛛头"
+    name: "洞穴蜘蛛头"
   mob_head_chicken:
-    name: "<reset>鸡头"
+    name: "鸡头"
   mob_head_cow:
-    name: "<reset>牛头"
+    name: "牛头"
   mob_head_dolphin:
-    name: "<reset>海豚头"
+    name: "海豚头"
   mob_head_drowned:
-    name: "<reset>溺尸头"
+    name: "溺尸头"
   mob_head_elder_guardian:
-    name: "<reset>远古守卫者头"
+    name: "远古守卫者头"
   mob_head_enderman:
-    name: "<reset>末影人头"
+    name: "末影人头"
   mob_head_evoker:
-    name: "<reset>唤魔者头"
+    name: "唤魔者头"
   mob_head_ghast:
-    name: "<reset>恶魂头"
+    name: "恶魂头"
   mob_head_guardian:
-    name: "<reset>守卫者头"
+    name: "守卫者头"
   mob_head_horse:
-    name: "<reset>马头"
+    name: "马头"
   mob_head_husk:
-    name: "<reset>尸壳头"
+    name: "尸壳头"
   mob_head_illusioner:
-    name: "<reset>幻术师头"
+    name: "幻术师头"
   mob_head_iron_golem:
-    name: "<reset>铁傀儡头"
+    name: "铁傀儡头"
   mob_head_llama:
-    name: "<reset>羊驼头"
+    name: "羊驼头"
   mob_head_magma_cube:
-    name: "<reset>岩浆怪头"
+    name: "岩浆怪头"
   mob_head_mooshroom:
-    name: "<reset>哞菇头"
+    name: "哞菇头"
   mob_head_ocelot:
-    name: "<reset>豹猫头"
+    name: "豹猫头"
   mob_head_parrot:
-    name: "<reset>鹦鹉头"
+    name: "鹦鹉头"
   mob_head_pig:
-    name: "<reset>猪头"
+    name: "猪头"
   mob_head_polar_bear:
-    name: "<reset>北极熊头"
+    name: "北极熊头"
   mob_head_rabbit:
-    name: "<reset>兔头"
+    name: "兔头"
   mob_head_sheep:
-    name: "<reset>羊头"
+    name: "羊头"
   mob_head_shulker:
-    name: "<reset>潜影贝头"
+    name: "潜影贝头"
   mob_head_slime:
-    name: "<reset>史莱姆头"
+    name: "史莱姆头"
   mob_head_spider:
-    name: "<reset>蜘蛛头"
+    name: "蜘蛛头"
   mob_head_squid:
-    name: "<reset>鱿鱼头"
+    name: "鱿鱼头"
   mob_head_stray:
-    name: "<reset>流浪者头"
+    name: "流浪者头"
   mob_head_turtle:
-    name: "<reset>海龟头"
+    name: "海龟头"
   mob_head_vex:
-    name: "<reset>恼鬼头"
+    name: "恼鬼头"
   mob_head_villager:
-    name: "<reset>村民头"
+    name: "村民头"
   mob_head_vindicator:
-    name: "<reset>卫道士头"
+    name: "卫道士头"
   mob_head_witch:
-    name: "<reset>女巫头"
+    name: "女巫头"
   mob_head_wither:
-    name: "<reset>凋灵头"
+    name: "凋灵头"
   mob_head_zombie_villager:
-    name: "<reset>僵尸村民头"
+    name: "僵尸村民头"
   mob_head_ravager:
-    name: "<reset>劫掠者头"
+    name: "劫掠者头"
   mob_head_pillager:
-    name: "<reset>掠夺者头"
+    name: "掠夺者头"
   mob_head_fox:
-    name: "<reset>狐狸头"
+    name: "狐狸头"
   mob_head_panda:
-    name: "<reset>熊猫头"
+    name: "熊猫头"
   mob_head_wandering_trader:
-    name: "<reset>流浪商人头"
+    name: "流浪商人头"
   mob_head_zombified_piglin:
-    name: "<reset>僵尸猪灵头"
+    name: "僵尸猪灵头"
   mob_head_strider:
-    name: "<reset>炽足兽头"
+    name: "炽足兽头"
   mob_head_axolotl:
-    name: "<reset>美西螈头"
+    name: "美西螈头"
   mob_head_glow_squid:
-    name: "<reset>发光鱿鱼头"
+    name: "发光鱿鱼头"
   mob_head_goat:
-    name: "<reset>山羊头"
+    name: "山羊头"
   mob_head_allay:
-    name: "<reset>阿莱头"
+    name: "悦灵头"
   mob_head_frog:
-    name: "<reset>青蛙头"
+    name: "青蛙头"
   mob_head_tadpole:
-    name: "<reset>蝌蚪头"
+    name: "蝌蚪头"
   mob_head_camel:
-    name: "<reset>骆驼头"
+    name: "骆驼头"
   mob_head_sniffer:
-    name: "<reset>嗅探者头"
+    name: "嗅探者头"
   mob_head_armadillo:
-    name: "<reset>犰狳头"
+    name: "犰狳头"
   mob_head_bogged:
-    name: "<reset>沼骸头"
+    name: "沼骸头"
   mob_head_breeze:
-    name: "<reset>旋风人头"
+    name: "旋风人头"
   mob_head_creaking:
-    name: "<reset>嘎吱头"
+    name: "嘎吱头"
   mob_head_happy_ghast:
-    name: "<reset>快乐恶魂头"
+    name: "快乐恶魂头"
   mob_head_copper_golem:
-    name: "<reset>铜傀儡头"
+    name: "铜傀儡头"
   mob_head_nautilus:
-    name: "<reset>鹦鹉螺头"
+    name: "鹦鹉螺头"
   mob_head_zombie_nautilus:
-    name: "<reset>僵尸鹦鹉螺头"
+    name: "僵尸鹦鹉螺头"
   mob_head_camel_husk:
-    name: "<reset>骆驼尸壳头"
+    name: "骆驼尸壳头"
   mob_head_parched:
-    name: "<reset>焦骸头"
+    name: "焦骸头"
 enchantment:
   soul_stealer: "灵魂收割者"
   decapitator: "斩首者"
 guide:
   page:
-    rebar_mobs: "<reset>Rebar 生物"
-    resources_magic: "<reset>魔法资源"
-    blocks: "<reset>方块"
+    rebar_mobs: "Rebar 生物"
+    materials: "材料"
+    multiblocks: "多方块结构"
+    blocks: "方块"
+    tools: "工具"
+    weapons: "武器"
+    mob_heads: "怪物头颅"
+    admin_items: "<light_purple>管理员物品"
 command:
   description: "RebarMobs 主命令"
   enchantment_book:
