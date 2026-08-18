@@ -5,7 +5,7 @@ import io.github.pylonmc.rebar.guide.button.ItemButton
 import io.github.pylonmc.rebar.guide.pages.base.PagedGuidePage
 import io.github.pylonmc.rebar.guide.pages.item.ItemRecipesPage
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder
-import io.github.pylonmc.rebar.recipe.FluidOrItem
+import io.github.pylonmc.rebar.recipe.ingredient.FluidOrItem
 import io.github.pylonmc.rebar.util.gui.GuiItems
 import net.guizhanss.rebarmobs.items.tools.lassos.BaseMobLasso
 import net.guizhanss.rebarmobs.utils.tags.RebarMobsTag

@@ -145,7 +145,7 @@ abstract class BaseMobLasso(
             applyCustomName(spawned)
         }
         onRelease()
-        refreshLore(player.locale())
+        refreshLore(player)
         MobLassoEffects.releaseSuccess(player, spawned)
     }
 
@@ -230,7 +230,7 @@ abstract class BaseMobLasso(
         capturedSnapshot = snapshot.snapshot
         capturedAt = System.currentTimeMillis()
         statusCmd = true
-        refreshLore(player.locale())
+        refreshLore(player)
         target.remove()
     }
     // capture end
@@ -255,7 +255,7 @@ abstract class BaseMobLasso(
             applyCustomName(releasedEntity)
         }
         onRelease()
-        refreshLore(player.locale())
+        refreshLore(player)
         MobLassoEffects.releaseEscape(player, releasedEntity)
     }
 

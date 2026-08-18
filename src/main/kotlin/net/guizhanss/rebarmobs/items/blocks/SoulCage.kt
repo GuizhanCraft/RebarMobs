@@ -91,11 +91,11 @@ class SoulCage :
 
     override fun getWaila(player: Player): WailaDisplay {
         if (storedShard == null || storedShard?.mobType == null) {
-            return WailaDisplay(Component.translatable(translatableKey("waila.empty")))
+            return WailaDisplay.of(Component.translatable(translatableKey("waila.empty")))
         }
 
         val (tier, _) = SoulShard.getTier(storedShard!!.soulAmount)
-        return WailaDisplay(
+        return WailaDisplay.of(
             Component.translatable(
                 translatableKey("waila.filled"),
                 RebarArgument.of(

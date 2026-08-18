@@ -3,10 +3,10 @@ package net.guizhanss.rebarmobs.recipes
 import io.github.pylonmc.rebar.guide.button.ItemButton
 import io.github.pylonmc.rebar.i18n.RebarArgument
 import io.github.pylonmc.rebar.item.builder.ItemStackBuilder
-import io.github.pylonmc.rebar.recipe.FluidOrItem
 import io.github.pylonmc.rebar.recipe.RebarRecipe
-import io.github.pylonmc.rebar.recipe.RecipeInput
 import io.github.pylonmc.rebar.recipe.RecipeType
+import io.github.pylonmc.rebar.recipe.ingredient.FluidOrItem
+import io.github.pylonmc.rebar.recipe.ingredient.FluidOrItemChoice
 import io.github.pylonmc.rebar.util.gui.GuiItems
 import io.github.pylonmc.rebar.util.gui.unit.UnitFormat
 import net.guizhanss.rebarmobs.RebarMobs
@@ -32,7 +32,7 @@ data class MobHeadDropRecipe(
 ) : RebarRecipe {
     override fun getKey() = key
 
-    override val inputs get() = emptyList<RecipeInput>()
+    override val inputs get() = emptyList<FluidOrItemChoice>()
     override val results get() = listOf(FluidOrItem.of(result))
 
     override fun display(): Gui {

@@ -79,7 +79,7 @@ class SoulShard(
         val shard = from<SoulShard>(event.item) ?: return
         shard.soulAmount = 0
         shard.mobType = null
-        shard.refreshLore(event.player.locale())
+        shard.refreshLore(event.player)
         // TODO: maybe some animations of souls get released
     }
 
@@ -192,7 +192,7 @@ class SoulShard(
             }
             souls += p.inventory.itemInMainHand.getEnchantmentLevel(soulStealerEnchant)
             shard.soulAmount += souls
-            shard.refreshLore(p.locale())
+            shard.refreshLore(p)
         }
     }
 }
