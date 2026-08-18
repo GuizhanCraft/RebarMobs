@@ -20,7 +20,6 @@ class RebarMobs : AbstractAddon(GITHUB_USER, GITHUB_REPO, GITHUB_BRANCH, AUTO_UP
     override val material = Material.CREEPER_HEAD
 
     override fun enable() {
-        // Must stay after Rebar's own translator registration so locale files win; see RebarMobsTranslator.
         GlobalTranslator.translator().addSource(RebarMobsTranslator)
 
         setupMetrics()
