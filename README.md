@@ -5,7 +5,7 @@ collecting, spawning, capturing, and transporting mobs.
 
 ## Download & Requirement
 
-[![Download](https://img.shields.io/badge/Click_Here_to_Download-green?style=for-the-badge)](https://staging.resources.guizhanss.com/plugin/RebarMobs#download)
+[![Download](https://img.shields.io/badge/Click_Here_to_Download-green?style=for-the-badge)](https://resources.guizhanss.com/plugin/RebarMobs#download)
 
 - [Rebar](https://github.com/pylonmc/rebar). Currently, the Rebar version that Rebar Mobs will work on is displayed in the specific version's page.
 
