@@ -110,7 +110,7 @@ item:
       <arrow> 斩首者附魔可额外增加几率。
 
       <arrow> <attr>基础几率:</attr> %base-chance%
-      <arrow> <attr>斩首者几率:</attr> 每级%decapitator-chance%
+      <arrow> <attr>斩首者几率:</attr> 每级 %decapitator-chance%
   mob_head_bat:
     name: "蝙蝠头"
   mob_head_blaze:
@@ -235,6 +235,48 @@ item:
     name: "骆驼尸壳头"
   mob_head_parched:
     name: "焦骸头"
+  mob_head_endermite:
+    name: "末影螨头"
+  mob_head_hoglin:
+    name: "疣猪兽头"
+  mob_head_phantom:
+    name: "幻翼头"
+  mob_head_piglin_brute:
+    name: "猪灵蛮兵头"
+  mob_head_silverfish:
+    name: "蠹虫头"
+  mob_head_warden:
+    name: "坚守者头"
+  mob_head_zoglin:
+    name: "僵尸疣猪兽头"
+  mob_head_sulfur_cube:
+    name: "硫方怪头"
+  mob_head_bee:
+    name: "蜜蜂头"
+  mob_head_cat:
+    name: "猫头"
+  mob_head_cod:
+    name: "鳕鱼头"
+  mob_head_donkey:
+    name: "驴头"
+  mob_head_mule:
+    name: "骡头"
+  mob_head_pufferfish:
+    name: "河豚头"
+  mob_head_salmon:
+    name: "鲑鱼头"
+  mob_head_skeleton_horse:
+    name: "骷髅马头"
+  mob_head_snow_golem:
+    name: "雪傀儡头"
+  mob_head_trader_llama:
+    name: "行商羊驼头"
+  mob_head_tropical_fish:
+    name: "热带鱼头"
+  mob_head_wolf:
+    name: "狼头"
+  mob_head_zombie_horse:
+    name: "僵尸马头"
 enchantment:
   soul_stealer: "灵魂收割者"
   decapitator: "斩首者"
@@ -246,7 +288,7 @@ guide:
     blocks: "方块"
     tools: "工具"
     weapons: "武器"
-    mob_heads: "怪物头颅"
+    mob_heads: "生物头颅"
     admin_items: "<light_purple>管理员物品"
 command:
   description: "RebarMobs 主命令"
