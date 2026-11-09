@@ -40,7 +40,7 @@ dependencies {
     compileOnlyAndTestImpl("io.github.pylonmc:rebar:$effectiveRebarVersion")
 //    compileOnlyAndTestImpl("io.github.pylonmc:pylon:$pylonVersion")
     implementation("org.bstats:bstats-bukkit:3.2.1")
-    implementation("net.guizhanss:guizhanlib-all:3.0.0-SNAPSHOT")
+    implementation("net.guizhanss:guizhanlib-all:3.0.0")
     implementation("net.guizhanss:guizhanlib-kt-all:0.3.0-SNAPSHOT")
 
     testImplementation(kotlin("test"))
