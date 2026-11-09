@@ -46,5 +46,3 @@ bin/
 .omo/
 .playwright-mcp/
 .slim/
-.codegraph/
-.cortexkit/
