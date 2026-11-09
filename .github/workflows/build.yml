@@ -31,7 +31,7 @@ jobs:
         run: bash .github/scripts/test-next-version.sh
 
       - name: Build with Gradle
-        run: ./gradlew clean spotlessCheck test shadowJar -Pplugin.version=0.0.0
+        run: ./gradlew clean spotlessCheck build -Pplugin.version=0.0.0
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v7
