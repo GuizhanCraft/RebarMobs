@@ -9,6 +9,7 @@ import net.guizhanss.guizhanlib.kt.minecraft.items.edit
 import net.guizhanss.rebarmobs.RebarMobs
 import net.guizhanss.rebarmobs.recipes.CursingRecipe
 import net.guizhanss.rebarmobs.utils.RebarMobsKeys
+import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.entity.Item
@@ -106,24 +107,28 @@ class CursedFire : RebarBlock {
                 entity.velocity = newVelocity
 
                 listOf(5, 10, 15, 20, 30).forEach { delay ->
-                    RebarMobs.instance().pluginScheduler.run(delay) {
-                        if (!entity.isValid) return@run
-                        entity.fireTicks = 0
+                    Bukkit.getScheduler().runTaskLater(
+                        RebarMobs.instance(),
+                        Runnable {
+                            if (!entity.isValid) return@Runnable
+                            entity.fireTicks = 0
 
-                        val currentLoc = entity.location
-                        val currentBlock = currentLoc.block
-                        val blockBelow = currentLoc.clone().subtract(0.0, 0.1, 0.0).block
-                        val stillInCursedFire = isCursedFire(currentBlock) || isCursedFire(blockBelow)
+                            val currentLoc = entity.location
+                            val currentBlock = currentLoc.block
+                            val blockBelow = currentLoc.clone().subtract(0.0, 0.1, 0.0).block
+                            val stillInCursedFire = isCursedFire(currentBlock) || isCursedFire(blockBelow)
 
-                        if (stillInCursedFire) {
-                            val vel = entity.velocity
-                            val horizontalSpeed = sqrt(vel.x * vel.x + vel.z * vel.z)
-                            if (horizontalSpeed < 0.2) {
-                                val angle = Random.nextDouble() * 2 * kotlin.math.PI
-                                entity.velocity = Vector(cos(angle) * 0.35, 0.4, sin(angle) * 0.35)
+                            if (stillInCursedFire) {
+                                val vel = entity.velocity
+                                val horizontalSpeed = sqrt(vel.x * vel.x + vel.z * vel.z)
+                                if (horizontalSpeed < 0.2) {
+                                    val angle = Random.nextDouble() * 2 * kotlin.math.PI
+                                    entity.velocity = Vector(cos(angle) * 0.35, 0.4, sin(angle) * 0.35)
+                                }
                             }
-                        }
-                    }
+                        },
+                        delay.toLong(),
+                    )
                 }
             }
         }

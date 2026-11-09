@@ -41,7 +41,7 @@ class SoulCage :
 
     constructor(block: Block, pdc: PersistentDataContainer) : super(block, pdc) {
         val shardItem = pdc.get(STORED_SHARD_KEY, RebarSerializers.ITEM_STACK)
-        storedShard = RebarItem.from<SoulShard>(shardItem)
+        storedShard = RebarItem.fromStack<SoulShard>(shardItem)
         configureSpawner()
     }
 
@@ -66,7 +66,7 @@ class SoulCage :
             if (storedShard != null) return
             val shardItem = event.item
             if (shardItem == null || shardItem.type.isAir) return
-            val shard = RebarItem.from<SoulShard>(shardItem.clone()) ?: return
+            val shard = RebarItem.fromStack<SoulShard>(shardItem.clone()) ?: return
             if (shard.mobType == null) return
 
             val (tier, _) = shard.getTier()

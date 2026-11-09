@@ -12,7 +12,7 @@ import org.bstats.bukkit.Metrics
 import org.bukkit.Material
 import java.util.Locale
 
-class RebarMobs : AbstractAddon(GITHUB_USER, GITHUB_REPO, GITHUB_BRANCH, AUTO_UPDATE_KEY) {
+class RebarMobs : AbstractAddon() {
     override val defaultLanguage = Locale.ENGLISH
 
     override val material = Material.CREEPER_HEAD
@@ -36,10 +36,6 @@ class RebarMobs : AbstractAddon(GITHUB_USER, GITHUB_REPO, GITHUB_BRANCH, AUTO_UP
     override fun disable() {
     }
 
-    protected override fun autoUpdate() {
-        // TODO: impl auto update logic
-    }
-
     private fun setupListeners() {
         server.pluginManager.registerEvents(MobHeadListener(), this)
     }
@@ -49,10 +45,6 @@ class RebarMobs : AbstractAddon(GITHUB_USER, GITHUB_REPO, GITHUB_BRANCH, AUTO_UP
     }
 
     companion object {
-        private const val GITHUB_USER = "ybw0014"
-        private const val GITHUB_REPO = "RebarMobs"
-        private const val GITHUB_BRANCH = "master"
-        private const val AUTO_UPDATE_KEY = "auto-update"
 
         lateinit var configs: RebarMobsConfig
             private set

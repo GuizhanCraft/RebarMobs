@@ -264,7 +264,7 @@ abstract class BaseMobLasso(
         val type = capturedType ?: return
 
         val mainHand = player.inventory.itemInMainHand
-        val mainHandLasso = RebarItem.from<BaseMobLasso>(mainHand) ?: return
+        val mainHandLasso = RebarItem.fromStack<BaseMobLasso>(mainHand) ?: return
         if (!mainHandLasso.stack.isSimilar(this.stack)) return
 
         if (!isIntervalElapsed(lastAmbientAt, RebarMobs.configs.mobLassoAmbientInterval.value)) return

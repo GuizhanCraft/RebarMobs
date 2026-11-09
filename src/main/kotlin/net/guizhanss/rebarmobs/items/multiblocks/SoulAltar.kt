@@ -26,7 +26,7 @@ class SoulAltar :
     SimpleRebarMultiblock,
     MainHandInteractRebarBlockHandler {
     constructor(block: Block, context: BlockCreateContext) : super(block, context) {
-        setMultiblockDirection(context.facing)
+        facing = context.facing
     }
 
     constructor(block: Block, pdc: PersistentDataContainer) : super(block, pdc)

@@ -76,7 +76,7 @@ class SoulShard(
         priority: EventPriority,
     ) {
         if (event.action != Action.RIGHT_CLICK_AIR || event.useItemInHand() == Event.Result.DENY) return
-        val shard = from<SoulShard>(event.item) ?: return
+        val shard = fromStack<SoulShard>(event.item) ?: return
         shard.soulAmount = 0
         shard.mobType = null
         shard.refreshLore(event.player)
@@ -143,7 +143,7 @@ class SoulShard(
             // check offhand item
             val offHandItem = player.inventory.itemInOffHand
             if (!offHandItem.isAir()) {
-                val shard = from<SoulShard>(offHandItem)
+                val shard = fromStack<SoulShard>(offHandItem)
                 if (shard != null) {
                     when (shard.mobType) {
                         targetType -> return shard to -1
@@ -158,7 +158,7 @@ class SoulShard(
                 val item = mainContents[slot]
                 if (item.isAir()) continue
 
-                val shard = from<SoulShard>(item) ?: continue
+                val shard = fromStack<SoulShard>(item) ?: continue
 
                 when (shard.mobType) {
                     targetType -> return shard to slot
