@@ -44,11 +44,21 @@ abstract class BaseMobLasso(
     EntityInteractRebarItemHandler,
     InventoryTickerRebarItem {
 
-    var capturedType: EntityType? by persistentItemData(
+    private var capturedTypePdc: EntityType? by persistentItemData(
         CAPTURED_TYPE_KEY,
         RebarMobsPersistentDataTypes.ENTITY_TYPE,
         null,
     )
+    private var capturedTypeCmd: EntityType? by customModelDataString(
+        LASSO_TYPE_CMD_PREFIX,
+        RebarMobsCustomModelDataTypes.ENTITY_TYPE,
+    )
+    var capturedType: EntityType?
+        get() = capturedTypePdc.also { if (capturedTypeCmd != it) capturedTypeCmd = it }
+        set(value) {
+            capturedTypePdc = value
+            capturedTypeCmd = value
+        }
     var capturedSnapshot: String? by persistentItemData(
         CAPTURED_SNAPSHOT_KEY,
         RebarSerializers.STRING,
@@ -279,6 +289,7 @@ abstract class BaseMobLasso(
         val CAPTURED_SNAPSHOT_KEY = rmKey("lasso_captured_snapshot")
         val CAPTURED_AT_KEY = rmKey("lasso_captured_at")
         val LAST_AMBIENT_AT_KEY = rmKey("lasso_last_ambient_at")
+        val LASSO_TYPE_CMD_PREFIX = "${rmKey("lasso_type")}:"
         val LASSO_STATUS_CMD_PREFIX = rmKey("lasso_status").toString()
 
         val BLOCKED_ENTITY_TYPES = setOf(
