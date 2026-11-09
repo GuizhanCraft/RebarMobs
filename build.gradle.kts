@@ -14,8 +14,8 @@ plugins {
     kotlin("jvm") version "2.3.0"
     id("com.gradleup.shadow") version "9.6.1"
     id("de.eldoria.plugin-yml.paper") version "0.9.0"
-    id("xyz.jpenilla.run-paper") version "3.0.2"
-    id("com.diffplug.spotless") version "8.10.0"
+    id("xyz.jpenilla.run-paper") version "3.1.0"
+    id("com.diffplug.spotless") version "8.11.0"
 }
 
 repositories {
