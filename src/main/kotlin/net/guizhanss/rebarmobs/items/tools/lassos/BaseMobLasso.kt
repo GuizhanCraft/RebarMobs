@@ -75,11 +75,6 @@ abstract class BaseMobLasso(
         null,
     )
 
-    private var statusCmd: Boolean? by customModelDataString(
-        LASSO_STATUS_CMD_PREFIX,
-        RebarMobsCustomModelDataTypes.BOOLEAN,
-    )
-
     /**
      * The Rebar inventory ticks of how long the captured mobs will be automatically released.
      */
@@ -164,7 +159,6 @@ abstract class BaseMobLasso(
         capturedSnapshot = null
         capturedAt = null
         lastAmbientAt = null
-        statusCmd = false
     }
 
     private fun applyCustomName(entity: LivingEntity) {
@@ -239,7 +233,6 @@ abstract class BaseMobLasso(
         capturedType = snapshot.entityType
         capturedSnapshot = snapshot.snapshot
         capturedAt = System.currentTimeMillis()
-        statusCmd = true
         refreshLore(player)
         target.remove()
     }
@@ -290,7 +283,6 @@ abstract class BaseMobLasso(
         val CAPTURED_AT_KEY = rmKey("lasso_captured_at")
         val LAST_AMBIENT_AT_KEY = rmKey("lasso_last_ambient_at")
         val LASSO_TYPE_CMD_PREFIX = "${rmKey("lasso_type")}:"
-        val LASSO_STATUS_CMD_PREFIX = rmKey("lasso_status").toString()
 
         val BLOCKED_ENTITY_TYPES = setOf(
             EntityType.UNKNOWN,
